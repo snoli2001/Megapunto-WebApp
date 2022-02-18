@@ -184,7 +184,7 @@ const theming = plugin.withOptions((options) => ({
                         background: {
                             light: {
                                 'bg-app-bar'   : '#FFFFFF',
-                                'bg-card'      : '#FFFFFF',
+                                'bg-card'      : '#fcfbff',
                                 'bg-default'   : colors.slate[100],
                                 'bg-dialog'    : '#FFFFFF',
                                 'bg-hover'     : chroma(colors.slate[400]).alpha(0.12).css(),

@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'landing-home',
@@ -9,5 +10,13 @@ export class LandingHomeComponent {
     /**
      * Constructor
      */
-    constructor() {}
+    constructor(private _router: Router) {}
+
+    signIn(): void {
+        this._router.navigate(['sign-in']);
+    }
+
+    signUp(): void {
+        this._router.navigate(['sign-up']);
+    }
 }

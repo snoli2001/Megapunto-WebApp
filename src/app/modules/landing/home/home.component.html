@@ -20,7 +20,7 @@
             </a>
         </div>
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 mr-5">
-            <a class="font-semibold text-lg cursor-pointer text-regular-color">
+            <a class="font-semibold text-lg cursor-pointer text-regular-color" (click)="signIn()">
                 Iniciar Sesión
             </a>
         </div>
@@ -30,6 +30,7 @@
                 rel="noreferrer"
                 [color]="'primary'"
                 class="px-10"
+                (click)="signUp()"
             >
                 Regístrate
             </a>
@@ -63,6 +64,7 @@
                 rel="noreferrer"
                 [color]="'primary'"
                 class="px-12 mt-5"
+                (click)="signIn()"
             >
                 Iniciar Sesión
             </a>
