@@ -116,4 +116,8 @@ export class AuthSignUpComponent implements OnInit
                 }
             );
     }
+
+    signIn(): void {
+        this._router.navigate(['sign-in']);
+    }
 }
