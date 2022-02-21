@@ -11,10 +11,30 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignUpComponent } from 'app/modules/auth/sign-up/sign-up.component';
 import { authSignupRoutes } from 'app/modules/auth/sign-up/sign-up.routing';
+import { PersonalInformationComponent } from './personal-information/personal-information.component';
+import { BusinessAddressComponent } from './business-address/business-address.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'MMMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MM YYYY',
+    },
+};
 
 @NgModule({
     declarations: [
-        AuthSignUpComponent
+        AuthSignUpComponent,
+        PersonalInformationComponent,
+        BusinessAddressComponent
     ],
     imports     : [
         RouterModule.forChild(authSignupRoutes),
@@ -23,11 +43,18 @@ import { authSignupRoutes } from 'app/modules/auth/sign-up/sign-up.routing';
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
         MatProgressSpinnerModule,
         FuseCardModule,
         FuseAlertModule,
         SharedModule
-    ]
+    ],
+    providers: [
+      { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+      { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    ],
 })
 export class AuthSignUpModule
 {

@@ -44,6 +44,7 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
+            personalInformation: this._formBuilder.group({
                 name          : ['', Validators.required],
                 email         : ['', [Validators.required, Validators.email]],
                 password      : ['', Validators.required],
@@ -54,9 +55,17 @@ export class AuthSignUpComponent implements OnInit
                 birthDate     : ['', Validators.required],
                 businessLine  : ['', Validators.required],
                 billType      : ['', Validators.required],
+            }),
+            businessAddress: this._formBuilder.group({
+                address       : ['', Validators.required],
+                village       : ['', Validators.required],
+                region        : ['', Validators.required],
+                city          : ['', Validators.required],
+                district      : ['', Validators.required],
                 agreements    : ['', Validators.requiredTrue]
-            }
-        );
+            }),
+            step              : [1, Validators.required],
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
