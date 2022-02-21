@@ -4,6 +4,7 @@ import { finalize } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'auth-forgot-password',
@@ -27,7 +28,8 @@ export class AuthForgotPasswordComponent implements OnInit
      */
     constructor(
         private _authService: AuthService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _router: Router
     )
     {
     }
@@ -43,7 +45,8 @@ export class AuthForgotPasswordComponent implements OnInit
     {
         // Create the form
         this.forgotPasswordForm = this._formBuilder.group({
-            email: ['', [Validators.required, Validators.email]]
+            cellphone: ['', Validators.required],
+            businessCode: ['', Validators.required]
         });
     }
 
@@ -101,5 +104,9 @@ export class AuthForgotPasswordComponent implements OnInit
                     };
                 }
             );
+    }
+
+    signIn(): void {
+        this._router.navigate(['sign-in']);
     }
 }
