@@ -32,7 +32,6 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private alertService: AlertService,
     )
     {
     }
@@ -62,9 +61,8 @@ export class AuthSignInComponent implements OnInit
      */
     signIn(): void
     {
-        this.alertService.showAlert('business-code', '', window.innerWidth, { amount: 350 });
         // Return if the form is invalid
-        /* if ( this.signInForm.invalid )
+        if ( this.signInForm.invalid )
         {
             return;
         }
@@ -107,6 +105,6 @@ export class AuthSignInComponent implements OnInit
                     // Show the alert
                     this.showAlert = true;
                 }
-            ); */
+            );
     }
 }
