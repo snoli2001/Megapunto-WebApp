@@ -45,26 +45,26 @@ export class AuthSignUpComponent implements OnInit
         // Create the form
         this.signUpForm = this._formBuilder.group({
             personalInformation: this._formBuilder.group({
-                name          : ['', Validators.required],
-                email         : ['', [Validators.required, Validators.email]],
-                password      : ['', Validators.required],
-                cellphone     : ['', Validators.required],
+                name          : ['', ],
+                email         : ['', [, Validators.email]],
+                password      : ['', ],
+                cellphone     : ['', ],
                 telephone     : [''],
-                documentType  : ['', Validators.required],
-                documentNumber: ['', Validators.required],
-                birthDate     : ['', Validators.required],
-                businessLine  : ['', Validators.required],
-                billType      : ['', Validators.required],
+                documentType  : ['', ],
+                documentNumber: ['', ],
+                birthDate     : ['', ],
+                businessLine  : ['', ],
+                billType      : ['', ],
             }),
             businessAddress: this._formBuilder.group({
-                address       : ['', Validators.required],
-                village       : ['', Validators.required],
-                region        : ['', Validators.required],
-                city          : ['', Validators.required],
-                district      : ['', Validators.required],
-                agreements    : ['', Validators.requiredTrue]
+                address       : ['', ],
+                village       : ['', ],
+                region        : ['', ],
+                city          : ['', ],
+                district      : ['', ],
+                agreements    : ['', ]
             }),
-            step              : [1, Validators.required],
+            step              : [1, ],
         });
     }
 
