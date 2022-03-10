@@ -35,7 +35,10 @@
         <div class="flex items-center h-20 p-3 pb-0 mb-20">
             <button mat-button>
                 <!-- Icon -->
-                <mat-icon class="text-white mr-3" svgIcon="heroicons_outline:logout"></mat-icon>
+                <mat-icon
+                    class="text-white mr-3"
+                    svgIcon="heroicons_outline:logout"
+                ></mat-icon>
 
                 <!-- Title & Subtitle -->
                 <span class="text-white">
@@ -48,12 +51,13 @@
 
 <!-- Wrapper -->
 <div class="flex flex-col flex-auto w-full min-w-0">
-
     <!-- Content -->
-    <div class="flex flex-col flex-auto -ml-5" style="z-index: 300;">
+    <div
+        class="flex flex-col flex-auto -ml-5"
+        [ngStyle]="{ 'z-index': isScreenSmall ? 1 : 300 }"
+    >
         <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
              Otherwise, layout changes won't be registered and the view won't be updated! -->
         <router-outlet *ngIf="true"></router-outlet>
     </div>
-
 </div>
