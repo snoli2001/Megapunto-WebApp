@@ -1,3 +1,4 @@
+import { AuthService } from 'app/core/auth/auth.service';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -21,11 +22,11 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _authService: AuthService,
+        private _router: Router
     )
     {
     }
@@ -97,5 +98,10 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+
+    signOut(): void {
+        this._authService.signOut();
+        this._router.navigateByUrl('/sign-in');
     }
 }

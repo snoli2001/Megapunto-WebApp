@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,19 +8,18 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { AlertService } from 'app/utils/alert/alert.service';
 
 @Component({
-    selector     : 'auth-sign-in',
-    templateUrl  : './sign-in.component.html',
-    styleUrls    : ['./sign-in.component.scss'],
+    selector: 'auth-sign-in',
+    templateUrl: './sign-in.component.html',
+    styleUrls: ['./sign-in.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations,
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: ''
+        type: 'success',
+        message: '',
     };
     signInForm: FormGroup;
     showAlert: boolean = false;
@@ -31,39 +31,20 @@ export class AuthSignInComponent implements OnInit
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router,
-    )
-    {
-    }
+        private _router: Router
+    ) {}
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            cellphone : ['', [Validators.required]],
-            password  : ['', Validators.required]
+            username: ['', [Validators.required]],
+            password: ['', Validators.required],
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Sign in
-     */
-    signIn(): void
-    {
+    signIn(): void {
         // Return if the form is invalid
-        if ( this.signInForm.invalid )
-        {
+        if (this.signInForm.invalid) {
             return;
         }
 
@@ -74,22 +55,22 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
-        this._authService.signIn(this.signInForm.value)
+        this._authService
+            .signIn({
+                Username: this.signInForm.get('username').value,
+                Password: this.signInForm.get('password').value,
+            })
             .subscribe(
                 () => {
-
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                    const redirectURL = '/dashboards/home';
+                    // this._activatedRoute.snapshot.queryParamMap.get(
+                    //     '/dashboard/home'
+                    // ) || '/dashboard/home';
 
                     // Navigate to the redirect url
                     this._router.navigateByUrl(redirectURL);
-
                 },
                 (response) => {
-
                     // Re-enable the form
                     this.signInForm.enable();
 
@@ -98,8 +79,9 @@ export class AuthSignInComponent implements OnInit
 
                     // Set the alert
                     this.alert = {
-                        type   : 'error',
-                        message: 'Celular o contraseña erróneos. Intente de nuevo.'
+                        type: 'error',
+                        message:
+                            'Celular o contraseña erróneos. Intente de nuevo.',
                     };
 
                     // Show the alert

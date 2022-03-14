@@ -69,14 +69,14 @@
                     <!-- Cellphone field -->
                     <mat-form-field class="w-full">
                         <input
-                            id="cellphone"
+                            id="username"
                             matInput
                             placeholder="Número de celular"
-                            [formControlName]="'cellphone'"
+                            [formControlName]="'username'"
                         />
                         <mat-error
                             *ngIf="
-                                signInForm.get('cellphone').hasError('required')
+                                signInForm.get('username').hasError('required')
                             "
                         >
                             Ingrese número de celular
