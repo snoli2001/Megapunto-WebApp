@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class ProjectService
+export class ProfileService
 {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -37,7 +37,7 @@ export class ProjectService
      */
     getData(): Observable<any>
     {
-        return this._httpClient.get('api/dashboards/project').pipe(
+        return this._httpClient.get('api/dashboards/crypto').pipe(
             tap((response: any) => {
                 this._data.next(response);
             })

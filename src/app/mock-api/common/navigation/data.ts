@@ -13,7 +13,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 // icon: 'heroicons_outline:home',
                 image: '../../assets/images/draw/img_inicio_active.png',
-                link: '/dashboards/project',
+                link: '/dashboards/home',
             },
             {
                 id: 'balance',
@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 // icon: 'heroicons_outline:cash',
                 image: '../../assets/images/draw/img_saldo_active.png',
-                link: '/dashboards/analytics',
+                link: '/dashboards/balance',
             },
             {
                 id: 'history',
@@ -29,7 +29,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 // icon: 'heroicons_outline:cash',
                 image: '../../assets/images/draw/img_historial_active.png',
-                link: '/dashboards/finance',
+                link: '/dashboards/history',
             },
             {
                 id: 'profile',
@@ -37,7 +37,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 // icon: 'heroicons_outline:chart-pie',
                 image: '../../assets/images/draw/img_perfil_active.png',
-                link: '/dashboards/crypto',
+                link: '/dashboards/profile',
             },
         ],
     },

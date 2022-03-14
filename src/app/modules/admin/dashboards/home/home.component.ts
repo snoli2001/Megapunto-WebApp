@@ -2,15 +2,15 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulatio
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
-import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
+import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 
 @Component({
-    selector       : 'project',
-    templateUrl    : './project.component.html',
+    selector       : 'home',
+    templateUrl    : './home.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectComponent implements OnInit, OnDestroy
+export class HomeComponent implements OnInit, OnDestroy
 {
     chartGithubIssues: ApexOptions = {};
     chartTaskDistribution: ApexOptions = {};
@@ -26,7 +26,7 @@ export class ProjectComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _projectService: ProjectService,
+        private _projectService: HomeService,
         private _router: Router
     )
     {

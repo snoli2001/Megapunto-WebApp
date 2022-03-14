@@ -14,12 +14,12 @@ import {
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 @Component({
-    selector: 'analytics',
-    templateUrl: './analytics.component.html',
+    selector: 'balance',
+    templateUrl: './balance.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnalyticsComponent implements OnInit, OnDestroy {
+export class BalanceComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 

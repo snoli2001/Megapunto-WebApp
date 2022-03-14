@@ -14,15 +14,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
-import { ProjectComponent } from 'app/modules/admin/dashboards/project/project.component';
-import { projectRoutes } from 'app/modules/admin/dashboards/project/project.routing';
+import { HomeComponent } from 'app/modules/admin/dashboards/home/home.component';
+import { homeRoutes } from 'app/modules/admin/dashboards/home/home.routing';
 
 @NgModule({
     declarations: [
-        ProjectComponent
+        HomeComponent
     ],
     imports     : [
-        RouterModule.forChild(projectRoutes),
+        RouterModule.forChild(homeRoutes),
         MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,
@@ -39,6 +39,6 @@ import { projectRoutes } from 'app/modules/admin/dashboards/project/project.rout
         SharedModule
     ]
 })
-export class ProjectModule
+export class HomeModule
 {
 }

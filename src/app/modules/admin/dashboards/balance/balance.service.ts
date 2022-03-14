@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class AnalyticsService
+export class BalanceService
 {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
 

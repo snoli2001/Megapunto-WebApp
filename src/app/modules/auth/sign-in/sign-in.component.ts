@@ -99,7 +99,7 @@ export class AuthSignInComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Wrong email or password'
+                        message: 'Celular o contraseña erróneos. Intente de nuevo.'
                     };
 
                     // Show the alert

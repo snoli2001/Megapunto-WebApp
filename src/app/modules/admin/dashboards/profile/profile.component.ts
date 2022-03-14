@@ -3,15 +3,15 @@ import { Subject, takeUntil } from 'rxjs';
 import * as moment from 'moment';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { CryptoService } from 'app/modules/admin/dashboards/crypto/crypto.service';
+import { ProfileService } from 'app/modules/admin/dashboards/profile/profile.service';
 
 @Component({
-    selector       : 'crypto',
-    templateUrl    : './crypto.component.html',
+    selector       : 'profile',
+    templateUrl    : './profile.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CryptoComponent implements OnInit, OnDestroy
+export class ProfileComponent implements OnInit, OnDestroy
 {
     @ViewChild('btcChartComponent') btcChartComponent: ChartComponent;
     appConfig: any;
@@ -26,7 +26,7 @@ export class CryptoComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _cryptoService: CryptoService,
+        private _cryptoService: ProfileService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseMediaWatcherService: FuseMediaWatcherService
     )

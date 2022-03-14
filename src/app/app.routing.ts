@@ -134,32 +134,32 @@ export const appRoutes: Route[] = [
                 path: 'dashboards',
                 children: [
                     {
-                        path: 'project',
+                        path: 'home',
                         loadChildren: () =>
                             import(
-                                'app/modules/admin/dashboards/project/project.module'
-                            ).then((m) => m.ProjectModule),
+                                'app/modules/admin/dashboards/home/home.module'
+                            ).then((m) => m.HomeModule),
                     },
                     {
-                        path: 'analytics',
+                        path: 'balance',
                         loadChildren: () =>
                             import(
-                                'app/modules/admin/dashboards/analytics/analytics.module'
-                            ).then((m) => m.AnalyticsModule),
+                                'app/modules/admin/dashboards/balance/balance.module'
+                            ).then((m) => m.BalanceModule),
                     },
                     {
-                        path: 'finance',
+                        path: 'history',
                         loadChildren: () =>
                             import(
-                                'app/modules/admin/dashboards/finance/finance.module'
-                            ).then((m) => m.FinanceModule),
+                                'app/modules/admin/dashboards/history/history.module'
+                            ).then((m) => m.HistoryModule),
                     },
                     {
-                        path: 'crypto',
+                        path: 'profile',
                         loadChildren: () =>
                             import(
-                                'app/modules/admin/dashboards/crypto/crypto.module'
-                            ).then((m) => m.CryptoModule),
+                                'app/modules/admin/dashboards/profile/profile.module'
+                            ).then((m) => m.ProfileModule),
                     },
                 ],
             },

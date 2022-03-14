@@ -2,41 +2,37 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
-import { CryptoComponent } from 'app/modules/admin/dashboards/crypto/crypto.component';
-import { cryptoRoutes } from 'app/modules/admin/dashboards/crypto/crypto.routing';
+import { BalanceComponent } from 'app/modules/admin/dashboards/balance/balance.component';
+import { balanceRoutes } from 'app/modules/admin/dashboards/balance/balance.routing';
 
 @NgModule({
     declarations: [
-        CryptoComponent
+        BalanceComponent
     ],
     imports     : [
-        RouterModule.forChild(cryptoRoutes),
+        RouterModule.forChild(balanceRoutes),
         MatButtonModule,
         MatButtonToggleModule,
-        MatFormFieldModule,
+        MatDividerModule,
         MatIconModule,
-        MatInputModule,
         MatMenuModule,
-        MatSelectModule,
-        MatSidenavModule,
+        MatProgressBarModule,
         MatSortModule,
         MatTableModule,
-        MatTabsModule,
+        MatTooltipModule,
         NgApexchartsModule,
         SharedModule
     ]
 })
-export class CryptoModule
+export class BalanceModule
 {
 }

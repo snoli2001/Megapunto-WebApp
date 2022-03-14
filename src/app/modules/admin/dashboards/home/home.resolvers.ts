@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AnalyticsService } from 'app/modules/admin/dashboards/analytics/analytics.service';
+import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AnalyticsResolver implements Resolve<any>
+export class HomeResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _analyticsService: AnalyticsService)
+    constructor(private _projectService: HomeService)
     {
     }
 
@@ -27,6 +27,6 @@ export class AnalyticsResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
     {
-        return this._analyticsService.getData();
+        return this._projectService.getData();
     }
 }

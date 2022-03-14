@@ -3,15 +3,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
-import { FinanceService } from 'app/modules/admin/dashboards/finance/finance.service';
+import { HistoryService } from 'app/modules/admin/dashboards/history/history.service';
 
 @Component({
-    selector       : 'finance',
-    templateUrl    : './finance.component.html',
+    selector       : 'history',
+    templateUrl    : './history.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FinanceComponent implements OnInit, AfterViewInit, OnDestroy
+export class HistoryComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild('recentTransactionsTable', {read: MatSort}) recentTransactionsTableMatSort: MatSort;
 
@@ -24,7 +24,7 @@ export class FinanceComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Constructor
      */
-    constructor(private _financeService: FinanceService)
+    constructor(private _financeService: HistoryService)
     {
     }
 
