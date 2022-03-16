@@ -7,7 +7,7 @@
         "
     >
         <!-- Navigation toggle button -->
-            <!-- <button
+        <!-- <button
                 class="absolute md:hidden top-8 left-8"
                 mat-icon-button
                 (click)="toggleNavigation('mainNavigation')"
@@ -21,16 +21,22 @@
                 <div class="min-h-40 order-1">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-lg font-bold">Datos personales</span>
-                        <span class="text-[#7c66f7] font-bold cursor-pointer">Editar</span>
+                        <span class="text-[#7c66f7] font-bold cursor-pointer"
+                            >Editar</span
+                        >
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="col-span-1 sm:col-span-2">
                                 <span class="font-semibold block">Nombre</span>
-                                <span>{{ profileInfo.vc_nombre_comercio }}</span>
+                                <span>{{
+                                    profileInfo.vc_nombre_comercio
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Teléfono fijo</span>
+                                <span class="font-semibold block"
+                                    >Teléfono fijo</span
+                                >
                                 <span>{{ profileInfo.vc_telefono }}</span>
                             </div>
                             <div>
@@ -38,74 +44,142 @@
                                 <span>{{ profileInfo.vc_celular }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Tipo de documento</span>
-                                <span>{{ profileInfo.vc_desc_tipo_doc_identidad }}</span>
+                                <span class="font-semibold block"
+                                    >Tipo de documento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_tipo_doc_identidad
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Número de documento</span>
-                                <span>{{ profileInfo.vc_nro_doc_identidad }}</span>
+                                <span class="font-semibold block"
+                                    >Número de documento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_nro_doc_identidad
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Correo electrónico</span>
+                                <span class="font-semibold block"
+                                    >Correo electrónico</span
+                                >
                                 <span>{{ profileInfo.vc_email }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Fecha de nacimiento</span>
+                                <span class="font-semibold block"
+                                    >Fecha de nacimiento</span
+                                >
                                 <span>
-                                    {{ profileInfo.nu_dia + '/' + profileInfo.nu_mes + '/' + profileInfo.nu_anio  }}
+                                    {{
+                                        profileInfo.nu_dia +
+                                            "/" +
+                                            profileInfo.nu_mes +
+                                            "/" +
+                                            profileInfo.nu_anio
+                                    }}
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Deposits -->
-                <div class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2">
-                    <span class="text-lg font-bold">Depósitos realizados a mi negocio</span>
+                <div
+                    class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2"
+                >
+                    <span class="text-lg font-bold"
+                        >Depósitos realizados a mi negocio</span
+                    >
                     <div class="border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5">
                         <div class="flex justify-end items-center">
                             <span class="mx-2">Filtrar por fecha</span>
-                            <div class="flex items-center border-2 border-[#7c66f7] p-1">
-                                <button class="cursor-pointer" (click)="changeDate(-1)">
-                                    <mat-icon color="primary" svgIcon="heroicons_outline:chevron-left"></mat-icon>
+                            <div
+                                class="flex items-center border-2 border-[#7c66f7] p-1"
+                            >
+                                <button
+                                    class="cursor-pointer"
+                                    (click)="changeDate(-1)"
+                                >
+                                    <mat-icon
+                                        color="primary"
+                                        svgIcon="heroicons_outline:chevron-left"
+                                    ></mat-icon>
                                 </button>
-                                <mat-form-field>
+                                <mat-form-field class="custom">
                                     <mat-datepicker #picker></mat-datepicker>
-                                    <mat-datepicker-toggle matSuffix [for]="picker">
-                                        <mat-icon matDatepickerToggleIcon color="primary" [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="picker"
+                                    >
+                                        <mat-icon
+                                            matDatepickerToggleIcon
+                                            color="primary"
+                                            [svgIcon]="
+                                                'heroicons_outline:calendar'
+                                            "
+                                        ></mat-icon>
                                     </mat-datepicker-toggle>
-                                    <span class="text-[#7c66f7] font-semibold mx-1">
-                                        {{ transactionDate.locale('es').calendar(dateFormat) }}
+                                    <span
+                                        class="text-[#7c66f7] font-semibold mx-1"
+                                    >
+                                        {{
+                                            transactionDate
+                                                .locale("es")
+                                                .calendar(dateFormat)
+                                        }}
                                     </span>
                                     <input
                                         (dateChange)="selectDate($event.value)"
                                         class="hidden"
                                         [max]="today"
                                         matInput
-                                        [matDatepicker]="picker">
+                                        [matDatepicker]="picker"
+                                    />
                                 </mat-form-field>
                                 <button
                                     [ngClass]="{
-                                        'cursor-pointer': !transactionDate.isSame(today, 'day'),
-                                        'cursor-not-allowed': transactionDate.isSame(today, 'day')
+                                        'cursor-pointer':
+                                            !transactionDate.isSame(
+                                                today,
+                                                'day'
+                                            ),
+                                        'cursor-not-allowed':
+                                            transactionDate.isSame(today, 'day')
                                     }"
-                                    [disabled]="transactionDate.isSame(today, 'day')"
-                                    (click)="changeDate(1)">
-                                    <mat-icon color="primary" svgIcon="heroicons_outline:chevron-right"></mat-icon>
+                                    [disabled]="
+                                        transactionDate.isSame(today, 'day')
+                                    "
+                                    (click)="changeDate(1)"
+                                >
+                                    <mat-icon
+                                        color="primary"
+                                        svgIcon="heroicons_outline:chevron-right"
+                                    ></mat-icon>
                                 </button>
                             </div>
                         </div>
-                        <div> 
+                        <div>
                             <div *ngFor="let trx of transacctions" class="my-4">
                                 <div class="flex justify-between mb-1.5">
                                     <div class="text-[#7c66f7]">
-                                        <span class="font-semibold">Operación:</span>
-                                        <span class="ml-1">{{ trx.nu_id_trx_app }}</span>
+                                        <span class="font-semibold"
+                                            >Operación:</span
+                                        >
+                                        <span class="ml-1">{{
+                                            trx.nu_id_trx_app
+                                        }}</span>
                                     </div>
-                                    <span class="text-sm">{{ trx.dt_fecha }}</span>
+                                    <span class="text-sm">{{
+                                        trx.dt_fecha
+                                    }}</span>
                                 </div>
                                 <div class="block mb-4">
                                     <span class="mr-1">Monto:</span>
-                                    <span class="font-semibold">S/ {{ trx.nu_precio | number: '1.2-2' }}</span>
+                                    <span class="font-semibold"
+                                        >S/
+                                        {{
+                                            trx.nu_precio | number: "1.2-2"
+                                        }}</span
+                                    >
                                 </div>
                                 <mat-divider></mat-divider>
                             </div>
@@ -115,41 +189,65 @@
                 <!-- Business data -->
                 <div class="min-h-40 order-3">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-lg font-bold">Datos de mi negocio</span>
-                        <span class="text-[#7c66f7] font-bold cursor-pointer">Editar</span>
+                        <span class="text-lg font-bold"
+                            >Datos de mi negocio</span
+                        >
+                        <span class="text-[#7c66f7] font-bold cursor-pointer"
+                            >Editar</span
+                        >
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="col-span-1 sm:col-span-2">
-                                <span class="font-semibold block">Dirección</span>
+                                <span class="font-semibold block"
+                                    >Dirección</span
+                                >
                                 <span>{{ profileInfo.vc_direccion }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Centro poblado</span>
+                                <span class="font-semibold block"
+                                    >Centro poblado</span
+                                >
                                 <span>{{ profileInfo.vc_centro_poblado }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Distrito</span>
+                                <span class="font-semibold block"
+                                    >Distrito</span
+                                >
                                 <span>{{ profileInfo.vc_desc_distrito }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Departamento</span>
-                                <span>{{ profileInfo.vc_desc_departamento }}</span>
+                                <span class="font-semibold block"
+                                    >Departamento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_departamento
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Provincia</span>
+                                <span class="font-semibold block"
+                                    >Provincia</span
+                                >
                                 <span>{{ profileInfo.vc_desc_provincia }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Giro de mi negocio</span>
-                                <span>{{ profileInfo.vc_desc_grupo_giro_negocio }}</span>
+                                <span class="font-semibold block"
+                                    >Giro de mi negocio</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_grupo_giro_negocio
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Código de comercio</span>
+                                <span class="font-semibold block"
+                                    >Código de comercio</span
+                                >
                                 <span>{{ profileInfo.vc_cod_comercio }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Tipo de comprobante</span>
+                                <span class="font-semibold block"
+                                    >Tipo de comprobante</span
+                                >
                                 <span>{{ profileInfo.ch_tipo_documento }}</span>
                             </div>
                         </div>
@@ -159,3 +257,4 @@
         </div>
     </div>
 </div>
+
