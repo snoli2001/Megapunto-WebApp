@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -5,6 +6,8 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from '../../../environments/environment';
+import * as encode from 'jwt-encode';
+import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
@@ -22,20 +25,19 @@ export class AuthService {
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
 
-    get accessToken(): string {
-        return localStorage.getItem('accessToken') ?? '';
+    get user(): string {
+        return localStorage.getItem('user') ?? '';
     }
     /**
      * Setter & getter for access token
      */
-    set accessToken(token: string) {
-        localStorage.setItem('accessToken', token);
+    set user(token: string) {
+        localStorage.setItem('user', token);
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
     /**
      * Forgot password
      *
@@ -54,19 +56,25 @@ export class AuthService {
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
-    signIn(credentials: { Username: string; Password: string }): any {
+    signIn(credentials: {
+        vc_nro_dispositivo: string;
+        vc_contraseña: string;
+        nu_id_negocio: string;
+    }): any {
         // Throw error, if the user is already logged in
         // if (this._authenticated) {
         //     return throwError('User is already logged in.');
         // }
 
         return this._httpClient
-            .post(`${environment.API_URL}/Auth/token`, credentials)
+            .post(
+                `${environment.API_URL}/Comercio_Bancario/sel_acceso`,
+                credentials
+            )
             .pipe(
                 switchMap((response: any) => {
                     // Store the access token in the local storage
-                    this.accessToken = response.token;
-
+                    this.user = encode(response, 'secret');
                     // Set the authenticated flag to true
                     this._authenticated = true;
 
@@ -86,7 +94,7 @@ export class AuthService {
         // Renew token
         return this._httpClient
             .post('api/auth/refresh-access-token', {
-                accessToken: this.accessToken,
+                user: this.user,
             })
             .pipe(
                 catchError(() =>
@@ -95,7 +103,7 @@ export class AuthService {
                 ),
                 switchMap((response: any) => {
                     // Store the access token in the local storage
-                    this.accessToken = response.token;
+                    this.user = response.token;
 
                     // Set the authenticated flag to true
                     this._authenticated = true;
@@ -114,7 +122,7 @@ export class AuthService {
      */
     signOut(): Observable<any> {
         // Remove the access token from the local storage
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -159,14 +167,14 @@ export class AuthService {
         }
 
         // Check the access token availability
-        if (!this.accessToken) {
+        if (!this.user) {
             return of(false);
         }
 
         // Check the access token expire date
-        if (AuthUtils.isTokenExpired(this.accessToken)) {
-            return of(false);
-        }
+        // if (AuthUtils.isTokenExpired(this.user)) {
+        //     return of(false);
+        // }
 
         // If the access token exists and it didn't expire, sign in using it
         return of(true);

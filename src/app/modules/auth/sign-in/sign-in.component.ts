@@ -57,11 +57,13 @@ export class AuthSignInComponent implements OnInit {
         // Sign in
         this._authService
             .signIn({
-                Username: this.signInForm.get('username').value,
-                Password: this.signInForm.get('password').value,
+                vc_nro_dispositivo: this.signInForm.get('username').value,
+                vc_contraseña: this.signInForm.get('password').value,
+                nu_id_negocio: '7',
             })
             .subscribe(
-                () => {
+                (response) => {
+                    console.log(response);
                     const redirectURL = '/dashboards/home';
                     // this._activatedRoute.snapshot.queryParamMap.get(
                     //     '/dashboard/home'
