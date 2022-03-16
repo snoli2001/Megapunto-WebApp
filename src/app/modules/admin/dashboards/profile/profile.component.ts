@@ -1,237 +1,84 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import * as moment from 'moment';
-import { ApexOptions, ChartComponent } from 'ng-apexcharts';
-import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from 'app/modules/admin/dashboards/profile/profile.service';
+import moment from 'moment';
+import { Moment } from 'moment';
+import { ProfileInfo, TransactionInfo } from './profile.interfaces';
 
 @Component({
-    selector       : 'profile',
-    templateUrl    : './profile.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'profile',
+    templateUrl: './profile.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent implements OnInit, OnDestroy
-{
-    @ViewChild('btcChartComponent') btcChartComponent: ChartComponent;
-    appConfig: any;
-    btcOptions: ApexOptions = {};
-    data: any;
-    drawerMode: 'over' | 'side' = 'side';
-    drawerOpened: boolean = true;
-    watchlistChartOptions: ApexOptions = {};
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+export class ProfileComponent implements OnInit {
+    profileInfo: ProfileInfo;
+    transacctions: TransactionInfo[] = [];
+    transactionDate: Moment = moment(new Date());
+    today: Moment = moment(new Date());
+    dateFormat: any = {};
 
-    /**
-     * Constructor
-     */
-    constructor(
-        private _cryptoService: ProfileService,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
-    )
-    {
+    constructor(private profileService: ProfileService) {}
+
+    ngOnInit(): void {
+        this.dateFormat = {
+            sameDay: '[hoy]',
+            nextDay: '[mañana]',
+            nextWeek: 'dddd',
+            lastDay: '[ayer]',
+            lastWeek: '[último] dddd',
+            sameElse: 'DD/MM/YYYY'
+        };
+        // Mock data
+        this.initMockData();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Subscribe to media changes
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
-
-                // Set the drawerMode and drawerOpened if 'lg' breakpoint is active
-                if ( matchingAliases.includes('lg') )
-                {
-                    this.drawerMode = 'side';
-                    this.drawerOpened = true;
-                }
-                else
-                {
-                    this.drawerMode = 'over';
-                    this.drawerOpened = false;
-                }
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the data
-        this._cryptoService.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-
-                // Store the data
-                this.data = data;
-
-                // Prepare the chart data
-                this._prepareChartData();
-            });
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Prepare the chart data from the data
-     *
-     * @private
-     */
-    private _prepareChartData(): void
-    {
-        // BTC
-        this.btcOptions = {
-            chart     : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                width     : '100%',
-                height    : '100%',
-                type      : 'line',
-                toolbar   : {
-                    show: false
-                },
-                zoom      : {
-                    enabled: false
-                }
-            },
-            colors    : ['#5A67D8'],
-            dataLabels: {
-                enabled: false
-            },
-            grid      : {
-                borderColor    : 'var(--fuse-border)',
-                position       : 'back',
-                show           : true,
-                strokeDashArray: 6,
-                xaxis          : {
-                    lines: {
-                        show: true
-                    }
-                },
-                yaxis          : {
-                    lines: {
-                        show: true
-                    }
-                }
-            },
-            legend    : {
-                show: false
-            },
-            series    : this.data.btc.price.series,
-            stroke    : {
-                width: 2,
-                curve: 'straight'
-            },
-            tooltip   : {
-                shared: true,
-                theme : 'dark',
-                y     : {
-                    formatter: (value: number): string => '$' + value.toFixed(2)
-                }
-            },
-            xaxis     : {
-                type      : 'numeric',
-                crosshairs: {
-                    show    : true,
-                    position: 'back',
-                    fill    : {
-                        type : 'color',
-                        color: 'var(--fuse-border)'
-                    },
-                    width   : 3,
-                    stroke  : {
-                        dashArray: 0,
-                        width    : 0
-                    },
-                    opacity : 0.9
-                },
-                tickAmount: 8,
-                axisTicks : {
-                    show : true,
-                    color: 'var(--fuse-border)'
-                },
-                axisBorder: {
-                    show: false
-                },
-                tooltip   : {
-                    enabled: false
-                },
-                labels    : {
-                    show                 : true,
-                    trim                 : false,
-                    rotate               : 0,
-                    minHeight            : 40,
-                    hideOverlappingLabels: true,
-                    formatter            : (value): string => moment().subtract(Math.abs(parseInt(value, 10)), 'minutes').format('HH:mm'),
-                    style                : {
-                        colors: 'currentColor'
-                    }
-                }
-            },
-            yaxis     : {
-                axisTicks     : {
-                    show : true,
-                    color: 'var(--fuse-border)'
-                },
-                axisBorder    : {
-                    show: false
-                },
-                forceNiceScale: true,
-                labels        : {
-                    minWidth : 40,
-                    formatter: (value: number): string => '$' + value.toFixed(0),
-                    style    : {
-                        colors: 'currentColor'
-                    }
-                }
-            }
+    initMockData(): void {
+        this.profileInfo = {
+            vc_cod_comercio: 'MX000002',
+            vc_nombre_comercio: 'ZAK ROBLES',
+            vc_nro_doc_identidad: '73661640',
+            vc_direccion: 'Jirón Napo 847, Cercado de Lima 15083, Perú',
+            vc_centro_poblado: 'Breña',
+            nu_longitud: -77.053408,
+            nu_latitud: -12.058268,
+            vc_telefono: '1151114',
+            vc_celular: '962329272',
+            vc_email: 'zakery_10@hotmail.com',
+            ch_tipo_documento: 'BV',
+            nu_dia: 11,
+            nu_mes: 9,
+            nu_anio: 1995,
+            vc_nombre_contacto: 'Zak',
+            vc_desc_tipo_doc_identidad: 'DNI',
+            vc_desc_departamento: 'LA LIBERTAD',
+            vc_desc_provincia: 'TRUJILLO',
+            vc_desc_distrito: 'TRUJILLO',
+            vc_desc_grupo_giro_negocio: 'TELECOMUNICACIONES',
+            vc_nombre_ejecutivo: 'CARLOS NOLI CHAVEZ',
+            vc_nombre_distribuidor: 'ZILICOM INVESTMENTS',
         };
 
-        // Watchlist options
-        this.watchlistChartOptions = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                width     : '100%',
-                height    : '100%',
-                type      : 'line',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#A0AEC0'],
-            stroke : {
-                width: 2,
-                curve: 'smooth'
-            },
-            tooltip: {
-                enabled: false
-            },
-            xaxis  : {
-                type: 'category'
-            }
-        };
+        for (let i = 0; i < 7; i++) {
+            this.transacctions.push({
+                nu_id_trx_app: 11310,
+                dt_fecha: '14/03',
+                bi_extorno: false,
+                nu_precio: 341.0,
+                nu_valor_comision: 0.0,
+                vc_desc_producto: 'Consumo de agua',
+                vc_desc_grupo: '',
+                vc_desc_grupo_producto: 'Sedapal: Consumo de agua',
+                nu_imp_trx_app: 341.0,
+            });
+        }
+    }
+
+    changeDate(amount: number): void {
+        this.transactionDate.add(amount, 'days');
+    }
+
+    selectDate(value: Moment): void {
+        this.transactionDate = value;
     }
 }

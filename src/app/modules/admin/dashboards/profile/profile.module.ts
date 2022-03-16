@@ -15,12 +15,26 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProfileComponent } from 'app/modules/admin/dashboards/profile/profile.component';
 import { profileRoutes } from 'app/modules/admin/dashboards/profile/profile.routing';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MM YYYY',
+    },
+};
 
 @NgModule({
-    declarations: [
-        ProfileComponent
-    ],
-    imports     : [
+    declarations: [ProfileComponent],
+    imports: [
         RouterModule.forChild(profileRoutes),
         MatButtonModule,
         MatButtonToggleModule,
@@ -34,9 +48,14 @@ import { profileRoutes } from 'app/modules/admin/dashboards/profile/profile.rout
         MatTableModule,
         MatTabsModule,
         NgApexchartsModule,
-        SharedModule
-    ]
+        SharedModule,
+        MatDividerModule,
+        MatDatepickerModule,
+        MatMomentDateModule
+    ],
+    providers: [
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    ],
 })
-export class ProfileModule
-{
-}
+export class ProfileModule {}
