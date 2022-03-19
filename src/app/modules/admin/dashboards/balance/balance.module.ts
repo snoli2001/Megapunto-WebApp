@@ -13,6 +13,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { BalanceComponent } from 'app/modules/admin/dashboards/balance/balance.component';
 import { balanceRoutes } from 'app/modules/admin/dashboards/balance/balance.routing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -30,7 +33,10 @@ import { balanceRoutes } from 'app/modules/admin/dashboards/balance/balance.rout
         MatTableModule,
         MatTooltipModule,
         NgApexchartsModule,
-        SharedModule
+        SharedModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule
     ]
 })
 export class BalanceModule
