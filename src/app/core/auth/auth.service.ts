@@ -7,7 +7,6 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from '../../../environments/environment';
 import * as encode from 'jwt-encode';
-import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
@@ -74,15 +73,13 @@ export class AuthService {
             .pipe(
                 switchMap((response: any) => {
                     // Store the access token in the local storage
-                    this.user = encode(response, 'secret');
-                    // Set the authenticated flag to true
-                    this._authenticated = true;
-
-                    // Store the user on the user service
-                    // this._userService.user = response.user;
-
-                    // Return a new observable with the response
-                    return of(response);
+                    if (response.nu_id_comercio !== '') {
+                        this.user = encode(response, 'secret');
+                        this._authenticated = true;
+                        return of(response);
+                    } else {
+                        console.log(response.tx_tran_mnsg);
+                    }
                 })
             );
     }

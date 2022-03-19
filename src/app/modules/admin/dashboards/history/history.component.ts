@@ -1,145 +1,68 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { HistoryService } from 'app/modules/admin/dashboards/history/history.service';
+import {
+    FuseNavigationService,
+    FuseVerticalNavigationComponent,
+} from '@fuse/components/navigation';
+import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 @Component({
-    selector       : 'history',
-    templateUrl    : './history.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'history',
+    templateUrl: './history.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryComponent implements OnInit, AfterViewInit, OnDestroy
-{
-    @ViewChild('recentTransactionsTable', {read: MatSort}) recentTransactionsTableMatSort: MatSort;
-
-    data: any;
-    accountBalanceOptions: ApexOptions;
-    recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = ['transactionId', 'date', 'name', 'amount', 'status'];
+export class HistoryComponent implements OnInit, OnDestroy {
+    isScreenSmall: boolean;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
-    constructor(private _financeService: HistoryService)
-    {
-    }
+    constructor(
+        private _fuseNavigationService: FuseNavigationService,
+        private _fuseMediaWatcherService: FuseMediaWatcherService
+    ) {}
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Get the data
-        this._financeService.data$
+    ngOnInit(): void {
+        this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-
-                // Store the data
-                this.data = data;
-
-                // Store the table data
-                this.recentTransactionsDataSource.data = data.recentTransactions;
-
-                // Prepare the chart data
-                this._prepareChartData();
+            .subscribe(({ matchingAliases }) => {
+                // Check if the screen is small
+                this.isScreenSmall = !matchingAliases.includes('md');
+                console.log(this.isScreenSmall);
             });
     }
 
-    /**
-     * After view init
-     */
-    ngAfterViewInit(): void
-    {
-        // Make the data source sortable
-        this.recentTransactionsDataSource.sort = this.recentTransactionsTableMatSort;
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
+    toggleNavigation(name: string): void {
+        // Get the navigation
+        const navigation =
+            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
+                name
+            );
 
-    /**
-     * Prepare the chart data from the data
-     *
-     * @private
-     */
-    private _prepareChartData(): void
-    {
-        // Account balance
-        this.accountBalanceOptions = {
-            chart  : {
-                animations: {
-                    speed           : 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                width     : '100%',
-                height    : '100%',
-                type      : 'area',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#A3BFFA', '#667EEA'],
-            fill   : {
-                colors : ['#CED9FB', '#AECDFD'],
-                opacity: 0.5,
-                type   : 'solid'
-            },
-            series : this.data.accountBalance.series,
-            stroke : {
-                curve: 'straight',
-                width: 2
-            },
-            tooltip: {
-                followCursor: true,
-                theme       : 'dark',
-                x           : {
-                    format: 'MMM dd, yyyy'
-                },
-                y           : {
-                    formatter: (value): string => value + '%'
-                }
-            },
-            xaxis  : {
-                type: 'datetime'
-            }
-        };
+        if (navigation && this.isScreenSmall) {
+            // Toggle the opened status
+            navigation.toggle();
+        }
     }
 }

@@ -7,14 +7,14 @@
         "
     >
         <!-- Navigation toggle button -->
-        <!-- <button
-                class="absolute md:hidden top-8 left-8"
-                mat-icon-button
-                (click)="toggleNavigation('mainNavigation')"
-            >
-                <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
-            </button> -->
-        <div class="p-5 md:p-0">
+        <button
+            class="absolute md:hidden top-8 left-8"
+            mat-icon-button
+            (click)="toggleNavigation('mainNavigation')"
+        >
+            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+        </button>
+        <div class="p-5 md:p-0 mt-10" *ngIf="profileInfo !== null">
             <span class="text-3xl font-bold">Mi perfil</span>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <!-- Personal data -->
@@ -71,11 +71,11 @@
                                 >
                                 <span>
                                     {{
-                                        profileInfo.nu_dia +
+                                        profileInfo!.nu_dia +
                                             "/" +
-                                            profileInfo.nu_mes +
+                                            profileInfo!.nu_mes +
                                             "/" +
-                                            profileInfo.nu_anio
+                                            profileInfo!.nu_anio
                                     }}
                                 </span>
                             </div>
@@ -122,7 +122,7 @@
                                         class="text-[#7c66f7] font-semibold mx-1"
                                     >
                                         {{
-                                            transactionDate
+                                            depositsDate
                                                 .locale("es")
                                                 .calendar(dateFormat)
                                         }}
@@ -137,16 +137,15 @@
                                 </mat-form-field>
                                 <button
                                     [ngClass]="{
-                                        'cursor-pointer':
-                                            !transactionDate.isSame(
-                                                today,
-                                                'day'
-                                            ),
+                                        'cursor-pointer': !depositsDate.isSame(
+                                            today,
+                                            'day'
+                                        ),
                                         'cursor-not-allowed':
-                                            transactionDate.isSame(today, 'day')
+                                            depositsDate.isSame(today, 'day')
                                     }"
                                     [disabled]="
-                                        transactionDate.isSame(today, 'day')
+                                        depositsDate.isSame(today, 'day')
                                     "
                                     (click)="changeDate(1)"
                                 >
@@ -158,18 +157,18 @@
                             </div>
                         </div>
                         <div>
-                            <div *ngFor="let trx of transacctions" class="my-4">
+                            <div *ngFor="let deposit of deposits" class="my-4">
                                 <div class="flex justify-between mb-1.5">
                                     <div class="text-[#7c66f7]">
                                         <span class="font-semibold"
                                             >Operación:</span
                                         >
                                         <span class="ml-1">{{
-                                            trx.nu_id_trx_app
+                                            deposit.vc_nro_operacion
                                         }}</span>
                                     </div>
                                     <span class="text-sm">{{
-                                        trx.dt_fecha
+                                        deposit.dt_fec_operacion
                                     }}</span>
                                 </div>
                                 <div class="block mb-4">
@@ -177,7 +176,7 @@
                                     <span class="font-semibold"
                                         >S/
                                         {{
-                                            trx.nu_precio | number: "1.2-2"
+                                            deposit.nu_importe | number: "1.2-2"
                                         }}</span
                                     >
                                 </div>
@@ -257,4 +256,3 @@
         </div>
     </div>
 </div>
-

@@ -1,25 +1,44 @@
+import { OnDestroy } from '@angular/core';
+/* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FuseNavigationService,
+    FuseVerticalNavigationComponent,
+} from '@fuse/components/navigation';
+import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ProfileService } from 'app/modules/admin/dashboards/profile/profile.service';
 import moment from 'moment';
 import { Moment } from 'moment';
-import { ProfileInfo, TransactionInfo } from './profile.interfaces';
+import { Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { ProfileInfo, DepositInfo } from './profile.interfaces';
 
 @Component({
     selector: 'profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent implements OnInit {
-    profileInfo: ProfileInfo;
-    transacctions: TransactionInfo[] = [];
-    transactionDate: Moment = moment(new Date());
+export class ProfileComponent implements OnInit, OnDestroy {
+    profileInfo: ProfileInfo = null;
+    deposits: DepositInfo[] = [];
+    depositsDate: Moment = moment(new Date());
     today: Moment = moment(new Date());
     dateFormat: any = {};
+    isScreenSmall: boolean;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    constructor(private profileService: ProfileService) {}
+    constructor(
+        private profileService: ProfileService,
+        private _fuseNavigationService: FuseNavigationService,
+        private _fuseMediaWatcherService: FuseMediaWatcherService
+    ) {}
 
     ngOnInit(): void {
         this.dateFormat = {
@@ -28,58 +47,74 @@ export class ProfileComponent implements OnInit {
             nextWeek: 'dddd',
             lastDay: '[ayer]',
             lastWeek: '[último] dddd',
-            sameElse: 'DD/MM/YYYY'
+            sameElse: 'DD/MM/YYYY',
         };
-        // Mock data
-        this.initMockData();
+        this.getProfileInfo();
+        this._fuseMediaWatcherService.onMediaChange$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({ matchingAliases }) => {
+                // Check if the screen is small
+                this.isScreenSmall = !matchingAliases.includes('md');
+            });
     }
 
-    initMockData(): void {
-        this.profileInfo = {
-            vc_cod_comercio: 'MX000002',
-            vc_nombre_comercio: 'ZAK ROBLES',
-            vc_nro_doc_identidad: '73661640',
-            vc_direccion: 'Jirón Napo 847, Cercado de Lima 15083, Perú',
-            vc_centro_poblado: 'Breña',
-            nu_longitud: -77.053408,
-            nu_latitud: -12.058268,
-            vc_telefono: '1151114',
-            vc_celular: '962329272',
-            vc_email: 'zakery_10@hotmail.com',
-            ch_tipo_documento: 'BV',
-            nu_dia: 11,
-            nu_mes: 9,
-            nu_anio: 1995,
-            vc_nombre_contacto: 'Zak',
-            vc_desc_tipo_doc_identidad: 'DNI',
-            vc_desc_departamento: 'LA LIBERTAD',
-            vc_desc_provincia: 'TRUJILLO',
-            vc_desc_distrito: 'TRUJILLO',
-            vc_desc_grupo_giro_negocio: 'TELECOMUNICACIONES',
-            vc_nombre_ejecutivo: 'CARLOS NOLI CHAVEZ',
-            vc_nombre_distribuidor: 'ZILICOM INVESTMENTS',
-        };
+    getProfileInfo(): void {
+        this.profileService
+            .getProfileInfo()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp) => (this.profileInfo = resp));
+        // console.log(moment(this.depositsDate).format('YYYY-MM-DD'));
+        this.profileService
+            .getDepositsInfo(
+                this.formatDate(this.depositsDate),
+                this.formatDate(this.depositsDate)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
+    }
 
-        for (let i = 0; i < 7; i++) {
-            this.transacctions.push({
-                nu_id_trx_app: 11310,
-                dt_fecha: '14/03',
-                bi_extorno: false,
-                nu_precio: 341.0,
-                nu_valor_comision: 0.0,
-                vc_desc_producto: 'Consumo de agua',
-                vc_desc_grupo: '',
-                vc_desc_grupo_producto: 'Sedapal: Consumo de agua',
-                nu_imp_trx_app: 341.0,
-            });
-        }
+    formatDate(date: Moment): string {
+        return moment(this.depositsDate).format('YYYY-MM-DD');
     }
 
     changeDate(amount: number): void {
-        this.transactionDate.add(amount, 'days');
+        this.depositsDate.add(amount, 'days');
+        this.profileService
+            .getDepositsInfo(
+                this.formatDate(this.depositsDate),
+                this.formatDate(this.depositsDate)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
     }
 
     selectDate(value: Moment): void {
-        this.transactionDate = value;
+        this.depositsDate = value;
+        this.profileService
+            .getDepositsInfo(
+                this.formatDate(this.depositsDate),
+                this.formatDate(this.depositsDate)
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
+    }
+
+    toggleNavigation(name: string): void {
+        // Get the navigation
+        const navigation =
+            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
+                name
+            );
+
+        if (navigation && this.isScreenSmall) {
+            // Toggle the opened status
+            navigation.toggle();
+        }
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }

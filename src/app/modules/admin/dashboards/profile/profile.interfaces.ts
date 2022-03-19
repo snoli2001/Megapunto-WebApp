@@ -24,14 +24,12 @@ export interface ProfileInfo {
     vc_nombre_distribuidor: string;
 }
 
-export interface TransactionInfo {
-    nu_id_trx_app: number;
-    dt_fecha: string;
-    bi_extorno: boolean;
-    nu_precio: number;
-    nu_valor_comision: number;
-    vc_desc_producto: string;
-    vc_desc_grupo: string;
-    vc_desc_grupo_producto: string;
-    nu_imp_trx_app: number;
+export interface DepositInfo {
+    ch_anio_solicitud: string;
+    nu_id_solicitud: string;
+    vc_nro_operacion: string;
+    dt_fec_operacion: string;
+    nu_importe: string;
+    ch_status: string;
+    vc_cod_cta_cte: string;
 }
