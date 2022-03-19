@@ -1,17 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation,
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import {
-    FuseNavigationService,
-    FuseVerticalNavigationComponent,
-} from '@fuse/components/navigation';
-import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 
 @Component({
     selector: 'balance',
@@ -19,45 +9,38 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalanceComponent implements OnInit, OnDestroy {
-    isScreenSmall: boolean;
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
+export class BalanceComponent implements OnInit {
+
+    balanceForm: FormGroup;
 
     constructor(
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private fb: FormBuilder,
+        private _fuseNavigationService: FuseNavigationService
     ) {}
 
     ngOnInit(): void {
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({ matchingAliases }) => {
-                // Check if the screen is small
-                this.isScreenSmall = !matchingAliases.includes('md');
-                console.log(this.isScreenSmall);
-            });
-    }
-
-    ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
-
-    trackByFn(index: number, item: any): any {
-        return item.id || index;
+        this.initBalanceForm();
     }
 
     toggleNavigation(name: string): void {
-        // Get the navigation
-        const navigation =
-            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
-                name
-            );
+        const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
 
-        if (navigation && this.isScreenSmall) {
-            // Toggle the opened status
+        if (navigation) {
             navigation.toggle();
         }
     }
+
+    initBalanceForm(): void {
+        this.balanceForm = this.fb.group({
+            nu_id_comercio: ['', Validators.required],
+            nu_id_tipo_moneda: ['1', Validators.required],
+            nu_id_cta_cte: ['', Validators.required],
+            ch_destino: ['MX', Validators.required],
+            vc_nro_operacion: ['', Validators.required],
+            nu_importe: ['', Validators.required],
+            dt_fec_operacion: ['', Validators.required],
+            vc_cadena_imagen: ['', Validators.required]
+        });
+    }
+
 }

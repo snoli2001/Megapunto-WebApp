@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { ProfileService } from 'app/modules/admin/dashboards/profile/profile.service';
 import moment from 'moment';
 import { Moment } from 'moment';
@@ -19,7 +20,10 @@ export class ProfileComponent implements OnInit {
     today: Moment = moment(new Date());
     dateFormat: any = {};
 
-    constructor(private profileService: ProfileService) {}
+    constructor(
+        private profileService: ProfileService,
+        private _fuseNavigationService: FuseNavigationService
+    ) {}
 
     ngOnInit(): void {
         this.dateFormat = {
@@ -32,6 +36,14 @@ export class ProfileComponent implements OnInit {
         };
         // Mock data
         this.initMockData();
+    }
+
+    toggleNavigation(name: string): void {
+        const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
+
+        if (navigation) {
+            navigation.toggle();
+        }
     }
 
     initMockData(): void {
