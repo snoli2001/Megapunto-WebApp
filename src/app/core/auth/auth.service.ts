@@ -78,7 +78,6 @@ export class AuthService {
                         this._authenticated = true;
                         return of(response);
                     } else {
-                        console.log(response.tx_tran_mnsg);
                     }
                 })
             );

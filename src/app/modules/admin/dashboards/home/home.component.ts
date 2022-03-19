@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             .subscribe(({ matchingAliases }) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
-                console.log(this.isScreenSmall);
             });
     }
 

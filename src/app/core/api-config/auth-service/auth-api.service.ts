@@ -85,7 +85,6 @@ export class AuthApiService {
     }
 
     private saveTokenApi(apiToken: string): void {
-        console.log(apiToken);
         this.tokenApi = apiToken;
         localStorage.setItem('apiToken', apiToken);
         const today = new Date();
