@@ -12,7 +12,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Inicio',
                 type: 'basic',
                 // icon: 'heroicons_outline:home',
-                image: '../../assets/images/draw/img_inicio_active.png',
+                image: 'assets/images/draw/img_inicio_active.png',
                 link: '/dashboards/home',
             },
             {
@@ -20,7 +20,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Saldo',
                 type: 'basic',
                 // icon: 'heroicons_outline:cash',
-                image: '../../assets/images/draw/img_saldo_active.png',
+                image: 'assets/images/draw/img_saldo_active.png',
                 link: '/dashboards/balance',
             },
             {
@@ -28,7 +28,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Historial',
                 type: 'basic',
                 // icon: 'heroicons_outline:cash',
-                image: '../../assets/images/draw/img_historial_active.png',
+                image: 'assets/images/draw/img_historial_active.png',
                 link: '/dashboards/history',
             },
             {
@@ -36,7 +36,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Mi perfil',
                 type: 'basic',
                 // icon: 'heroicons_outline:chart-pie',
-                image: '../../assets/images/draw/img_perfil_active.png',
+                image: 'assets/images/draw/img_perfil_active.png',
                 link: '/dashboards/profile',
             },
         ],
