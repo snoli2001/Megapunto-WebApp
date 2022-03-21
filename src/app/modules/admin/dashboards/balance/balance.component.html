@@ -1,86 +1,155 @@
 <div class="flex flex-col flex-auto w-full" style="background-color: #7c66f7">
-    <div class="flex-col flex-auto bg-card relative p-5 md:p-10" style="
+    <div
+        class="flex-col flex-auto bg-card relative p-5 md:p-10"
+        style="
             border-top-left-radius: 3rem !important;
             border-bottom-left-radius: 3rem !important;
-        ">
+        "
+    >
         <div class="p-5 md:p-0">
             <!-- Navigation toggle button -->
             <button
                 class="absolute md:hidden top-8 left-8"
                 mat-icon-button
-                (click)="toggleNavigation('mainNavigation')">
+                (click)="toggleNavigation('mainNavigation')"
+            >
                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
             </button>
-            <div class="ml-10 -mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">Saldo</div>
+            <div class="ml-10 -mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">
+                Saldo
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <!-- Current balance -->
                 <div class="min-h-40 order-1">
                     <div class="flex items-center mb-4">
                         <span class="text-lg font-bold">Tu saldo actual</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 border-2 rounded-lg p-2.5 sm:p-5">
-                        <div class="flex justify-center items-center px-3 py-1 border-2 shadow-lg rounded-lg w-full sm:min-w-24 sm:max-w-60">
-                            <span class="text-[#7c66f7] font-bold text-xl">S/ 230.00</span>
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 border-2 rounded-lg p-2.5 sm:p-5"
+                    >
+                        <div
+                            class="flex justify-center items-center px-3 py-1 border-2 shadow-sm rounded-lg w-full sm:min-w-24 sm:max-w-60"
+                        >
+                            <span class="text-[#7c66f7] font-bold text-xl"
+                                >S/ {{ balance$ | async }}</span
+                            >
                         </div>
                         <div class="my-2 sm:mx-2">
-                            <span class="block font-semibold">Última fecha de tu recarga:</span>
+                            <span class="block font-semibold"
+                                >Última fecha de tu recarga:</span
+                            >
                             <span>30 de abril de 2020</span>
                         </div>
                     </div>
                 </div>
                 <!-- Increase balance info -->
-                <div class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2">
-                    <span class="text-lg font-bold">Información de recargas</span>
-                    <div class="text-base border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5">
+                <div
+                    class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2"
+                >
+                    <span class="text-lg font-bold"
+                        >Información de recargas</span
+                    >
+                    <div
+                        class="text-base border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5"
+                    >
                         <div class="font-semibold uppercase tracking-wide">
                             ¿Qué necesito para recargar mi saldo?
-                            <div class="w-1/6 border-[#7c66f7] border-b-2 my-1"></div>
+                            <div
+                                class="w-1/6 border-[#7c66f7] border-b-2 my-1"
+                            ></div>
                         </div>
                         <div class="mt-2 mb-4">
-                            Tienes que depositar el monto que necesites a una de nuestra cuentas bancarias
+                            Tienes que depositar el monto que necesites a una de
+                            nuestra cuentas bancarias
                         </div>
                         <div class="font-semibold">
                             Nuestras cuentas bancarias
                         </div>
-                        <div>
-                            Puede realizar el depósito en la que elijas
-                        </div>
+                        <div>Puede realizar el depósito en la que elijas</div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                             <div>
-                                <div class="block text-[#7c66f7] text-lg font-semibold">BCP</div>
-                                <div class="w-1/6 border-[#7c66f7] border-b-2 mb-1"></div>
+                                <div
+                                    class="block text-[#7c66f7] text-lg font-semibold"
+                                >
+                                    BCP
+                                </div>
+                                <div
+                                    class="w-1/6 border-[#7c66f7] border-b-2 mb-1"
+                                ></div>
                                 <div class="block mt-2">N. de cuenta:</div>
-                                <div class="block font-semibold">BCP: Cta Ahorros Soles</div>
-                                <div class="block font-semibold">191-23674374-0-90</div>
+                                <div class="block font-semibold">
+                                    BCP: Cta Ahorros Soles
+                                </div>
+                                <div class="block font-semibold">
+                                    191-23674374-0-90
+                                </div>
                                 <div class="block mt-4">Destinario:</div>
-                                <div class="block font-semibold mb-4">Mega Punto SAC</div>
+                                <div class="block font-semibold mb-4">
+                                    Mega Punto SAC
+                                </div>
                             </div>
                             <div>
-                                <div class="block text-[#7c66f7] text-lg font-semibold">Interbank</div>
-                                <div class="w-1/6 border-[#7c66f7] border-b-2 mb-1"></div>
+                                <div
+                                    class="block text-[#7c66f7] text-lg font-semibold"
+                                >
+                                    Interbank
+                                </div>
+                                <div
+                                    class="w-1/6 border-[#7c66f7] border-b-2 mb-1"
+                                ></div>
                                 <div class="block mt-2">N. de cuenta:</div>
-                                <div class="block font-semibold">Interbank: Cta Corriente Soles</div>
-                                <div class="block font-semibold">191-23674374-0-90</div>
+                                <div class="block font-semibold">
+                                    Interbank: Cta Corriente Soles
+                                </div>
+                                <div class="block font-semibold">
+                                    191-23674374-0-90
+                                </div>
                                 <div class="block mt-4">Destinario:</div>
-                                <div class="block font-semibold mb-4">Mega Punto SAC</div>
+                                <div class="block font-semibold mb-4">
+                                    Mega Punto SAC
+                                </div>
                             </div>
                             <div>
-                                <div class="block text-[#7c66f7] text-lg font-semibold">BBVA</div>
-                                <div class="w-1/6 border-[#7c66f7] border-b-2 mb-1"></div>
+                                <div
+                                    class="block text-[#7c66f7] text-lg font-semibold"
+                                >
+                                    BBVA
+                                </div>
+                                <div
+                                    class="w-1/6 border-[#7c66f7] border-b-2 mb-1"
+                                ></div>
                                 <div class="block mt-2">N. de cuenta:</div>
-                                <div class="block font-semibold">BBVA: Cta Corriente Soles</div>
-                                <div class="block font-semibold">191-23674374-0-90</div>
+                                <div class="block font-semibold">
+                                    BBVA: Cta Corriente Soles
+                                </div>
+                                <div class="block font-semibold">
+                                    191-23674374-0-90
+                                </div>
                                 <div class="block mt-4">Destinario:</div>
-                                <div class="block font-semibold mb-4">Mega Punto SAC</div>
+                                <div class="block font-semibold mb-4">
+                                    Mega Punto SAC
+                                </div>
                             </div>
                             <div>
-                                <div class="block text-[#7c66f7] text-lg font-semibold">Interbank</div>
-                                <div class="w-1/6 border-[#7c66f7] border-b-2 mb-1"></div>
+                                <div
+                                    class="block text-[#7c66f7] text-lg font-semibold"
+                                >
+                                    Interbank
+                                </div>
+                                <div
+                                    class="w-1/6 border-[#7c66f7] border-b-2 mb-1"
+                                ></div>
                                 <div class="block mt-2">N. de cuenta:</div>
-                                <div class="block font-semibold">Interbank: Cta Corriente Soles</div>
-                                <div class="block font-semibold">191-23674374-0-90</div>
+                                <div class="block font-semibold">
+                                    Interbank: Cta Corriente Soles
+                                </div>
+                                <div class="block font-semibold">
+                                    191-23674374-0-90
+                                </div>
                                 <div class="block mt-4">Destinario:</div>
-                                <div class="block font-semibold mb-4">Mega Punto SAC</div>
+                                <div class="block font-semibold mb-4">
+                                    Mega Punto SAC
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,39 +160,80 @@
                         <span class="text-lg font-bold">Recarga tu saldo</span>
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
-                        <div class="flex items-center text-white bg-[#7c66f7] p-3 rounded-lg">
-                            <mat-icon class="text-white" svgIcon="heroicons_solid:exclamation-circle"></mat-icon>
+                        <div
+                            class="flex items-center text-white bg-[#7c66f7] p-3 rounded-lg"
+                        >
+                            <mat-icon
+                                class="text-white"
+                                svgIcon="heroicons_solid:exclamation-circle"
+                            ></mat-icon>
                             <span class="ml-1">
-                                Es necesario que cuentes con el voucher para poder recargar
+                                Es necesario que cuentes con el voucher para
+                                poder recargar
                             </span>
                         </div>
                         <div class="mt-3 mb-2">
-                            <span class="font-semibold">Datos del depósito realizado</span>
+                            <span class="font-semibold"
+                                >Datos del depósito realizado</span
+                            >
                             <form class="my-3" [formGroup]="balanceForm">
-                                <mat-form-field class="w-full" appearance="fill">
-                                    <mat-select formControlName="nu_id_cta_cte" placeholder="Banco">
-                                        <mat-option [value]="'bbva'">BBVA</mat-option>
-                                        <mat-option [value]="'ibk'">Interbank</mat-option>
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <mat-select
+                                        formControlName="nu_id_cta_cte"
+                                        placeholder="Banco"
+                                    >
+                                        <mat-option [value]="'bbva'"
+                                            >BBVA</mat-option
+                                        >
+                                        <mat-option [value]="'ibk'"
+                                            >Interbank</mat-option
+                                        >
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="w-full" appearance="fill">
-                                    <input matInput formControlName="vc_nro_operacion"
-                                        placeholder="Número de operación">
+                                <mat-form-field
+                                    class="w-full"
+                                    appearance="fill"
+                                >
+                                    <input
+                                        matInput
+                                        formControlName="vc_nro_operacion"
+                                        placeholder="Número de operación"
+                                    />
                                 </mat-form-field>
-                                <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2">
-                                    <mat-form-field class="w-full" appearance="fill">
-                                        <input matInput formControlName="nu_importe"
-                                            placeholder="Importe">
+                                <div
+                                    class="grid grid-cols-1 md:grid-cols-2 md:gap-2"
+                                >
+                                    <mat-form-field
+                                        class="w-full"
+                                        appearance="fill"
+                                    >
+                                        <input
+                                            matInput
+                                            formControlName="nu_importe"
+                                            placeholder="Importe"
+                                        />
                                     </mat-form-field>
-                                    <mat-form-field class="w-full" appearance="fill">
-                                        <input matInput formControlName="dt_fec_operacion"
-                                            placeholder="Fecha de la operación">
+                                    <mat-form-field
+                                        class="w-full"
+                                        appearance="fill"
+                                    >
+                                        <input
+                                            matInput
+                                            formControlName="dt_fec_operacion"
+                                            placeholder="Fecha de la operación"
+                                        />
                                     </mat-form-field>
                                 </div>
                                 <!-- TODO: add upload image -->
                             </form>
                             <div class="flex justify-end">
-                                <button mat-flat-button class="text-white bg-[#7c66f7]">
+                                <button
+                                    mat-flat-button
+                                    class="text-white bg-[#7c66f7]"
+                                >
                                     Recargar mi saldo
                                 </button>
                             </div>

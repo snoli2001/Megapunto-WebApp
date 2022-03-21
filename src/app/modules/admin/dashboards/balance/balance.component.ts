@@ -1,3 +1,5 @@
+/* eslint-disable arrow-parens */
+import { BalanceService } from 'app/modules/admin/dashboards/balance/balance.service';
 import { OnDestroy } from '@angular/core';
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -12,7 +14,7 @@ import {
     FuseVerticalNavigationComponent,
 } from '@fuse/components/navigation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { takeUntil } from 'rxjs';
+import { takeUntil, Observable, map } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
@@ -23,6 +25,7 @@ import { Subject } from 'rxjs/internal/Subject';
 })
 export class BalanceComponent implements OnInit, OnDestroy {
     balanceForm: FormGroup;
+    balance$: Observable<string>;
     isScreenSmall: boolean;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -30,7 +33,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _balanceService: BalanceService
     ) {}
 
     ngOnInit(): void {
@@ -40,6 +44,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+        this.initData();
         this.initBalanceForm();
     }
 
@@ -47,6 +52,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    initData(): void {
+        this.balance$ = this._balanceService
+            .getBalance()
+            .pipe(map((resp: any) => resp.nu_saldo));
     }
 
     trackByFn(index: number, item: any): any {
