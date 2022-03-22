@@ -1,5 +1,7 @@
 <div class="flex flex-col flex-auto w-full" style="background-color: #7c66f7">
-    <div class="flex-col flex-auto bg-card relative p-5 md:p-10" style="
+    <div
+        class="flex-col flex-auto bg-card relative p-3 md:p-5 md:p-10"
+        style="
             border-top-left-radius: 3rem !important;
             border-bottom-left-radius: 3rem !important;
         "
@@ -20,16 +22,22 @@
                 <div class="min-h-40 order-1">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-lg font-bold">Datos personales</span>
-                        <span class="text-[#7c66f7] font-bold cursor-pointer">Editar</span>
+                        <span class="text-[#7c66f7] font-bold cursor-pointer"
+                            >Editar</span
+                        >
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="col-span-1 sm:col-span-2">
                                 <span class="font-semibold block">Nombre</span>
-                                <span>{{ profileInfo.vc_nombre_comercio }}</span>
+                                <span>{{
+                                    profileInfo.vc_nombre_comercio
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Teléfono fijo</span>
+                                <span class="font-semibold block"
+                                    >Teléfono fijo</span
+                                >
                                 <span>{{ profileInfo.vc_telefono }}</span>
                             </div>
                             <div>
@@ -37,19 +45,31 @@
                                 <span>{{ profileInfo.vc_celular }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Tipo de documento</span>
-                                <span>{{ profileInfo.vc_desc_tipo_doc_identidad }}</span>
+                                <span class="font-semibold block"
+                                    >Tipo de documento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_tipo_doc_identidad
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Número de documento</span>
-                                <span>{{ profileInfo.vc_nro_doc_identidad }}</span>
+                                <span class="font-semibold block"
+                                    >Número de documento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_nro_doc_identidad
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Correo electrónico</span>
+                                <span class="font-semibold block"
+                                    >Correo electrónico</span
+                                >
                                 <span>{{ profileInfo.vc_email }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Fecha de nacimiento</span>
+                                <span class="font-semibold block"
+                                    >Fecha de nacimiento</span
+                                >
                                 <span>
                                     {{
                                         profileInfo!.nu_dia +
@@ -64,52 +84,62 @@
                     </div>
                 </div>
                 <!-- Deposits -->
-                <div class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2">
-                    <span class="text-lg font-bold">Depósitos realizados a mi negocio</span>
+                <div
+                    class="min-h-40 row-span-1 md:row-span-2 order-last md:order-2"
+                >
+                    <span class="text-lg font-bold"
+                        >Depósitos realizados a mi negocio</span
+                    >
                     <div class="border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5">
-                        <div class="flex justify-end items-center">
-                            <span class="mx-2">Filtrar por fecha</span>
-                            <div class="flex items-center border-2 border-[#7c66f7] p-1">
-                                <button class="cursor-pointer" (click)="changeDate(-1)">
-                                    <mat-icon color="primary" svgIcon="heroicons_outline:chevron-left"></mat-icon>
-                                </button>
-                                <mat-form-field class="custom">
-                                    <mat-datepicker #picker></mat-datepicker>
-                                    <mat-datepicker-toggle matSuffix [for]="picker">
-                                        <mat-icon matDatepickerToggleIcon color="primary" [svgIcon]="
-                                                'heroicons_outline:calendar'
-                                            "></mat-icon>
-                                    </mat-datepicker-toggle>
-                                    <span
-                                        class="text-[#7c66f7] font-semibold mx-1"
-                                    >
-                                        {{
-                                            depositsDate
-                                                .locale("es")
-                                                .calendar(dateFormat)
-                                        }}
-                                    </span>
-                                    <input (dateChange)="selectDate($event.value)" class="hidden" [max]="today" matInput
-                                        [matDatepicker]="picker" />
-                                </mat-form-field>
-                                <button
-                                    [ngClass]="{
-                                        'cursor-pointer': !depositsDate.isSame(
-                                            today,
-                                            'day'
-                                        ),
-                                        'cursor-not-allowed':
-                                            depositsDate.isSame(today, 'day')
-                                    }"
-                                    [disabled]="
-                                        depositsDate.isSame(today, 'day')
-                                    "
-                                    (click)="changeDate(1)"
+                        <div class="flex flex-col justify-center items-center">
+                            <span class="mb-2">Filtrar por fecha</span>
+                            <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center justify-center w-full">
+                                <div
+                                    class="flex items-center border-2 border-[#7c66f7] p-1 w-full sm:w-80 md:w-full lg:w-80"
                                 >
-                                    <mat-icon
-                                        color="primary"
-                                        svgIcon="heroicons_outline:chevron-right"
-                                    ></mat-icon>
+                                    <mat-form-field class="custom w-full">
+                                        <mat-date-range-input
+                                            [formGroup]="range"
+                                            [rangePicker]="picker"
+                                            [dateFilter]="myFilter"
+                                            [max]="maxDate"
+                                        >
+                                            <input
+                                                matStartDate
+                                                (dateChange)="
+                                                    selectFirstDate(
+                                                        $event.value
+                                                    )
+                                                "
+                                                formControlName="depositsStartDate"
+                                                placeholder="Fecha Inicio"
+                                            />
+                                            <input
+                                                matEndDate
+                                                (dateChange)="
+                                                    selectEndDate($event.value)
+                                                "
+                                                formControlName="depositsEndDate"
+                                                placeholder="Fecha Final"
+                                            />
+                                        </mat-date-range-input>
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="picker"
+                                        ></mat-datepicker-toggle>
+                                        <mat-date-range-picker
+                                            maxRange="7"
+                                            #picker
+                                        ></mat-date-range-picker>
+                                    </mat-form-field>
+                                </div>
+                                <button
+                                    mat-raised-button
+                                    color="primary"
+                                    class="mt-2 w-full sm:w-60 sm:ml-4 md:w-full md:ml-0 lg:ml-4 lg:w-60"
+                                    (click)="resetDates()"
+                                >
+                                    Reiniciar Fechas
                                 </button>
                             </div>
                         </div>
@@ -145,41 +175,65 @@
                 <!-- Business data -->
                 <div class="min-h-40 order-3">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-lg font-bold">Datos de mi negocio</span>
-                        <span class="text-[#7c66f7] font-bold cursor-pointer">Editar</span>
+                        <span class="text-lg font-bold"
+                            >Datos de mi negocio</span
+                        >
+                        <span class="text-[#7c66f7] font-bold cursor-pointer"
+                            >Editar</span
+                        >
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="col-span-1 sm:col-span-2">
-                                <span class="font-semibold block">Dirección</span>
+                                <span class="font-semibold block"
+                                    >Dirección</span
+                                >
                                 <span>{{ profileInfo.vc_direccion }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Centro poblado</span>
+                                <span class="font-semibold block"
+                                    >Centro poblado</span
+                                >
                                 <span>{{ profileInfo.vc_centro_poblado }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Distrito</span>
+                                <span class="font-semibold block"
+                                    >Distrito</span
+                                >
                                 <span>{{ profileInfo.vc_desc_distrito }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Departamento</span>
-                                <span>{{ profileInfo.vc_desc_departamento }}</span>
+                                <span class="font-semibold block"
+                                    >Departamento</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_departamento
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Provincia</span>
+                                <span class="font-semibold block"
+                                    >Provincia</span
+                                >
                                 <span>{{ profileInfo.vc_desc_provincia }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Giro de mi negocio</span>
-                                <span>{{ profileInfo.vc_desc_grupo_giro_negocio }}</span>
+                                <span class="font-semibold block"
+                                    >Giro de mi negocio</span
+                                >
+                                <span>{{
+                                    profileInfo.vc_desc_grupo_giro_negocio
+                                }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Código de comercio</span>
+                                <span class="font-semibold block"
+                                    >Código de comercio</span
+                                >
                                 <span>{{ profileInfo.vc_cod_comercio }}</span>
                             </div>
                             <div>
-                                <span class="font-semibold block">Tipo de comprobante</span>
+                                <span class="font-semibold block"
+                                    >Tipo de comprobante</span
+                                >
                                 <span>{{ profileInfo.ch_tipo_documento }}</span>
                             </div>
                         </div>
