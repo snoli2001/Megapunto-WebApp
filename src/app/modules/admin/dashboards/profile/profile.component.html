@@ -4,16 +4,16 @@
             border-bottom-left-radius: 3rem !important;
         "
     >
-        <!-- Navigation toggle button -->
-        <button
-            class="absolute md:hidden top-8 left-8"
-            mat-icon-button
-            (click)="toggleNavigation('mainNavigation')"
-        >
-            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
-        </button>
-        <div class="p-5 md:p-0 mt-10" *ngIf="profileInfo !== null">
-            <span class="text-3xl font-bold">Mi perfil</span>
+        <div class="p-5 md:p-0" *ngIf="profileInfo !== null">
+            <!-- Navigation toggle button -->
+                <button
+                class="absolute md:hidden top-8 left-8"
+                mat-icon-button
+                (click)="toggleNavigation('mainNavigation')"
+            >
+                <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+            </button>
+            <div class="ml-10 -mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">Mi perfil</div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <!-- Personal data -->
