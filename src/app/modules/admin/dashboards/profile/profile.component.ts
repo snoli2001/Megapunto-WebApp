@@ -1,12 +1,14 @@
-import { OnDestroy } from '@angular/core';
 /* eslint-disable arrow-parens */
-/* eslint-disable @typescript-eslint/naming-convention */
+import { Directive, Inject, Injectable, Input, OnDestroy } from '@angular/core';
+
 import {
     ChangeDetectionStrategy,
     Component,
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
 import {
     FuseNavigationService,
     FuseVerticalNavigationComponent,
@@ -26,11 +28,18 @@ import { ProfileInfo, DepositInfo } from './profile.interfaces';
     encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+    range = new FormGroup({
+        depositsStartDate: new FormControl(),
+        depositsEndDate: new FormControl(),
+    });
     profileInfo: ProfileInfo = null;
     deposits: DepositInfo[] = [];
-    depositsDate: Moment = moment(new Date());
     today: Moment = moment(new Date());
     dateFormat: any = {};
+
+    minDate: Date;
+    maxDate: Moment;
+
     isScreenSmall: boolean;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -65,37 +74,43 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .subscribe((resp) => (this.profileInfo = resp));
         this.profileService
             .getDepositsInfo(
-                this.formatDate(this.depositsDate),
-                this.formatDate(this.depositsDate)
+                this.formatDate(moment(new Date())),
+                this.formatDate(moment(new Date()))
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
     }
 
     formatDate(date: Moment): string {
-        return moment(this.depositsDate).format('YYYY-MM-DD');
+        return moment(date).format('YYYY-MM-DD');
     }
 
-    changeDate(amount: number): void {
-        this.depositsDate.add(amount, 'days');
-        this.profileService
-            .getDepositsInfo(
-                this.formatDate(this.depositsDate),
-                this.formatDate(this.depositsDate)
-            )
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
+    selectFirstDate(value: Moment): void {
+        const maxDate = moment(value).add(7, 'days');
+        this.maxDate = maxDate;
     }
 
-    selectDate(value: Moment): void {
-        this.depositsDate = value;
-        this.profileService
-            .getDepositsInfo(
-                this.formatDate(this.depositsDate),
-                this.formatDate(this.depositsDate)
-            )
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
+    myFilter = (d: Moment | null): boolean => {
+        const day = d || moment();
+        return day < moment();
+    };
+
+    resetDates(): void {
+        this.range.reset();
+        this.maxDate = moment(new Date());
+        this.deposits = [];
+    }
+
+    selectEndDate(value: Moment): void {
+        if (this.range.get('depositsEndDate').value) {
+            this.profileService
+                .getDepositsInfo(
+                    this.formatDate(this.range.get('depositsStartDate').value),
+                    this.formatDate(this.range.get('depositsEndDate').value)
+                )
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
+        }
     }
 
     toggleNavigation(name: string): void {
