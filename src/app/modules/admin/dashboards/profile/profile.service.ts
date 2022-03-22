@@ -1,9 +1,9 @@
-import { environment } from './../../../../../environments/environment';
 /* eslint-disable @typescript-eslint/naming-convention */
+import { environment } from './../../../../../environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ProfileInfo, DepositInfo } from './profile.interfaces';
 import jwt_decode from 'jwt-decode';
 
