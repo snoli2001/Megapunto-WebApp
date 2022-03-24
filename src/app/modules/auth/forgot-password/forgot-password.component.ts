@@ -1,3 +1,4 @@
+import { ForgotPasswordService } from './forgot-password.service';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -7,18 +8,17 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector     : 'auth-forgot-password',
-    templateUrl  : './forgot-password.component.html',
+    selector: 'auth-forgot-password',
+    templateUrl: './forgot-password.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations,
 })
-export class AuthForgotPasswordComponent implements OnInit
-{
+export class AuthForgotPasswordComponent implements OnInit {
     @ViewChild('forgotPasswordNgForm') forgotPasswordNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: ''
+        type: 'success',
+        message: '',
     };
     forgotPasswordForm: FormGroup;
     showAlert: boolean = false;
@@ -27,12 +27,10 @@ export class AuthForgotPasswordComponent implements OnInit
      * Constructor
      */
     constructor(
-        private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
-    )
-    {
-    }
+        private _router: Router,
+        private _forgotPasswordService: ForgotPasswordService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -41,12 +39,11 @@ export class AuthForgotPasswordComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.forgotPasswordForm = this._formBuilder.group({
             cellphone: ['', Validators.required],
-            businessCode: ['', Validators.required]
+            businessCode: ['', Validators.required],
         });
     }
 
@@ -57,11 +54,9 @@ export class AuthForgotPasswordComponent implements OnInit
     /**
      * Send the reset link
      */
-    sendResetLink(): void
-    {
+    sendResetLink(): void {
         // Return if the form is invalid
-        if ( this.forgotPasswordForm.invalid )
-        {
+        if (this.forgotPasswordForm.invalid) {
             return;
         }
 
@@ -71,39 +66,26 @@ export class AuthForgotPasswordComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
-        // Forgot password
-        this._authService.forgotPassword(this.forgotPasswordForm.get('email').value)
-            .pipe(
-                finalize(() => {
-
-                    // Re-enable the form
-                    this.forgotPasswordForm.enable();
-
-                    // Reset the form
-                    this.forgotPasswordNgForm.resetForm();
-
-                    // Show the alert
-                    this.showAlert = true;
-                })
+        this._forgotPasswordService
+            .resetPassword(
+                this.forgotPasswordForm.get('cellphone').value,
+                this.forgotPasswordForm.get('businessCode').value
             )
-            .subscribe(
-                (response) => {
-
-                    // Set the alert
+            .subscribe((resp) => {
+                if (resp.nu_tran_stdo === '1') {
                     this.alert = {
-                        type   : 'success',
-                        message: 'Password reset sent! You\'ll receive an email if you are registered on our system.'
+                        type: 'success',
+                        message: `${resp.tx_tran_mnsg}`,
                     };
-                },
-                (response) => {
-
-                    // Set the alert
+                    this.forgotPasswordForm.reset();
+                }
+                if (resp.nu_tran_stdo === '0') {
                     this.alert = {
-                        type   : 'error',
-                        message: 'Email does not found! Are you sure you are already a member?'
+                        type: 'warning',
+                        message: `${resp.tx_tran_mnsg}`,
                     };
                 }
-            );
+            });
     }
 
     signIn(): void {
