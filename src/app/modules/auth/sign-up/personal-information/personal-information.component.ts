@@ -1,12 +1,13 @@
+/* eslint-disable arrow-parens */
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormGroupDirective, FormControl } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 import {
     DocumentId,
-    DropdownService,
     LineOfBusiness,
-} from './dropdown.service';
+    PersonalInformationService,
+} from './personal-information.service';
 
 @Component({
     selector: 'app-personal-information',
@@ -25,8 +26,26 @@ export class PersonalInformationComponent implements OnInit {
     lineOfBusinesses$: Observable<LineOfBusiness[]>;
     constructor(
         private rootFormGroup: FormGroupDirective,
-        private _dropdownService: DropdownService
+        private _personalInformationService: PersonalInformationService
     ) {}
+
+    get documentType(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'documentType'
+        ) as FormControl;
+    }
+
+    get documentNumber(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'documentNumber'
+        ) as FormControl;
+    }
+
+    get name(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'name'
+        ) as FormControl;
+    }
 
     ngOnInit(): void {
         this.personalInformationForm = this.rootFormGroup.control;
@@ -42,12 +61,27 @@ export class PersonalInformationComponent implements OnInit {
         }
     }
 
+    getNameByDNI(): void {
+        if (this.documentType.valid && this.documentNumber.valid) {
+            this._personalInformationService
+                .getNameByDNI(this.documentNumber.value)
+                .subscribe((resp) => {
+                    this.name.setValue(resp);
+                    console.log(this.name);
+                });
+        } else {
+            this.documentType.markAllAsTouched();
+            this.documentNumber.markAllAsTouched();
+        }
+    }
+
     getDocumentIdSelection(): void {
-        this.documentIdTypes$ = this._dropdownService.getDocumentIdSelection();
+        this.documentIdTypes$ =
+            this._personalInformationService.getDocumentIdSelection();
     }
 
     getLineOfBusinessSelection(): void {
         this.lineOfBusinesses$ =
-            this._dropdownService.getLineOfBusinessSelection();
+            this._personalInformationService.getLineOfBusinessSelection();
     }
 }

@@ -6,18 +6,17 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
-    selector     : 'auth-sign-up',
-    templateUrl  : './sign-up.component.html',
+    selector: 'auth-sign-up',
+    templateUrl: './sign-up.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations,
 })
-export class AuthSignUpComponent implements OnInit
-{
+export class AuthSignUpComponent implements OnInit {
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: ''
+        type: 'success',
+        message: '',
     };
     signUpForm: FormGroup;
     showAlert: boolean = false;
@@ -29,9 +28,7 @@ export class AuthSignUpComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router
-    )
-    {
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -40,31 +37,30 @@ export class AuthSignUpComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
         this.signUpForm = this._formBuilder.group({
             personalInformation: this._formBuilder.group({
-                name          : ['', ],
-                email         : ['', [, Validators.email]],
-                password      : ['', ],
-                cellphone     : ['', ],
-                telephone     : [''],
-                documentType  : ['', ],
-                documentNumber: ['', ],
-                birthDate     : ['', ],
-                businessLine  : ['', ],
-                billType      : ['', ],
+                name: [''],
+                email: ['', [, Validators.email]],
+                password: [''],
+                cellphone: [''],
+                telephone: [''],
+                documentType: [''],
+                documentNumber: [''],
+                birthDate: [''],
+                businessLine: [''],
+                billType: [''],
             }),
             businessAddress: this._formBuilder.group({
-                address       : ['', ],
-                village       : ['', ],
-                region        : ['', ],
-                city          : ['', ],
-                district      : ['', ],
-                agreements    : ['', ]
+                address: [''],
+                village: [''],
+                region: [''],
+                city: [''],
+                district: [''],
+                agreements: [''],
             }),
-            step              : [1, ],
+            step: [1],
         });
     }
 
@@ -75,11 +71,9 @@ export class AuthSignUpComponent implements OnInit
     /**
      * Sign up
      */
-    signUp(): void
-    {
+    signUp(): void {
         // Do nothing if the form is invalid
-        if ( this.signUpForm.invalid )
-        {
+        if (this.signUpForm.invalid) {
             return;
         }
 
@@ -90,31 +84,28 @@ export class AuthSignUpComponent implements OnInit
         this.showAlert = false;
 
         // Sign up
-        this._authService.signUp(this.signUpForm.value)
-            .subscribe(
-                (response) => {
+        this._authService.signUp(this.signUpForm.value).subscribe(
+            (response) => {
+                // Navigate to the confirmation required page
+                this._router.navigateByUrl('/confirmation-required');
+            },
+            (response) => {
+                // Re-enable the form
+                this.signUpForm.enable();
 
-                    // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
-                },
-                (response) => {
+                // Reset the form
+                this.signUpNgForm.resetForm();
 
-                    // Re-enable the form
-                    this.signUpForm.enable();
+                // Set the alert
+                this.alert = {
+                    type: 'error',
+                    message: 'Something went wrong, please try again.',
+                };
 
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
-
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
-                    };
-
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+                // Show the alert
+                this.showAlert = true;
+            }
+        );
     }
 
     signIn(): void {

@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="max-w-100 sm:w-60 md:w-90 mx-auto md:items-center justify-center">
+            <div class="max-w-100 mx-auto md:items-center justify-center">
                 <form [formGroup]="signUpForm">
                     <app-personal-information *ngIf="signUpForm.get('step').value === 1"></app-personal-information>
                     <app-business-address *ngIf="signUpForm.get('step').value === 2"></app-business-address>

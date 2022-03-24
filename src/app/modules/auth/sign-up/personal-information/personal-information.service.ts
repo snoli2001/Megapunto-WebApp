@@ -1,10 +1,11 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/naming-convention */
 import jwt_decode from 'jwt-decode';
 import { AuthService } from 'app/core/auth/auth.service';
 import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface DocumentId {
     nu_id_tipo_doc_identidad: string;
@@ -19,7 +20,7 @@ export interface LineOfBusiness {
 @Injectable({
     providedIn: 'root',
 })
-export class DropdownService {
+export class PersonalInformationService {
     constructor(private _httpClient: HttpClient) {}
 
     getDocumentIdSelection(): Observable<DocumentId[]> {
@@ -34,5 +35,13 @@ export class DropdownService {
             `${environment.API_URL}/Grupo_Giro_Negocio/sel`,
             {}
         );
+    }
+
+    getNameByDNI(dni: string): Observable<string> {
+        return this._httpClient
+            .post<any>(`${environment.API_URL}/Sunat/get_DNI_info`, {
+                dni,
+            })
+            .pipe(map((resp) => resp.nombre_completo));
     }
 }
