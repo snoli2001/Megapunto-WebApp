@@ -71,12 +71,22 @@ export class AuthForgotPasswordComponent implements OnInit {
                 this.forgotPasswordForm.get('cellphone').value,
                 this.forgotPasswordForm.get('businessCode').value
             )
+            .pipe(
+                finalize(() => {
+                    // Re-enable the form
+                    this.forgotPasswordForm.enable();
+
+                    // Show the alert
+                    this.showAlert = true;
+                })
+            )
             .subscribe((resp) => {
                 if (resp.nu_tran_stdo === '1') {
                     this.alert = {
                         type: 'success',
                         message: `${resp.tx_tran_mnsg}`,
                     };
+                    // Reset the form
                     this.forgotPasswordForm.reset();
                 }
                 if (resp.nu_tran_stdo === '0') {

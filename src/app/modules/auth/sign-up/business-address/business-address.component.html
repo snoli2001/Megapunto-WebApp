@@ -15,9 +15,13 @@
     {{ alert.message }}
 </fuse-alert>
 
-<form class="mt-8 w-full sm:w-90" [formGroup]="businessAddressForm">
-    <div formGroupName="businessAddress" class="w-full">
-        <div class="w-full mb-2">
+<form class="mt-8 w-full" [formGroup]="businessAddressForm">
+    <div formGroupName="businessAddress" class="w-full flex flex-col justify-center">
+
+        <div id="map" class="h-90 w-full" >
+
+        </div>
+        <div class="w-full my-3">
             <span>Ubica tu dirección en el mapa con el pin</span>
         </div>
         <!-- Address field -->
@@ -151,9 +155,8 @@
         <div class="flex justify-between">
             <!-- Prev button -->
             <button
-                class="fuse-mat-button-large w-full md:w-1/3 mt-6"
+                class="fuse-mat-button-large w-full md:w-1/3 mt-6 border border-indigo-600 bg-gray-300 text-white"
                 mat-flat-button
-                [color]="'secondary'"
                 [disabled]="businessAddressForm.disabled"
                 (click)="prevStep()"
             >
