@@ -1,3 +1,4 @@
+import { environment } from './../../../../../environments/environment.prod';
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
@@ -118,7 +119,7 @@ export class BusinessAddressComponent implements OnInit {
                 this.longitude = position.coords.longitude;
 
                 const loader = new Loader({
-                    apiKey: 'AIzaSyCNagAMyh4X7_h3y3D_i0iVAUu-duLc6RQ',
+                    apiKey: environment.GOOGLE_SECRET_KEY,
                     version: 'weekly',
                 });
 
