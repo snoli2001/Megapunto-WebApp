@@ -1,3 +1,5 @@
+import { BankGuidePdfPopUpComponent } from './guides/bank-guide-pdf-pop-up/bank-guide-pdf-pop-up.component';
+import { MatDialog } from '@angular/material/dialog';
 /* eslint-disable arrow-parens */
 import { BalanceService } from 'app/modules/admin/dashboards/balance/balance.service';
 import { OnDestroy } from '@angular/core';
@@ -34,7 +36,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _balanceService: BalanceService
+        private _balanceService: BalanceService,
+        private _matDialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -73,6 +76,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
         if (navigation) {
             navigation.toggle();
         }
+    }
+
+    openGuide(bankName: string): void {
+        const dialogRef = this._matDialog.open(BankGuidePdfPopUpComponent, {
+            data: bankName,
+        });
     }
 
     initBalanceForm(): void {

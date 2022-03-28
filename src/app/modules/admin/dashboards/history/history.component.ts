@@ -77,7 +77,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.historyService
             .getHistoryInfo(
                 this.formatDate(this.range.get('trxStartDate').value),
-                this.formatDate(this.range.get('trxStartDate').value),
+                this.formatDate(this.range.get('trxEndDate').value),
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((resp: TransactionInfo[]) => (this.transactions = resp));
