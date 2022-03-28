@@ -13,6 +13,20 @@ import { HistoryComponent } from 'app/modules/admin/dashboards/history/history.c
 import { historyRoutes } from 'app/modules/admin/dashboards/history/history.routing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MM YYYY',
+    },
+};
 
 @NgModule({
     declarations: [
@@ -31,7 +45,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
         NgApexchartsModule,
         MatFormFieldModule,
         MatDatepickerModule,
-    ]
+        MatMomentDateModule
+    ],
+    providers: [
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    ],
 })
 export class HistoryModule
 {
