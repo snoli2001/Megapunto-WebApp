@@ -11,6 +11,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { HistoryComponent } from 'app/modules/admin/dashboards/history/history.component';
 import { historyRoutes } from 'app/modules/admin/dashboards/history/history.routing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,7 @@ import { historyRoutes } from 'app/modules/admin/dashboards/history/history.rout
     ],
     imports     : [
         RouterModule.forChild(historyRoutes),
+        SharedModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
@@ -26,7 +29,8 @@ import { historyRoutes } from 'app/modules/admin/dashboards/history/history.rout
         MatSortModule,
         MatTableModule,
         NgApexchartsModule,
-        SharedModule
+        MatFormFieldModule,
+        MatDatepickerModule,
     ]
 })
 export class HistoryModule

@@ -1,22 +1,18 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
     OnInit,
-    ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
-import { ApexOptions } from 'ng-apexcharts';
-import { HistoryService } from 'app/modules/admin/dashboards/history/history.service';
 import {
     FuseNavigationService,
     FuseVerticalNavigationComponent,
 } from '@fuse/components/navigation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+import { TransactionInfo } from './history.interfaces';
+import { HistoryService } from './history.service';
 
 @Component({
     selector: 'history',
@@ -26,11 +22,13 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 })
 export class HistoryComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
+    transactions: TransactionInfo[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private historyService: HistoryService
     ) {}
 
     ngOnInit(): void {
@@ -40,6 +38,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+        this.getTransactions();
     }
 
     ngOnDestroy(): void {
@@ -63,5 +62,15 @@ export class HistoryComponent implements OnInit, OnDestroy {
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+
+    getTransactions(): void {
+        this.historyService
+            .getHistoryInfo(
+                '2021-03-14',
+                '2022-03-14'
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp: TransactionInfo[]) => (this.transactions = resp));
     }
 }
