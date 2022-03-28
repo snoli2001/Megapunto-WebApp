@@ -61,14 +61,14 @@
                         <button
                             mat-raised-button
                             color="primary"
-                            class="mt-2 w-full sm:w-60 sm:ml-4 md:w-full md:ml-0 lg:ml-4 lg:w-60"
+                            class="mt-2 w-full sm:w-60 sm:ml-4 md:w-full md:ml-0"
                             (click)="resetDates()"
                         >
                             Reiniciar Fechas
                         </button>
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
-                        <div>
+                        <div *ngIf="transactions.length > 0">
                             <div *ngFor="let transaction of transactions" class="my-4">
                                 <div *ngIf="transaction.vc_desc_grupo === 'Recargas'" class="mb-4">
                                     <div class="flex justify-between mb-1">
@@ -126,6 +126,11 @@
                                     <mat-divider></mat-divider>
                                 </div>
                             </div>
+                        </div>
+                        <div *ngIf="transactions.length < 1" class="flex justify-center">
+                            <span class="font-semibold text-lg">
+                                No se encontraron registros para la fecha indicada
+                            </span>
                         </div>
                     </div>
                 </div>
