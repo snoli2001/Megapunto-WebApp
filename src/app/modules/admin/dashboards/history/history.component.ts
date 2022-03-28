@@ -13,16 +13,25 @@ import {
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { TransactionInfo } from './history.interfaces';
 import { HistoryService } from './history.service';
+import { Moment } from 'moment';
+import { FormControl, FormGroup } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
     selector: 'history',
     templateUrl: './history.component.html',
+    styleUrls: ['./history.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryComponent implements OnInit, OnDestroy {
+    range = new FormGroup({
+        trxStartDate: new FormControl(),
+        trxEndDate: new FormControl(),
+    });
     isScreenSmall: boolean;
     transactions: TransactionInfo[] = [];
+    maxDate: Moment;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -38,7 +47,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
-        this.getTransactions();
+        this.resetDates();
     }
 
     ngOnDestroy(): void {
@@ -67,10 +76,37 @@ export class HistoryComponent implements OnInit, OnDestroy {
     getTransactions(): void {
         this.historyService
             .getHistoryInfo(
-                '2021-03-14',
-                '2022-03-14'
+                this.formatDate(this.range.get('trxStartDate').value),
+                this.formatDate(this.range.get('trxStartDate').value),
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((resp: TransactionInfo[]) => (this.transactions = resp));
+    }
+
+    myFilter = (d: Moment | null): boolean => {
+        const day = d || moment();
+        return day < moment();
+    };
+
+    selectFirstDate(value: Moment): void {
+        const maxDate = moment(value).add(7, 'days');
+        this.maxDate = maxDate;
+    }
+
+    selectEndDate(): void {
+        if (this.range.get('trxEndDate').value) {
+            this.getTransactions();
+        }
+    }
+
+    formatDate(date: Moment): string {
+        return moment(date).format('YYYY-MM-DD');
+    }
+
+    resetDates(): void {
+        this.range.get('trxStartDate').setValue(moment());
+        this.range.get('trxEndDate').setValue(moment());
+        this.maxDate = moment(new Date());
+        this.getTransactions();
     }
 }
