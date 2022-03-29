@@ -63,14 +63,22 @@ export class AuthSignInComponent implements OnInit {
             })
             .subscribe(
                 (response) => {
-                    console.log(response);
-                    const redirectURL = '/dashboards/home';
-                    // this._activatedRoute.snapshot.queryParamMap.get(
-                    //     '/dashboard/home'
-                    // ) || '/dashboard/home';
+                    if (response.nu_tran_stdo === '1') {
+                        const redirectURL = '/dashboards/home';
+                        this._router.navigateByUrl(redirectURL);
+                    }
 
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
+                    if (response.nu_tran_stdo === '0') {
+                        this.signInForm.enable();
+
+                        this.alert = {
+                            type: 'error',
+                            message:
+                                'Celular o contraseña erróneos. Intente de nuevo.',
+                        };
+                        // Show the alert
+                        this.showAlert = true;
+                    }
                 },
                 (response) => {
                     // Re-enable the form

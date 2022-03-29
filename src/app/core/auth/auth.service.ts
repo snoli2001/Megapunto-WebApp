@@ -60,10 +60,6 @@ export class AuthService {
         vc_contraseña: string;
         nu_id_negocio: string;
     }): any {
-        // Throw error, if the user is already logged in
-        // if (this._authenticated) {
-        //     return throwError('User is already logged in.');
-        // }
 
         return this._httpClient
             .post(
@@ -73,7 +69,7 @@ export class AuthService {
             .pipe(
                 switchMap((response: any) => {
                     // Store the access token in the local storage
-                    if (response.nu_id_comercio !== '') {
+                    if (response.nu_tran_stdo === '1') {
                         this.user = encode(response, 'secret');
                         this._authenticated = true;
                         return of(response);
