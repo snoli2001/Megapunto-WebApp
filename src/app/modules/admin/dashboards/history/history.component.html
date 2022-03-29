@@ -1,12 +1,18 @@
 <div class="flex flex-col flex-auto w-full" style="background-color: #7c66f7">
-    <div class="flex-col flex-auto bg-card relative p-5 md:p-10" style="
+    <div
+        class="flex-col flex-auto bg-card relative p-5 md:p-10"
+        style="
             border-top-left-radius: 3rem !important;
             border-bottom-left-radius: 3rem !important;
-        ">
+        "
+    >
         <div class="p-5 md:p-0">
             <!-- Navigation toggle button -->
-            <button class="absolute md:hidden top-8 left-8" mat-icon-button
-                (click)="toggleNavigation('mainNavigation')">
+            <button
+                class="absolute md:hidden top-8 left-8"
+                mat-icon-button
+                (click)="toggleNavigation('mainNavigation')"
+            >
                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
             </button>
             <div class="ml-10 -mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">
@@ -16,7 +22,9 @@
                 <!-- Current balance -->
                 <div class="min-h-40">
                     <div class="flex items-center justify-between">
-                        <span class="text-lg font-bold">Operaciones de mis clientes</span>
+                        <span class="text-lg font-bold mr-1"
+                            >Operaciones de mis clientes</span
+                        >
                         <div
                             class="flex items-center border-2 border-[#7c66f7] p-1 w-full sm:w-80 md:w-full lg:w-80"
                         >
@@ -30,18 +38,14 @@
                                     <input
                                         matStartDate
                                         (dateChange)="
-                                            selectFirstDate(
-                                                $event.value
-                                            )
+                                            selectFirstDate($event.value)
                                         "
                                         formControlName="trxStartDate"
                                         placeholder="Fecha Inicio"
                                     />
                                     <input
                                         matEndDate
-                                        (dateChange)="
-                                            selectEndDate()
-                                        "
+                                        (dateChange)="selectEndDate()"
                                         formControlName="trxEndDate"
                                         placeholder="Fecha Final"
                                     />
@@ -57,11 +61,11 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-4 flex justify-center">
                         <button
                             mat-raised-button
                             color="primary"
-                            class="mt-2 w-full sm:w-60 sm:ml-4 md:w-full md:ml-0"
+                            class="mt-2 w-full sm:w-60 sm:ml-4 md:w-60 md:ml-0"
                             (click)="resetDates()"
                         >
                             Reiniciar Fechas
@@ -69,16 +73,29 @@
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div *ngIf="transactions.length > 0">
-                            <div *ngFor="let transaction of transactions" class="my-4">
-                                <div *ngIf="transaction.vc_desc_grupo === 'Recargas'" class="mb-4">
+                            <div
+                                *ngFor="let transaction of transactions"
+                                class="my-4"
+                            >
+                                <div class="mb-4">
                                     <div class="flex justify-between mb-1">
-                                        <div class="text-[#7c66f7]">
-                                            <span class="font-semibold">
-                                                {{ transaction.vc_desc_grupo_producto }}
+                                        <div class=" flex flex-col">
+                                            <span
+                                                class="font-semibold text-[#7c66f7]"
+                                            >
+                                                N° Operación: {{ transaction.nu_id_trx_app }}
+                                            </span>
+                                            <span >
+                                                {{
+                                                    transaction.vc_desc_grupo_producto
+                                                }}
                                             </span>
                                         </div>
+
                                         <div class="text-sm">
-                                            <span>{{ transaction.dt_fecha }}</span> 
+                                            <span>{{
+                                                transaction.dt_fecha
+                                            }}</span>
                                         </div>
                                     </div>
                                     <!-- <div class="flex justify-between mb-1.5">
@@ -93,43 +110,32 @@
                                         <div>
                                             <span class="mr-1">Comisión:</span>
                                             <span class="font-semibold">
-                                                S/ {{ transaction.nu_valor_comision | number: "1.2-2" }}
+                                                S/
+                                                {{
+                                                    transaction.nu_valor_comision
+                                                        | number: ".2-2"
+                                                }}
                                             </span>
                                         </div>
                                         <span class="font-semibold text-xl">
-                                            S/ {{ transaction.nu_precio | number: "1.2-2" }}
-                                        </span>
-                                    </div>
-                                    <mat-divider></mat-divider>
-                                </div>
-                                <div *ngIf="transaction.vc_desc_grupo !== 'Recargas'" class="mb-4">
-                                    <div class="flex justify-between mb-1.5">
-                                        <div class="text-[#7c66f7]">
-                                            <span class="font-semibold">
-                                                {{ transaction.vc_desc_producto }}
-                                            </span>
-                                        </div>
-                                        <span class="text-sm">{{ transaction.dt_fecha }}</span>
-                                    </div>
-                                    <div class="block mb-1.5">
-                                        <span class="mr-1">Empresa:</span>
-                                        <span class="font-semibold">
-                                            {{ transaction.vc_desc_grupo_producto }}
-                                        </span>
-                                    </div>
-                                    <div class="block mb-4">
-                                        <span class="mr-1">Monto:</span>
-                                        <span class="font-semibold">
-                                            S/ {{ transaction.nu_precio }}
+                                            S/
+                                            {{
+                                                transaction.nu_precio
+                                                    | number: ".2-2"
+                                            }}
                                         </span>
                                     </div>
                                     <mat-divider></mat-divider>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="transactions.length < 1" class="flex justify-center">
+                        <div
+                            *ngIf="transactions.length < 1"
+                            class="flex justify-center"
+                        >
                             <span class="font-semibold text-lg">
-                                No se encontraron registros para la fecha indicada
+                                No se encontraron registros para la fecha
+                                indicada
                             </span>
                         </div>
                     </div>
@@ -137,3 +143,4 @@
             </div>
         </div>
     </div>
+</div>

@@ -18,7 +18,8 @@
             <div class="md:w-3/4 w-full mx-auto md:items-center justify-center">
                 <form [formGroup]="signUpForm" class="w-full">
                     <app-personal-information *ngIf="signUpForm.get('step').value === 1"></app-personal-information>
-                    <app-business-address *ngIf="signUpForm.get('step').value === 2"></app-business-address>
+                    <app-business-data *ngIf="signUpForm.get('step').value === 2"></app-business-data>
+                    <app-business-address *ngIf="signUpForm.get('step').value === 3"></app-business-address>
                 </form>
             </div>
         </div>

@@ -1,0 +1,184 @@
+<!-- Title -->
+<div class="mt-8 text-2xl font-extrabold tracking-tight leading-tight">
+    Datos para el negocio
+</div>
+
+<!-- Alert -->
+<fuse-alert
+    class="mt-8 -mb-4"
+    *ngIf="showAlert"
+    [appearance]="'outline'"
+    [showIcon]="false"
+    [type]="alert.type"
+    [@shake]="alert.type === 'error'"
+>
+    {{ alert.message }}
+</fuse-alert>
+
+<!-- Sign in form -->
+<form class="mt-8 w-full" [formGroup]="businessDataForm">
+    <div formGroupName="businessData">
+        <div class="grid grid-cols-1 md:grid-cols-3">
+            <!-- Document type field -->
+            <mat-form-field class="md:mr-1 w-full">
+                <mat-select id="documentType" [disabled]="true" value="ruc">
+                    <mat-option [value]="'ruc'"> RUC </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Document number field -->
+            <div class="md:ml-2 flex w-full col-span-2">
+                <mat-form-field class="w-3/4">
+                    <input
+                        id="ruc"
+                        matInput
+                        placeholder="Nro de documento"
+                        [formControlName]="'ruc'"
+                    />
+                    <mat-error
+                        *ngIf="
+                            businessDataForm
+                                .get('businessData')
+                                .get('ruc')
+                                .hasError('required')
+                        "
+                    >
+                        Ingrese el número de documento
+                    </mat-error>
+                </mat-form-field>
+                <button
+                    mat-icon-button
+                    color="primary"
+                    class="ml-2"
+                    type="button"
+                    (click)="getNameByRUC()"
+                >
+                    <mat-icon svgIcon="heroicons_outline:search"></mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- Name field -->
+        <mat-form-field class="w-full">
+            <input
+                id="name"
+                matInput
+                placeholder="Razón Social"
+                [formControlName]="'businessName'"
+            />
+            <mat-error
+                *ngIf="
+                    businessDataForm
+                        .get('businessData')
+                        .get('businessName')
+                        .hasError('required')
+                "
+            >
+                Ingrese la razón social de su negocio
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Email field -->
+        <mat-form-field class="w-full">
+            <input
+                id="tradename"
+                matInput
+                placeholder="Nombre comercial"
+                [formControlName]="'tradename'"
+            />
+            <mat-error
+                *ngIf="
+                    businessDataForm
+                        .get('businessData')
+                        .get('tradename')
+                        .hasError('required')
+                "
+            >
+                Ingrese el nombre comercial de su negocio
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Telephone field -->
+        <mat-form-field class="w-full">
+            <input
+                id="telephone"
+                matInput
+                placeholder="Teléfono"
+                [formControlName]="'telephone'"
+            />
+        </mat-form-field>
+
+        <!-- Business line field -->
+        <mat-form-field class="w-full">
+            <mat-select
+                id="businessLine"
+                placeholder="Giro de tu negocio"
+                [formControlName]="'businessLine'"
+            >
+                <mat-option
+                    *ngFor="let lineOfBusiness of lineOfBusinesses$ | async"
+                    [value]="lineOfBusiness.nu_id_grupo_giro_negocio"
+                    >{{ lineOfBusiness.vc_desc_grupo_giro_negocio }}</mat-option
+                >
+            </mat-select>
+            <mat-error
+                *ngIf="
+                    businessDataForm
+                        .get('businessData')
+                        .get('businessLine')
+                        .hasError('required')
+                "
+            >
+                Seleccione el giro de su negocio
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Bill type field -->
+        <mat-form-field class="w-full">
+            <mat-select
+                id="billType"
+                placeholder="Tipo de comprobante"
+                [formControlName]="'billType'"
+            >
+                <mat-option value="FA">Factura</mat-option>
+                <mat-option value="BV">Boleta de venta</mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="
+                    businessDataForm
+                        .get('businessData')
+                        .get('billType')
+                        .hasError('required')
+                "
+            >
+                Ingrese el tipo de comprobante
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Submit button -->
+        <div class="flex justify-between">
+            <button
+                class="fuse-mat-button-large w-full md:w-1/3 mt-6 border border-indigo-600 bg-gray-300 text-white"
+                mat-flat-button
+                (click)="prevStep()"
+            >
+                <span> Anterior </span>
+
+            </button>
+            <button
+                class="fuse-mat-button-large w-full md:w-1/3 mt-6"
+                mat-flat-button
+                type="submit"
+                [color]="'primary'"
+                [disabled]="businessDataForm.disabled"
+                (click)="nextStep()"
+            >
+                <span *ngIf="!businessDataForm.disabled"> Siguiente </span>
+                <mat-progress-spinner
+                    *ngIf="businessDataForm.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+            </button>
+        </div>
+    </div>
+</form>

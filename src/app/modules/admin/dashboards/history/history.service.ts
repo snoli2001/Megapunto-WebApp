@@ -21,13 +21,13 @@ export class HistoryService {
         dt_fec_final: string
     ): Observable<TransactionInfo[]> {
         const user: any = jwt_decode(this._authService.user);
-        const nu_id_negocio: string = user.nu_id_negocio;
+        const nu_id_comercio: string = user.nu_id_comercio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
 
         return this._httpClient.post<TransactionInfo[]>(
             `${environment.API_URL}/Transacciones_App/sel_comercio`,
             {
-                nu_id_negocio,
+                nu_id_comercio,
                 nu_id_comercio_app,
                 dt_fec_inicio,
                 dt_fec_final,

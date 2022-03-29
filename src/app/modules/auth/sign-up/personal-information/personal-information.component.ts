@@ -50,7 +50,6 @@ export class PersonalInformationComponent implements OnInit {
     ngOnInit(): void {
         this.personalInformationForm = this.rootFormGroup.control;
         this.getDocumentIdSelection();
-        this.getLineOfBusinessSelection();
     }
 
     nextStep(): void {
@@ -80,8 +79,5 @@ export class PersonalInformationComponent implements OnInit {
             this._personalInformationService.getDocumentIdSelection();
     }
 
-    getLineOfBusinessSelection(): void {
-        this.lineOfBusinesses$ =
-            this._personalInformationService.getLineOfBusinessSelection();
-    }
+
 }

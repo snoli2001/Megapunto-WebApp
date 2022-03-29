@@ -44,4 +44,16 @@ export class PersonalInformationService {
             })
             .pipe(map((resp) => resp.nombre_completo));
     }
+
+    getBusinessNameByRUC(ruc: string): Observable<string> {
+        return this._httpClient
+            .post<any>(`${environment.API_URL}/Sunat/get_RUC_info`, {
+                ruc,
+            })
+            .pipe(map((resp) => resp.razon_social));
+    }
+
+    postPreRegistration(): Observable<any> {
+        return;
+    }
 }

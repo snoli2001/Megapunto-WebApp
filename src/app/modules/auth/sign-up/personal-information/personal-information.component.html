@@ -126,6 +126,53 @@
             </mat-error>
         </mat-form-field>
 
+        <!-- Birth date field -->
+        <mat-form-field class="w-full">
+            <input
+                id="birthDate"
+                matInput
+                placeholder="Fecha de nacimiento"
+                [formControlName]="'birthDate'"
+                [matDatepicker]="picker"
+                [max]="today"
+            />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error
+                *ngIf="
+                    personalInformationForm
+                        .get('personalInformation')
+                        .get('birthDate')
+                        .hasError('required')
+                "
+            >
+                Seleccione su fecha de nacimiento
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Cellphone field -->
+        <mat-form-field class="w-full">
+            <input
+                id="cellphone"
+                matInput
+                placeholder="Número de celular"
+                [formControlName]="'cellphone'"
+            />
+            <mat-error
+                *ngIf="
+                    personalInformationForm
+                        .get('personalInformation')
+                        .get('cellphone')
+                        .hasError('required')
+                "
+            >
+                Ingrese número de celular
+            </mat-error>
+        </mat-form-field>
+
         <!-- Password field -->
         <mat-form-field class="w-full">
             <input
@@ -158,110 +205,6 @@
                 ></mat-icon>
             </button>
             <mat-error> Ingrese su contraseña </mat-error>
-        </mat-form-field>
-
-        <!-- Cellphone field -->
-        <mat-form-field class="w-full">
-            <input
-                id="cellphone"
-                matInput
-                placeholder="Número de celular"
-                [formControlName]="'cellphone'"
-            />
-            <mat-error
-                *ngIf="
-                    personalInformationForm
-                        .get('personalInformation')
-                        .get('cellphone')
-                        .hasError('required')
-                "
-            >
-                Ingrese número de celular
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Telephone field -->
-        <mat-form-field class="w-full">
-            <input
-                id="telephone"
-                matInput
-                placeholder="Teléfono fijo"
-                [formControlName]="'telephone'"
-            />
-        </mat-form-field>
-
-        <!-- Birth date field -->
-        <mat-form-field class="w-full">
-            <input
-                id="birthDate"
-                matInput
-                placeholder="Fecha de nacimiento"
-                [formControlName]="'birthDate'"
-                [matDatepicker]="picker"
-                [max]="today"
-            />
-            <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <mat-error
-                *ngIf="
-                    personalInformationForm
-                        .get('personalInformation')
-                        .get('birthDate')
-                        .hasError('required')
-                "
-            >
-                Seleccione su fecha de nacimiento
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Business line field -->
-        <mat-form-field class="w-full">
-            <mat-select
-                id="businessLine"
-                placeholder="Giro de tu negocio"
-                [formControlName]="'businessLine'"
-            >
-                <mat-option
-                    *ngFor="let lineOfBusiness of lineOfBusinesses$ | async"
-                    [value]="lineOfBusiness.nu_id_grupo_giro_negocio"
-                    >{{ lineOfBusiness.vc_desc_grupo_giro_negocio }}</mat-option
-                >
-            </mat-select>
-            <mat-error
-                *ngIf="
-                    personalInformationForm
-                        .get('personalInformation')
-                        .get('businessLine')
-                        .hasError('required')
-                "
-            >
-                Seleccione el giro de su negocio
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Bill type field -->
-        <mat-form-field class="w-full">
-            <mat-select
-                id="billType"
-                placeholder="Tipo de comprobante"
-                [formControlName]="'billType'"
-            >
-                <mat-option value="FA">Factura</mat-option>
-                <mat-option value="BV">Boleta de venta</mat-option>
-            </mat-select>
-            <mat-error
-                *ngIf="
-                    personalInformationForm
-                        .get('personalInformation')
-                        .get('billType')
-                        .hasError('required')
-                "
-            >
-                Ingrese el tipo de comprobante
-            </mat-error>
         </mat-form-field>
 
         <!-- Submit button -->

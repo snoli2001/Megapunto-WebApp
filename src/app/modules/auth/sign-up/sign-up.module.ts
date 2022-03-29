@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { BusinessDataComponent } from './business-data/business-data.component';
 
 export const MY_FORMATS = {
     parse: {
@@ -34,7 +35,8 @@ export const MY_FORMATS = {
     declarations: [
         AuthSignUpComponent,
         PersonalInformationComponent,
-        BusinessAddressComponent
+        BusinessAddressComponent,
+        BusinessDataComponent
     ],
     imports     : [
         RouterModule.forChild(authSignupRoutes),
