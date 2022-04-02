@@ -14,6 +14,9 @@ import {
     FuseVerticalNavigationComponent,
 } from '@fuse/components/navigation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
+import { DepositInfo } from '../profile/profile.interfaces';
+import { ProfileService } from '../profile/profile.service';
+import moment from 'moment';
 
 @Component({
     selector: 'home',
@@ -23,20 +26,26 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 })
 export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
+    operationActive: string = 'charges';
+    deposits: any[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private profileService: ProfileService,
     ) {}
 
     ngOnInit(): void {
+        //this.getDeposits();
+
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({ matchingAliases }) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
     }
 
     ngOnDestroy(): void {
@@ -60,5 +69,22 @@ export class HomeComponent implements OnInit, OnDestroy {
             // Toggle the opened status
             navigation.toggle();
         }
+    }
+
+    toggleOperation(operation: string): void {
+        this.operationActive = operation;
+    }
+
+    getDeposits(): void {
+        this.profileService
+            .getDepositsInfo(
+                moment().subtract(7, 'd').format('YYYY-MM-DD'),
+                moment().format('YYYY-MM-DD')
+            )
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((resp: any[]) => {
+                this.deposits = [...resp.slice(0, 3)];
+                console.log('this.deposits: ', this.deposits);
+            });
     }
 }
