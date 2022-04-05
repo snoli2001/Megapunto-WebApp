@@ -53,8 +53,8 @@ export class BusinessDataComponent implements OnInit {
         this.businessDataForm.get('step').setValue(1);
     }
     nextStep(): void {
-        if (this.businessDataForm.controls['personalInformation'].valid) {
-            this.businessDataForm.get('step').setValue(2);
+        if (this.businessDataForm.controls['businessData'].valid) {
+            this.businessDataForm.get('step').setValue(3);
         }
     }
 

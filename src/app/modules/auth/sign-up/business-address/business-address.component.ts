@@ -1,3 +1,6 @@
+/* eslint-disable arrow-parens */
+import { SignUpModel } from './../personal-information/signUpModel.interface';
+import { PersonalInformationService } from './../personal-information/personal-information.service';
 import { environment } from './../../../../../environments/environment.prod';
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -23,7 +26,7 @@ export class BusinessAddressComponent implements OnInit {
         type: 'success',
         message: '',
     };
-    businessAddressForm: FormGroup;
+    signUpForm: FormGroup;
     showAlert: boolean = false;
     regions$: Observable<Region[]>;
     cities$: Observable<City[]>;
@@ -36,47 +39,48 @@ export class BusinessAddressComponent implements OnInit {
 
     constructor(
         private rootFormGroup: FormGroupDirective,
-        private _businessAddressService: BusinessAddressService
+        private _businessAddressService: BusinessAddressService,
+        private _personalInformationService: PersonalInformationService
     ) {}
 
     get region(): FormControl {
-        return this.businessAddressForm.controls['businessAddress'].get(
+        return this.signUpForm.controls['businessAddress'].get(
             'region'
         ) as FormControl;
     }
 
     get city(): FormControl {
-        return this.businessAddressForm.controls['businessAddress'].get(
+        return this.signUpForm.controls['businessAddress'].get(
             'city'
         ) as FormControl;
     }
 
     get district(): FormControl {
-        return this.businessAddressForm.controls['businessAddress'].get(
+        return this.signUpForm.controls['businessAddress'].get(
             'district'
         ) as FormControl;
     }
 
     get address(): FormControl {
-        return this.businessAddressForm.controls['businessAddress'].get(
+        return this.signUpForm.controls['businessAddress'].get(
             'address'
         ) as FormControl;
     }
 
     ngOnInit(): void {
         this.getLocation();
-        this.businessAddressForm = this.rootFormGroup.control;
+        this.signUpForm = this.rootFormGroup.control;
         this.getRegions();
         this.getCityByRegion();
         this.getDistrictByCity();
     }
 
     prevStep(): void {
-        this.businessAddressForm.get('step').setValue(1);
+        this.signUpForm.get('step').setValue(1);
     }
 
     nextStep(): void {
-        if (this.businessAddressForm.controls['businessAddress'].valid) {
+        if (this.signUpForm.controls['businessAddress'].valid) {
             console.log('afilarme');
         }
     }
@@ -162,7 +166,10 @@ export class BusinessAddressComponent implements OnInit {
             .then((result) => {
                 const { results } = result;
                 const address: string = `${results[0].address_components[1].long_name} ${results[0].address_components[0].long_name}, ${results[0].address_components[3].long_name}`;
-                console.log(result);
+                console.log(results[0].geometry.location.lat());
+                console.log(results[0].geometry.location.lng());
+                this.latitude = results[0].geometry.location.lat();
+                this.longitude = results[0].geometry.location.lng();
                 this.map.setCenter(results[0].geometry.location);
                 this.marker.setPosition(results[0].geometry.location);
                 this.marker.setMap(this.map);
@@ -178,5 +185,82 @@ export class BusinessAddressComponent implements OnInit {
 
     clear(): void {
         this.marker.setMap(null);
+    }
+
+    signUp(): void {
+        // personalInformation: this._formBuilder.group({
+        //     name: ['', Validators.required],
+        //     email: ['', [Validators.required, Validators.email]],
+        //     password: ['', Validators.required],
+        //     cellphone: ['', Validators.required],
+        //     documentType: ['', Validators.required],
+        //     documentNumber: ['', Validators.required],
+        //     birthDate: ['', Validators.required],
+        // }),
+        // businessData: this._formBuilder.group({
+        //     ruc: ['', Validators.required],
+        //     businessName: ['', Validators.required],
+        //     tradename: ['', Validators.required],
+        //     telephone: ['', Validators.required],
+        //     businessLine: ['', Validators.required],
+        //     billType: ['', Validators.required],
+        // }),
+        // businessAddress: this._formBuilder.group({
+        //     address: ['', Validators.required],
+        //     village: ['', Validators.required],
+        //     region: ['', Validators.required],
+        //     city: ['', Validators.required],
+        //     district: ['', Validators.required],
+        //     agreements: ['', Validators.required]
+        const personalInformation = this.signUpForm.controls[
+            'personalInformation'
+        ] as FormControl;
+        const businessData = this.signUpForm.controls[
+            'businessData'
+        ] as FormControl;
+        const businessAddress = this.signUpForm.controls[
+            'businessAddress'
+        ] as FormControl;
+
+        if (this.signUpForm.valid && this.latitude && this.longitude) {
+            const newUser: SignUpModel = {
+                // Personal Information
+                nu_id_tipo_doc_identidad:
+                    personalInformation.get('documentType').value,
+                vc_nro_doc_identidad:
+                    personalInformation.get('documentNumber').value,
+                vc_nombre_contacto: personalInformation.get('name').value,
+                vc_email: personalInformation.get('email').value,
+                vc_celular: personalInformation.get('cellphone').value,
+                nu_dia: new Date(personalInformation.get('birthDate').value).getDay().toString(),
+                nu_mes: new Date(personalInformation.get('birthDate').value).getMonth().toString(),
+                nu_anio: new Date(personalInformation.get('birthDate').value).getFullYear().toString(),
+                vc_cadena_imagen_dni_anverso: personalInformation.get('vc_cadena_imagen_dni_anverso').value,
+                vc_cadena_imagen_dni_reverso: personalInformation.get('vc_cadena_imagen_dni_reverso').value,
+
+                // Business Data
+                vc_ruc_comercio: businessData.get('ruc').value,
+                vc_nombre_comercio: businessData.get('tradename').value,
+                vc_razon_social_comercio:
+                    businessData.get('businessName').value,
+                vc_telefono: businessData.get('telephone').value,
+                nu_id_grupo_giro_negocio:
+                    businessData.get('businessLine').value,
+                ch_tipo_documento: businessData.get('billType').value,
+
+                // Business Address
+                nu_longitud: this.longitude.toString(),
+                nu_latitud: this.latitude.toString(),
+                vc_direccion: businessAddress.get('address').value,
+                vc_centro_poblado: businessAddress.get('village').value,
+                nu_id_departamento: businessAddress.get('region').value,
+                nu_id_provincia: businessAddress.get('city').value,
+                nu_id_distrito: businessAddress.get('district').value,
+
+            };
+            this._personalInformationService
+                .signUp(newUser)
+                .subscribe((resp) => console.log(resp));
+        }
     }
 }

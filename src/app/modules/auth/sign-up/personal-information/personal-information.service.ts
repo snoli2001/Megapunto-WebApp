@@ -6,6 +6,7 @@ import { environment } from '../../../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { SignUpModel } from './signUpModel.interface';
 
 export interface DocumentId {
     nu_id_tipo_doc_identidad: string;
@@ -53,7 +54,10 @@ export class PersonalInformationService {
             .pipe(map((resp) => resp.razon_social));
     }
 
-    postPreRegistration(): Observable<any> {
-        return;
+    signUp(newUser: SignUpModel): Observable<any> {
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Comercio_Bancario/ins_pre_afiliacion`,
+            newUser
+        );
     }
 }

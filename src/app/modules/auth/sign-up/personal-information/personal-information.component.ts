@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable arrow-parens */
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormControl } from '@angular/forms';
 import { FuseAlertType } from '@fuse/components/alert';
 import {
@@ -15,10 +16,15 @@ import {
     styleUrls: ['./personal-information.component.scss'],
 })
 export class PersonalInformationComponent implements OnInit {
+    @Input() idInputFrontFileName: string = 'documentFile';
+    @Input() idInputBackFileName: string = 'documentFile2';
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
+    documentFrontName = 'No file chosen';
+    documentBackName = 'No file chosen';
+
     personalInformationForm: FormGroup;
     showAlert: boolean = false;
     today: Date = new Date();
@@ -45,6 +51,45 @@ export class PersonalInformationComponent implements OnInit {
         return this.personalInformationForm.controls['personalInformation'].get(
             'name'
         ) as FormControl;
+    }
+
+    get vc_cadena_imagen_dni_anverso(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'vc_cadena_imagen_dni_anverso'
+        ) as FormControl;
+    }
+
+    get vc_cadena_imagen_dni_reverso(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'vc_cadena_imagen_dni_reverso'
+        ) as FormControl;
+    }
+
+    onFrontDocumentFileSelected(event): void {
+        if (event.target.files.length > 0) {
+            this.documentFrontName = event.target.files[0].name;
+            this.convertFile(event.target.files[0]).subscribe((base64) => {
+                this.vc_cadena_imagen_dni_anverso.setValue(base64);
+            });
+        }
+    }
+
+    onBackDocumentFileSelected(event): void {
+        if (event.target.files.length > 0) {
+            this.documentBackName = event.target.files[0].name;
+            this.convertFile(event.target.files[0]).subscribe((base64) => {
+                this.vc_cadena_imagen_dni_reverso.setValue(base64);
+            });
+        }
+    }
+
+    convertFile(file: File): Observable<string> {
+        const result = new ReplaySubject<string>(1);
+        const reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = (event): void =>
+            result.next(btoa(event.target.result.toString()));
+        return result;
     }
 
     ngOnInit(): void {
@@ -78,6 +123,4 @@ export class PersonalInformationComponent implements OnInit {
         this.documentIdTypes$ =
             this._personalInformationService.getDocumentIdSelection();
     }
-
-
 }
