@@ -16,6 +16,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { HomeComponent } from 'app/modules/admin/dashboards/home/home.component';
 import { homeRoutes } from 'app/modules/admin/dashboards/home/home.routing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -34,6 +38,10 @@ import { homeRoutes } from 'app/modules/admin/dashboards/home/home.routing';
         MatSortModule,
         MatTableModule,
         MatTabsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
         NgApexchartsModule,
         TranslocoModule,
         SharedModule

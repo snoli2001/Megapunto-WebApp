@@ -35,7 +35,6 @@ export class ProfileService {
         dt_fec_final: string
     ): Observable<DepositInfo[]> {
         const user: any = jwt_decode(this._authService.user);
-        console.log(user);
         const nu_id_negocio: string = user.nu_id_negocio;
         const ch_destino: string = 'MX';
 

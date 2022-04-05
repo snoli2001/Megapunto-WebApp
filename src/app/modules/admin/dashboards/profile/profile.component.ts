@@ -74,8 +74,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .subscribe((resp) => (this.profileInfo = resp));
         this.profileService
             .getDepositsInfo(
-                this.formatDate(moment(new Date())),
-                this.formatDate(moment(new Date()))
+                this.formatDate(moment()),
+                this.formatDate(moment())
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((resp: DepositInfo[]) => (this.deposits = resp));

@@ -1,12 +1,13 @@
 <div class="flex flex-col flex-auto w-full" style="background-color: #7c66f7">
     <div
-        class="flex-col flex-auto bg-card relative"
+        class="flex-col flex-auto bg-card relative p-3 sm:p-5 md:p-10"
         style="
             border-top-left-radius: 3rem !important;
             border-bottom-left-radius: 3rem !important;
         "
     >
-        <!-- Navigation toggle button -->
+        <div class="p-5 md:p-0">
+            <!-- Navigation toggle button -->
             <button
                 class="absolute md:hidden top-8 left-8"
                 mat-icon-button
@@ -14,5 +15,199 @@
             >
                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
             </button>
+            <div class="ml-10 sm:-mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">Inicio</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                <!-- Greetings -->
+                <div class="min-h-40 order-1">
+                    <div class="border-2 rounded-lg p-2.5 sm:p-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <div class="mb-8">
+                                    <span class="block text-2xl font-semibold">
+                                        Buenos días, Luis
+                                    </span>
+                                    <span class="text-base">
+                                        Comercio Los Claveles
+                                    </span>
+                                </div>
+                                <div class="mb-4">
+                                    <span class="block font-semibold uppercase">Saldo actual</span>
+                                    <span class="text-2xl font-semibold">S/ 145.00</span>
+                                </div>
+                                <div class="flex items-center text-[#7c66f7]">
+                                    <span class="font-semibold">Aumentar saldo</span>
+                                    <mat-icon class="text-[#7c66f7]" svgIcon="heroicons_outline:chevron-right"></mat-icon>
+                                </div>
+                            </div>
+                            <div class="hidden sm:flex">
+                                Imagen
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Notifications, general info and history -->
+                <div class="min-h-40 row-span-3 order-last md:order-2">
+                    <!-- Notification -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold">Notificación</span>
+                        <span class="text-[#7c66f7] font-bold cursor-pointer">
+                            Ver todas
+                        </span>
+                    </div>
+                    <div class="flex flex-row bg-[#7c66f7] my-4 px-4 py-5 rounded-xl">
+                        <div class="mr-2">
+                            <mat-icon class="text-white" svgIcon="heroicons_solid:exclamation-circle"></mat-icon>
+                        </div>
+                        <div class="text-white">
+                            <span class="block font-semibold text-lg mb-1.5">
+                                Gana 30% de las comisiones
+                            </span>
+                            <span class="block mb-1">
+                                Realizando 30% de las transacciones semanales
+                            </span>
+                            <span class="block">
+                                Válido hasta el 30 de marzo de 2021
+                            </span>
+                        </div>
+                    </div>
+                    <!-- General information -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold">Información general</span>                        
+                    </div>
+                    <div class="border-2 rounded-xl my-4 px-4 py-5">
+                        <div class="grid grid-cols-4 gap-2">
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <div class="text-center px-2 py-1 border-2">
+                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                                    <span class="block text-sm font-semibold">Icono</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <div class="text-center px-2 py-1 border-2">
+                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                                    <span class="block text-sm font-semibold">Icono</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <div class="text-center px-2 py-1 border-2">
+                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                                    <span class="block text-sm font-semibold">Icono</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center cursor-pointer">
+                                <div class="text-center px-2 py-1 border-2">
+                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
+                                    <span class="block text-sm font-semibold">Icono</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- History -->
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold">Historial</span>
+                    </div>
+                    <div class="border-2 rounded-xl px-3 py-4">
+                        <div *ngIf="deposits.length > 0; else noDeposits">
+                            <div *ngFor="deposit of deposits" class="my-4">
+                                <div class="flex justify-between mb-1.5">
+                                    <div class="text-[#7c66f7]">
+                                        <span class="font-semibold">
+                                            Operación:
+                                        </span>
+                                        <span class="ml-1">
+                                            {{ deposit.vc_nro_operacion }}
+                                        </span>
+                                    </div>
+                                    <span class="text-sm">
+                                        {{ deposit.dt_fec_operacion | date: 'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="block mb-4">
+                                    <span class="mr-1">Monto:</span>
+                                    <span class="font-semibold">
+                                        S/ {{ deposit.nu_importe | number: "1.2-2" }}
+                                    </span>
+                                </div>
+                                <mat-divider></mat-divider>
+                            </div>
+                        </div>
+                        <ng-template #noDeposits>
+                            <div class="font-semibold text-lg">
+                                No hay operaciones recientes
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <!-- Operations -->
+                <div class="min-h-40 order-3 row-span-2">
+                    <div class="flex items-center mb-4">
+                        <span class="text-lg font-bold">Operaciones</span>
+                    </div>
+                    <div class="border-2 rounded-lg p-2.5 sm:p-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="mx-auto">
+                                <button
+                                    (click)="toggleOperation('charges')"
+                                    [ngClass]="{
+                                        'bg-[#41ac9a] text-white' : operationActive === 'charges',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white' : operationActive !== 'charges'
+                                    }"
+                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2 mb-4">
+                                    <span class="text-lg font-semibold">Hacer recargas</span>
+                                </button>
+                                <button
+                                    (click)="toggleOperation('services')"
+                                    [ngClass]="{
+                                        'bg-[#41ac9a] text-white' : operationActive === 'services',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white' : operationActive !== 'services'
+                                    }"
+                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2">
+                                    <span class="text-lg font-semibold">Pagar servicios</span>
+                                </button>
+                            </div>
+                            <div *ngIf="operationActive === 'charges'">
+                                <span class="font-semibold">Número de celular y operador</span>
+                                <mat-form-field class="my-2 w-full" appereance="fill">
+                                    <input matInput placeholder="Número de celular"> 
+                                </mat-form-field>
+                                <mat-radio-group>
+                                    <mat-radio-button class="block mb-2" [value]="'m'">Movistar</mat-radio-button>
+                                    <mat-radio-button class="block mb-2" [value]="'b'">Bitel</mat-radio-button>
+                                    <mat-radio-button class="block mb-2" [value]="'c'">Claro</mat-radio-button>
+                                    <mat-radio-button class="block mb-2" [value]="'e'">Entel</mat-radio-button>
+                                </mat-radio-group>
+                                <div class="flex justify-end mt-4 sm:mt-8">
+                                    <button
+                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]">
+                                        Siguiente
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="operationActive === 'services'">
+                                <div class="mb-2 font-semibold">
+                                    <span>Servicio a pagar</span>
+                                </div>
+                                <mat-form-field class=" w-full" appereance="fill">
+                                    <mat-select placeholder="Servicio">
+                                        <mat-option [value]="1">Servicio 1</mat-option>
+                                        <mat-option [value]="2">Servicio 2</mat-option>
+                                        <mat-option [value]="3">Servicio 3</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="my-2 w-full" appereance="fill">
+                                    <input matInput placeholder="Código"> 
+                                </mat-form-field>
+                                <div class="flex justify-end mt-4 sm:mt-8">
+                                    <button
+                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]">
+                                        Siguiente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
