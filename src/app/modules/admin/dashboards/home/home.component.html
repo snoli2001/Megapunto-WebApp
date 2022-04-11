@@ -25,10 +25,10 @@
                             <div>
                                 <div class="mb-8">
                                     <span class="block text-2xl font-semibold">
-                                        Buenos días, Luis
+                                        Buenos días, {{(commerceInfo$ | async).vc_nombre_contacto | titlecase}}
                                     </span>
                                     <span class="text-base">
-                                        Comercio Los Claveles
+                                        Comercio {{(commerceInfo$ | async).vc_nombre_comercio | titlecase}}
                                     </span>
                                 </div>
                                 <div class="mb-4">
@@ -73,7 +73,7 @@
                     </div>
                     <!-- General information -->
                     <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">Información general</span>                        
+                        <span class="text-lg font-bold">Información general</span>
                     </div>
                     <div class="border-2 rounded-xl my-4 px-4 py-5">
                         <div class="grid grid-cols-4 gap-2">
@@ -168,7 +168,7 @@
                             <div *ngIf="operationActive === 'charges'">
                                 <span class="font-semibold">Número de celular y operador</span>
                                 <mat-form-field class="my-2 w-full" appereance="fill">
-                                    <input matInput placeholder="Número de celular"> 
+                                    <input matInput placeholder="Número de celular">
                                 </mat-form-field>
                                 <mat-radio-group>
                                     <mat-radio-button class="block mb-2" [value]="'m'">Movistar</mat-radio-button>
@@ -195,7 +195,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="my-2 w-full" appereance="fill">
-                                    <input matInput placeholder="Código"> 
+                                    <input matInput placeholder="Código">
                                 </mat-form-field>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button

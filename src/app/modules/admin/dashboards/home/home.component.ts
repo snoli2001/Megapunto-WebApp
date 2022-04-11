@@ -1,3 +1,4 @@
+import { ProfileInfo } from './../profile/profile.interfaces';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -6,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 import {
@@ -28,8 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     operationActive: string = 'charges';
     deposits: any[] = [];
+    commerceInfo$: Observable<ProfileInfo>;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
     constructor(
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+        this.getName();
 
     }
 
@@ -73,6 +75,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     toggleOperation(operation: string): void {
         this.operationActive = operation;
+    }
+
+    getName(): void {
+        this.commerceInfo$ = this.profileService.getProfileInfo();
     }
 
     getDeposits(): void {
