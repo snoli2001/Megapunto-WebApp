@@ -25,15 +25,15 @@
                             <div>
                                 <div class="mb-8">
                                     <span class="block text-2xl font-semibold">
-                                        Buenos días, {{(commerceInfo$ | async).vc_nombre_contacto | titlecase}}
+                                        Buenos días, {{(commerceInfo$ | async)?.vc_nombre_contacto | titlecase}}
                                     </span>
                                     <span class="text-base">
-                                        Comercio {{(commerceInfo$ | async).vc_nombre_comercio | titlecase}}
+                                        Comercio {{(commerceInfo$ | async)?.vc_nombre_comercio | titlecase}}
                                     </span>
                                 </div>
                                 <div class="mb-4">
                                     <span class="block font-semibold uppercase">Saldo actual</span>
-                                    <span class="text-2xl font-semibold">S/ 145.00</span>
+                                    <span class="text-2xl font-semibold">S/{{balance$ | async}}</span>
                                 </div>
                                 <div class="flex items-center text-[#7c66f7]">
                                     <span class="font-semibold">Aumentar saldo</span>

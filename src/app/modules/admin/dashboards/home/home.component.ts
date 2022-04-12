@@ -1,3 +1,4 @@
+import { BalanceService } from 'app/modules/admin/dashboards/balance/balance.service';
 import { ProfileInfo } from './../profile/profile.interfaces';
 import {
     ChangeDetectionStrategy,
@@ -30,10 +31,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     operationActive: string = 'charges';
     deposits: any[] = [];
     commerceInfo$: Observable<ProfileInfo>;
+    balance$: Observable<string>;
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _balanceService: BalanceService,
         private profileService: ProfileService,
     ) {}
 
@@ -47,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
         this.getName();
-
+        this.getBalance();
     }
 
     ngOnDestroy(): void {
@@ -79,6 +83,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     getName(): void {
         this.commerceInfo$ = this.profileService.getProfileInfo();
+    }
+
+    getBalance(): void{
+        this.balance$ = this._balanceService
+        .getBalance()
+        .pipe(map((resp: any) => resp.nu_saldo));
     }
 
     getDeposits(): void {
