@@ -165,4 +165,7 @@ export const appRoutes: Route[] = [
             },
         ],
     },
+    // 404 & Catch all
+    {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error.module').then(m => m.ErrorModule)},
+    {path: '**', redirectTo: '404-not-found'}
 ];
