@@ -20,12 +20,12 @@ export class HomeService {
     getProducts(nu_id_grupo_app: string, nu_id_servicio_app: string): Observable<Product[]> {
         const user: any = jwt_decode(this._authService.user);
         const nu_id_negocio: string = user.nu_id_negocio;
-        const nu_id_comercio: string = user.nu_id_comercio;
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
 
         return this._httpClient.post<Product[]>(
             `${environment.API_URL}/Producto/sel_producto_app`,
             {
-                nu_id_comercio,
+                nu_id_comercio_app,
                 nu_id_negocio,
                 nu_id_grupo_app,
                 nu_id_servicio_app
