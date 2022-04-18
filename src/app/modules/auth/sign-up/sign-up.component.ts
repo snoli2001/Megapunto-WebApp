@@ -56,7 +56,8 @@ export class AuthSignUpComponent implements OnInit {
                 region: ['', Validators.required],
                 city: ['', Validators.required],
                 district: ['', Validators.required],
-                agreements: ['', Validators.required],
+                agreements: ['', Validators.requiredTrue],
+                secondAgreements: ['', Validators.requiredTrue]
             }),
             step: [1],
         });

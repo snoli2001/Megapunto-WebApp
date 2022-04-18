@@ -15,7 +15,9 @@
             >
                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
             </button>
-            <div class="ml-10 sm:-mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">Inicio</div>
+            <div class="ml-10 sm:-mt-1.5 md:ml-0 md:mt-0 text-3xl font-bold">
+                Inicio
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <!-- Greetings -->
@@ -25,23 +27,44 @@
                             <div>
                                 <div class="mb-8">
                                     <span class="block text-2xl font-semibold">
-                                        Buenos días, {{(commerceInfo$ | async)?.vc_nombre_contacto | titlecase}}
+                                        Buenos días,
+                                        {{
+                                            (commerceInfo$ | async)
+                                                ?.vc_nombre_contacto | titlecase
+                                        }}
                                     </span>
                                     <span class="text-base">
-                                        Comercio {{(commerceInfo$ | async)?.vc_nombre_comercio | titlecase}}
+                                        Comercio
+                                        {{
+                                            (commerceInfo$ | async)
+                                                ?.vc_nombre_comercio | titlecase
+                                        }}
                                     </span>
                                 </div>
                                 <div class="mb-4">
-                                    <span class="block font-semibold uppercase">Saldo actual</span>
-                                    <span class="text-2xl font-semibold">S/{{balance$ | async}}</span>
+                                    <span class="block font-semibold uppercase"
+                                        >Saldo actual</span
+                                    >
+                                    <span class="text-2xl font-semibold"
+                                        >S/{{ balance$ | async }}</span
+                                    >
                                 </div>
                                 <div class="flex items-center text-[#7c66f7]">
-                                    <span class="font-semibold">Aumentar saldo</span>
-                                    <mat-icon class="text-[#7c66f7]" svgIcon="heroicons_outline:chevron-right"></mat-icon>
+                                    <span class="font-semibold"
+                                        >Aumentar saldo</span
+                                    >
+                                    <mat-icon
+                                        class="text-[#7c66f7]"
+                                        svgIcon="heroicons_outline:chevron-right"
+                                    ></mat-icon>
                                 </div>
                             </div>
                             <div class="hidden sm:flex">
-                                Imagen
+                                <img
+                                    src="assets/images/draw/home_image.png"
+                                    style="width: 297px; height: 205px"
+                                    alt=""
+                                />
                             </div>
                         </div>
                     </div>
@@ -55,9 +78,14 @@
                             Ver todas
                         </span>
                     </div>
-                    <div class="flex flex-row bg-[#7c66f7] my-4 px-4 py-5 rounded-xl">
+                    <div
+                        class="flex flex-row bg-[#7c66f7] my-4 px-4 py-5 rounded-xl"
+                    >
                         <div class="mr-2">
-                            <mat-icon class="text-white" svgIcon="heroicons_solid:exclamation-circle"></mat-icon>
+                            <mat-icon
+                                class="text-white"
+                                svgIcon="heroicons_solid:exclamation-circle"
+                            ></mat-icon>
                         </div>
                         <div class="text-white">
                             <span class="block font-semibold text-lg mb-1.5">
@@ -73,32 +101,58 @@
                     </div>
                     <!-- General information -->
                     <div class="flex justify-between items-center">
-                        <span class="text-lg font-bold">Información general</span>
+                        <span class="text-lg font-bold"
+                            >Información general</span
+                        >
                     </div>
                     <div class="border-2 rounded-xl my-4 px-4 py-5">
                         <div class="grid grid-cols-4 gap-2">
                             <div class="flex items-center justify-center">
-                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                                    <span class="block text-sm font-semibold">Icono</span>
+                                <div
+                                    class="text-center px-2 py-1 border-2 cursor-pointer"
+                                >
+                                    <mat-icon
+                                        svgIcon="heroicons_outline:inbox"
+                                    ></mat-icon>
+                                    <span class="block text-sm font-semibold"
+                                        >Icono</span
+                                    >
                                 </div>
                             </div>
                             <div class="flex items-center justify-center">
-                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                                    <span class="block text-sm font-semibold">Icono</span>
+                                <div
+                                    class="text-center px-2 py-1 border-2 cursor-pointer"
+                                >
+                                    <mat-icon
+                                        svgIcon="heroicons_outline:inbox"
+                                    ></mat-icon>
+                                    <span class="block text-sm font-semibold"
+                                        >Icono</span
+                                    >
                                 </div>
                             </div>
                             <div class="flex items-center justify-center">
-                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                                    <span class="block text-sm font-semibold">Icono</span>
+                                <div
+                                    class="text-center px-2 py-1 border-2 cursor-pointer"
+                                >
+                                    <mat-icon
+                                        svgIcon="heroicons_outline:inbox"
+                                    ></mat-icon>
+                                    <span class="block text-sm font-semibold"
+                                        >Icono</span
+                                    >
                                 </div>
                             </div>
                             <div class="flex items-center justify-center">
-                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
-                                    <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
-                                    <span class="block text-sm font-semibold">Icono</span>
+                                <div
+                                    class="text-center px-2 py-1 border-2 cursor-pointer"
+                                >
+                                    <mat-icon
+                                        svgIcon="heroicons_outline:inbox"
+                                    ></mat-icon>
+                                    <span class="block text-sm font-semibold"
+                                        >Icono</span
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -109,7 +163,10 @@
                     </div>
                     <div class="border-2 rounded-xl px-3 py-4">
                         <div *ngIf="deposits$; else noDeposits">
-                            <div *ngFor="let deposit of deposits$ | async" class="my-4">
+                            <div
+                                *ngFor="let deposit of deposits$ | async"
+                                class="my-4"
+                            >
                                 <div class="flex justify-between mb-1.5">
                                     <div class="text-[#7c66f7]">
                                         <span class="font-semibold">
@@ -120,12 +177,20 @@
                                         </span>
                                     </div>
                                     <span class="text-sm">
-                                        {{ deposit?.dt_fec_operacion | date: 'dd/MM/yyyy' }}</span>
+                                        {{
+                                            deposit?.dt_fec_operacion
+                                                | date: "dd/MM/yyyy"
+                                        }}</span
+                                    >
                                 </div>
                                 <div class="block mb-4">
                                     <span class="mr-1">Monto:</span>
                                     <span class="font-semibold">
-                                        S/ {{ deposit?.nu_importe | number: "1.2-2" }}
+                                        S/
+                                        {{
+                                            deposit?.nu_importe
+                                                | number: "1.2-2"
+                                        }}
                                     </span>
                                 </div>
                                 <mat-divider></mat-divider>
@@ -149,30 +214,50 @@
                                 <button
                                     (click)="toggleOperation('charges')"
                                     [ngClass]="{
-                                        'bg-[#41ac9a] text-white' : operationActive === 'charges',
-                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white' : operationActive !== 'charges'
+                                        'bg-[#41ac9a] text-white':
+                                            operationActive === 'charges',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
+                                            operationActive !== 'charges'
                                     }"
-                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2 mb-4">
-                                    <span class="text-lg font-semibold">Hacer recargas</span>
+                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2 mb-4"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Hacer recargas</span
+                                    >
                                 </button>
                                 <button
                                     (click)="toggleOperation('services')"
                                     [ngClass]="{
-                                        'bg-[#41ac9a] text-white' : operationActive === 'services',
-                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white' : operationActive !== 'services'
+                                        'bg-[#41ac9a] text-white':
+                                            operationActive === 'services',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
+                                            operationActive !== 'services'
                                     }"
-                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2">
-                                    <span class="text-lg font-semibold">Pagar servicios</span>
+                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Pagar servicios</span
+                                    >
                                 </button>
                             </div>
                             <div *ngIf="operationActive === 'charges'">
-                                <span class="font-semibold">Número de celular y operador</span>
-                                <mat-form-field class="my-2 w-full" appereance="fill">
-                                    <input matInput placeholder="Número de celular">
+                                <span class="font-semibold"
+                                    >Número de celular y operador</span
+                                >
+                                <mat-form-field
+                                    class="my-2 w-full"
+                                    appereance="fill"
+                                >
+                                    <input
+                                        matInput
+                                        placeholder="Número de celular"
+                                    />
                                 </mat-form-field>
                                 <mat-radio-group>
                                     <mat-radio-button
-                                        *ngFor="let product of products$ | async"
+                                        *ngFor="
+                                            let product of products$ | async
+                                        "
                                         class="block mb-2"
                                         [value]="product?.vc_cod_producto"
                                     >
@@ -184,7 +269,8 @@
                                 </mat-radio-group>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
-                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]">
+                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+                                    >
                                         Siguiente
                                     </button>
                                 </div>
@@ -193,19 +279,32 @@
                                 <div class="mb-2 font-semibold">
                                     <span>Servicio a pagar</span>
                                 </div>
-                                <mat-form-field class=" w-full" appereance="fill">
+                                <mat-form-field
+                                    class="w-full"
+                                    appereance="fill"
+                                >
                                     <mat-select placeholder="Servicio">
-                                        <mat-option [value]="1">Servicio 1</mat-option>
-                                        <mat-option [value]="2">Servicio 2</mat-option>
-                                        <mat-option [value]="3">Servicio 3</mat-option>
+                                        <mat-option [value]="1"
+                                            >Servicio 1</mat-option
+                                        >
+                                        <mat-option [value]="2"
+                                            >Servicio 2</mat-option
+                                        >
+                                        <mat-option [value]="3"
+                                            >Servicio 3</mat-option
+                                        >
                                     </mat-select>
                                 </mat-form-field>
-                                <mat-form-field class="my-2 w-full" appereance="fill">
-                                    <input matInput placeholder="Código">
+                                <mat-form-field
+                                    class="my-2 w-full"
+                                    appereance="fill"
+                                >
+                                    <input matInput placeholder="Código" />
                                 </mat-form-field>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
-                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]">
+                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+                                    >
                                         Siguiente
                                     </button>
                                 </div>

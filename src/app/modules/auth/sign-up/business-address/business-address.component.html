@@ -16,11 +16,11 @@
 </fuse-alert>
 
 <form class="mt-8 w-full" [formGroup]="signUpForm">
-    <div formGroupName="businessAddress" class="w-full flex flex-col justify-center">
-
-        <div id="map" class="h-90 w-full" >
-
-        </div>
+    <div
+        formGroupName="businessAddress"
+        class="w-full flex flex-col justify-center"
+    >
+        <div id="map" class="h-90 w-full"></div>
         <div class="w-full my-3">
             <span>Ubica tu dirección en el mapa con el pin</span>
         </div>
@@ -148,9 +148,35 @@
 
         <div class="inline-flex items-end justify-between w-full mt-1.5">
             <mat-checkbox [color]="'primary'" [formControlName]="'agreements'">
-                <a class="underline"> Acepto los términos y condiciones </a>
+                <a
+                    class="underline"
+                    href="https://megapunto.pe/terminosycondiciones/"
+                    target="_blank"
+                >
+                    Acepto los términos y condiciones
+                </a>
             </mat-checkbox>
         </div>
+        <mat-error *ngIf="agreementsError">
+            Debe aceptar los términos y condiciones
+        </mat-error>
+        <div class="inline-flex items-end justify-between w-full mt-1.5">
+            <mat-checkbox
+                [color]="'primary'"
+                [formControlName]="'secondAgreements'"
+            >
+                <a
+                    class="underline"
+                    href="https://megapunto.pe/politicaprivacidad/"
+                    target="_blank"
+                >
+                    Acepto la política de privacidad de datos
+                </a>
+            </mat-checkbox>
+        </div>
+        <mat-error *ngIf="secondAgreementsError">
+            Debe aceptar la política de privacidad de datos
+        </mat-error>
 
         <div class="flex justify-between">
             <!-- Prev button -->

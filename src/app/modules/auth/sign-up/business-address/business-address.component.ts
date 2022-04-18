@@ -67,6 +67,22 @@ export class BusinessAddressComponent implements OnInit {
         ) as FormControl;
     }
 
+    get agreementsError(): boolean {
+        return this.signUpForm.controls['businessAddress'].get(
+            'agreements'
+        ).invalid && this.signUpForm.controls['businessAddress'].get(
+            'agreements'
+        ).touched;
+    }
+
+    get secondAgreementsError(): boolean {
+        return this.signUpForm.controls['businessAddress'].get(
+            'secondAgreements'
+        ).invalid && this.signUpForm.controls['businessAddress'].get(
+            'secondAgreements'
+        ).touched;
+    }
+
     ngOnInit(): void {
         this.getLocation();
         this.signUpForm = this.rootFormGroup.control;
@@ -76,7 +92,7 @@ export class BusinessAddressComponent implements OnInit {
     }
 
     prevStep(): void {
-        this.signUpForm.get('step').setValue(1);
+        this.signUpForm.get('step').setValue(2);
     }
 
     nextStep(): void {
@@ -188,30 +204,7 @@ export class BusinessAddressComponent implements OnInit {
     }
 
     signUp(): void {
-        // personalInformation: this._formBuilder.group({
-        //     name: ['', Validators.required],
-        //     email: ['', [Validators.required, Validators.email]],
-        //     password: ['', Validators.required],
-        //     cellphone: ['', Validators.required],
-        //     documentType: ['', Validators.required],
-        //     documentNumber: ['', Validators.required],
-        //     birthDate: ['', Validators.required],
-        // }),
-        // businessData: this._formBuilder.group({
-        //     ruc: ['', Validators.required],
-        //     businessName: ['', Validators.required],
-        //     tradename: ['', Validators.required],
-        //     telephone: ['', Validators.required],
-        //     businessLine: ['', Validators.required],
-        //     billType: ['', Validators.required],
-        // }),
-        // businessAddress: this._formBuilder.group({
-        //     address: ['', Validators.required],
-        //     village: ['', Validators.required],
-        //     region: ['', Validators.required],
-        //     city: ['', Validators.required],
-        //     district: ['', Validators.required],
-        //     agreements: ['', Validators.required]
+        this.signUpForm.markAllAsTouched();
         const personalInformation = this.signUpForm.controls[
             'personalInformation'
         ] as FormControl;
