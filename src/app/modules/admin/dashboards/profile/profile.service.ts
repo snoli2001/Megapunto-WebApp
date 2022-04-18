@@ -30,6 +30,24 @@ export class ProfileService {
         );
     }
 
+    updProfileInfo(profileInfo: any): Observable<ProfileInfo> {
+        const user: any = jwt_decode(this._authService.user);
+        const nu_id_comercio: string = user.nu_id_comercio;
+        const vc_telefono: string = profileInfo.vc_telefono;
+        const vc_celular: string = profileInfo.vc_celular;
+        const vc_email: string = profileInfo.vc_email;
+
+        return this._httpClient.post<ProfileInfo>(
+            `${environment.API_URL}/Comercio_Bancario/upd_info_contacto`,
+            {
+                nu_id_comercio,
+                vc_telefono,
+                vc_celular,
+                vc_email
+            }
+        );
+    }
+
     getDepositsInfo(
         dt_fec_inicio: string,
         dt_fec_final: string

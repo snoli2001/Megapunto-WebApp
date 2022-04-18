@@ -1,0 +1,97 @@
+<div class="grid grid-cols-1">
+    <div class="flex items-center justify-between">
+        <span class="font-bold text-2xl">
+            Editar los datos de mi negocio
+        </span>
+        <div class="px-1 pt-1 rounded-full bg-gray-200 cursor-pointer" (click)="onClose()">
+            <mat-icon svgIcon="heroicons_outline:x"></mat-icon>
+        </div>
+    </div>
+    <div class="w-full my-1">
+        <span>Ubica tu dirección en el mapa con ayuda del pin</span>
+        <!-- TODO: google map iframe -->
+    </div>
+    <form class="mt-6 w-full" [formGroup]="editBusinessDataForm">
+        <mat-form-field class="w-full" appearance="fill">
+            <input matInput formControlName="vc_direccion" placeholder="Dirección">
+        </mat-form-field>
+        <div class="flex items-center justify-between">
+            <mat-form-field class="w-5/12" appearance="fill">
+                <input matInput formControlName="vc_centro_poblado" placeholder="Centro poblado">
+            </mat-form-field>
+            <mat-form-field class="w-5/12" appearance="fill">
+                <mat-select matInput placeholder="Departamento" formControlName="nu_id_departamento">
+                    <mat-option
+                        *ngFor="let region of regions"
+                        [value]="region.nu_id_departamento">
+                        {{ region.vc_desc_departamento }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editBusinessDataForm.get('nu_id_departamento').hasError('required')">
+                    Seleccione el departamento
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex items-center justify-between">
+            <mat-form-field class="w-5/12" appearance="fill">
+                <mat-select matInput placeholder="Provincia" formControlName="nu_id_provincia">
+                    <mat-option
+                        *ngFor="let city of cities"
+                        [value]="city.nu_id_provincia">
+                        {{ city.vc_desc_provincia }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editBusinessDataForm.get('nu_id_provincia').hasError('required')">
+                    Seleccione la provincia
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-5/12" appearance="fill">
+                <mat-select matInput placeholder="Distrito" formControlName="nu_id_distrito">
+                    <mat-option
+                        *ngFor="let district of districts"
+                        [value]="district.nu_id_distrito">
+                        {{ district.vc_desc_distrito }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editBusinessDataForm.get('nu_id_distrito').hasError('required')">
+                    Seleccione el distrito
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex items-center justify-between">
+            <mat-form-field class="w-5/12" appearance="fill">
+                <mat-select
+                    placeholder="Giro de tu negocio"
+                    formControlName="nu_id_grupo_giro_negocio">
+                    <mat-option
+                        *ngFor="let lineOfBusiness of lineOfBusinesses"
+                        [value]="lineOfBusiness.nu_id_grupo_giro_negocio">
+                        {{ lineOfBusiness.vc_desc_grupo_giro_negocio }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editBusinessDataForm.get('vc_desc_grupo_giro_negocio').hasError('required')">
+                    Seleccione el giro de su negocio
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-5/12" appearance="fill">
+                <mat-select placeholder="Tipo de comprobante" formControlName="ch_tipo_documento">
+                    <mat-option value="FA">Factura</mat-option>
+                    <mat-option value="BV">Boleta de venta</mat-option>
+                </mat-select>
+                <mat-error *ngIf="editBusinessDataForm.get('ch_tipo_documento').hasError('required')">
+                    Ingrese el tipo de comprobante
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+    <div class="flex items-center justify-end my-2">
+        <button
+            [disabled]="editBusinessDataForm.invalid"
+            (click)="onConfirm()"
+            mat-raised-button
+            class="bg-[#7c66f7] text-white font-semibold"
+        >
+            Confirmar
+        </button>
+    </div>
+</div>

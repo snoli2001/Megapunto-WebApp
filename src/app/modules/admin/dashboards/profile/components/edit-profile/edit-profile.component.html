@@ -1,0 +1,31 @@
+<div class="grid grid-cols-1">
+    <div class="flex items-center justify-between">
+        <span class="font-bold text-2xl">
+            Editar datos personales
+        </span>
+        <div class="px-1 pt-1 rounded-full bg-gray-200 cursor-pointer" (click)="onClose()">
+            <mat-icon svgIcon="heroicons_outline:x"></mat-icon>
+        </div>
+    </div>
+    <form class="mt-6 w-full" [formGroup]="editProfileForm">
+        <mat-form-field class="w-full" appearance="fill">
+            <input matInput formControlName="vc_telefono" placeholder="Teléfono fijo">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <input matInput formControlName="vc_celular" placeholder="Celular">
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <input matInput formControlName="vc_email" placeholder="Correo electrónico">
+        </mat-form-field>
+    </form>
+    <div class="flex items-center justify-end my-2">
+        <button
+            [disabled]="editProfileForm.invalid"
+            (click)="onConfirm()"
+            mat-raised-button
+            class="bg-[#7c66f7] text-white font-semibold"
+        >
+            Confirmar
+        </button>
+    </div>
+</div>

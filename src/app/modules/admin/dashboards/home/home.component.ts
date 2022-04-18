@@ -19,6 +19,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { DepositInfo } from '../profile/profile.interfaces';
 import { ProfileService } from '../profile/profile.service';
 import moment from 'moment';
+import { Product } from './home.interfaces';
 
 @Component({
     selector: 'home',
@@ -29,7 +30,8 @@ import moment from 'moment';
 export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     operationActive: string = 'charges';
-    deposits: any[] = [];
+    deposits$: Observable<DepositInfo[]>;
+    products$: Observable<Product[]>;
     commerceInfo$: Observable<ProfileInfo>;
     balance$: Observable<string>;
 
@@ -39,19 +41,21 @@ export class HomeComponent implements OnInit, OnDestroy {
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _balanceService: BalanceService,
         private profileService: ProfileService,
+        private homeService: HomeService
     ) {}
 
     ngOnInit(): void {
-        //this.getDeposits();
-
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({ matchingAliases }) => {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+
         this.getName();
         this.getBalance();
+        this.getDeposits();
+        this.getProducts();
     }
 
     ngOnDestroy(): void {
@@ -92,15 +96,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     getDeposits(): void {
-        this.profileService
+        this.deposits$ = this.profileService
             .getDepositsInfo(
                 moment().subtract(7, 'd').format('YYYY-MM-DD'),
                 moment().format('YYYY-MM-DD')
             )
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((resp: any[]) => {
-                this.deposits = [...resp.slice(0, 3)];
-                console.log('this.deposits: ', this.deposits);
-            });
+            .pipe(map((resp: any[]) => resp.slice(0, 3)));
+    }
+
+    getProducts(): void {
+        this.products$ = this.homeService
+            .getProducts('5', '1')
+            .pipe(map((resp: any[]) => resp));
     }
 }

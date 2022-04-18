@@ -8,6 +8,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
     FuseNavigationService,
@@ -19,6 +20,8 @@ import moment from 'moment';
 import { Moment } from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
+import { EditBusinessDataComponent } from './components/edit-business-data/edit-business-data.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ProfileInfo, DepositInfo } from './profile.interfaces';
 
 @Component({
@@ -40,13 +43,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     minDate: Date;
     maxDate: Moment;
 
+    alert: any = {};
+    showAlert: boolean = false;
+
     isScreenSmall: boolean;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private profileService: ProfileService,
         private _fuseNavigationService: FuseNavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        public dialog: MatDialog,
     ) {}
 
     ngOnInit(): void {
@@ -130,5 +137,42 @@ export class ProfileComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+    }
+
+    openEditProfileDialog(): void {
+        const dialogRef = this.dialog.open(EditProfileComponent, {
+            width: this.isScreenSmall ? '90%' : '40%',
+            data: this.profileInfo,
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.profileService
+                    .updProfileInfo(result)
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((resp: any) => {
+                        this.showAlert = true;
+                        this.alert.type = resp.nu_tran_stdo ? 'success' : 'error';
+                        this.alert.message = resp.tx_tran_mnsg;
+
+                        this.getProfileInfo();
+
+                        setTimeout(() => {
+                            this.showAlert = false;
+                        }, 5000);
+                    });
+            }
+        });
+    }
+
+    openEditBusinessDataDialog(): void {
+        const dialogRef = this.dialog.open(EditBusinessDataComponent, {
+            width: this.isScreenSmall ? '95%' : '60%',
+            data: this.profileInfo,
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('result: ', result);
+        });
     }
 }

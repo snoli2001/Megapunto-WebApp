@@ -19,6 +19,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { EditBusinessDataComponent } from './components/edit-business-data/edit-business-data.component';
+import { FuseAlertModule } from '@fuse/components/alert';
 
 export const MY_FORMATS = {
     parse: {
@@ -33,7 +36,7 @@ export const MY_FORMATS = {
 };
 
 @NgModule({
-    declarations: [ProfileComponent],
+    declarations: [ProfileComponent, EditProfileComponent, EditBusinessDataComponent],
     imports: [
         RouterModule.forChild(profileRoutes),
         MatButtonModule,
@@ -51,7 +54,8 @@ export const MY_FORMATS = {
         SharedModule,
         MatDividerModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        FuseAlertModule,
     ],
     providers: [
         { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

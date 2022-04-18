@@ -19,6 +19,15 @@
                 Mi perfil
             </div>
 
+            <fuse-alert
+                class="my-2"
+                [appearance]="'outline'"
+                *ngIf="showAlert"
+                [type]="alert.type"
+            >
+                {{ alert.message }}
+            </fuse-alert>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 <div>
                     <!-- Personal data -->
@@ -28,6 +37,7 @@
                                 >Datos personales</span
                             >
                             <span
+                                (click)="openEditProfileDialog()"
                                 class="text-[#7c66f7] font-bold cursor-pointer"
                                 >Editar</span
                             >
@@ -99,6 +109,7 @@
                                 >Datos de mi negocio</span
                             >
                             <span
+                                (click)="openEditBusinessDataDialog()"
                                 class="text-[#7c66f7] font-bold cursor-pointer"
                                 >Editar</span
                             >

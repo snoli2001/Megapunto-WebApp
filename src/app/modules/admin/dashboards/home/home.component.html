@@ -77,26 +77,26 @@
                     </div>
                     <div class="border-2 rounded-xl my-4 px-4 py-5">
                         <div class="grid grid-cols-4 gap-2">
-                            <div class="flex items-center justify-center cursor-pointer">
-                                <div class="text-center px-2 py-1 border-2">
+                            <div class="flex items-center justify-center">
+                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
                                     <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                                     <span class="block text-sm font-semibold">Icono</span>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-center cursor-pointer">
-                                <div class="text-center px-2 py-1 border-2">
+                            <div class="flex items-center justify-center">
+                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
                                     <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                                     <span class="block text-sm font-semibold">Icono</span>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-center cursor-pointer">
-                                <div class="text-center px-2 py-1 border-2">
+                            <div class="flex items-center justify-center">
+                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
                                     <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                                     <span class="block text-sm font-semibold">Icono</span>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-center cursor-pointer">
-                                <div class="text-center px-2 py-1 border-2">
+                            <div class="flex items-center justify-center">
+                                <div class="text-center px-2 py-1 border-2 cursor-pointer">
                                     <mat-icon svgIcon="heroicons_outline:inbox"></mat-icon>
                                     <span class="block text-sm font-semibold">Icono</span>
                                 </div>
@@ -108,24 +108,24 @@
                         <span class="text-lg font-bold">Historial</span>
                     </div>
                     <div class="border-2 rounded-xl px-3 py-4">
-                        <div *ngIf="deposits.length > 0; else noDeposits">
-                            <div *ngFor="deposit of deposits" class="my-4">
+                        <div *ngIf="deposits$; else noDeposits">
+                            <div *ngFor="let deposit of deposits$ | async" class="my-4">
                                 <div class="flex justify-between mb-1.5">
                                     <div class="text-[#7c66f7]">
                                         <span class="font-semibold">
                                             Operación:
                                         </span>
                                         <span class="ml-1">
-                                            {{ deposit.vc_nro_operacion }}
+                                            {{ deposit?.vc_nro_operacion }}
                                         </span>
                                     </div>
                                     <span class="text-sm">
-                                        {{ deposit.dt_fec_operacion | date: 'dd/MM/yyyy' }}</span>
+                                        {{ deposit?.dt_fec_operacion | date: 'dd/MM/yyyy' }}</span>
                                 </div>
                                 <div class="block mb-4">
                                     <span class="mr-1">Monto:</span>
                                     <span class="font-semibold">
-                                        S/ {{ deposit.nu_importe | number: "1.2-2" }}
+                                        S/ {{ deposit?.nu_importe | number: "1.2-2" }}
                                     </span>
                                 </div>
                                 <mat-divider></mat-divider>
@@ -171,10 +171,16 @@
                                     <input matInput placeholder="Número de celular">
                                 </mat-form-field>
                                 <mat-radio-group>
-                                    <mat-radio-button class="block mb-2" [value]="'m'">Movistar</mat-radio-button>
-                                    <mat-radio-button class="block mb-2" [value]="'b'">Bitel</mat-radio-button>
+                                    <mat-radio-button
+                                        *ngFor="let product of products$ | async"
+                                        class="block mb-2"
+                                        [value]="product?.vc_cod_producto"
+                                    >
+                                        {{ product?.vc_desc_producto }}
+                                    </mat-radio-button>
+                                    <!-- <mat-radio-button class="block mb-2" [value]="'b'">Bitel</mat-radio-button>
                                     <mat-radio-button class="block mb-2" [value]="'c'">Claro</mat-radio-button>
-                                    <mat-radio-button class="block mb-2" [value]="'e'">Entel</mat-radio-button>
+                                    <mat-radio-button class="block mb-2" [value]="'e'">Entel</mat-radio-button> -->
                                 </mat-radio-group>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button

@@ -111,7 +111,6 @@ export class PersonalInformationComponent implements OnInit {
                 .getNameByDNI(this.documentNumber.value)
                 .subscribe((resp) => {
                     this.name.setValue(resp);
-                    console.log(this.name);
                 });
         } else {
             this.documentType.markAllAsTouched();
