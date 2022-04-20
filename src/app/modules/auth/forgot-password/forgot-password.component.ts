@@ -23,22 +23,12 @@ export class AuthForgotPasswordComponent implements OnInit {
     forgotPasswordForm: FormGroup;
     showAlert: boolean = false;
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _forgotPasswordService: ForgotPasswordService
     ) {}
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void {
         // Create the form
         this.forgotPasswordForm = this._formBuilder.group({
@@ -47,13 +37,6 @@ export class AuthForgotPasswordComponent implements OnInit {
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Send the reset link
-     */
     sendResetLink(): void {
         // Return if the form is invalid
         if (this.forgotPasswordForm.invalid) {

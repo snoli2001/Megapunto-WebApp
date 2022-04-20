@@ -240,7 +240,10 @@
                                     >
                                 </button>
                             </div>
-                            <div *ngIf="operationActive === 'charges'">
+                            <div
+                                *ngIf="operationActive === 'charges'"
+                                [formGroup]="topUpCellphoneBalanceForm"
+                            >
                                 <span class="font-semibold"
                                     >Número de celular y operador</span
                                 >
@@ -249,26 +252,27 @@
                                     appereance="fill"
                                 >
                                     <input
+                                        id="vc_numero_servicio"
+                                        [formControlName]="'vc_numero_servicio'"
                                         matInput
                                         placeholder="Número de celular"
                                     />
                                 </mat-form-field>
-                                <mat-radio-group>
+                                <mat-radio-group formControlName="product">
                                     <mat-radio-button
+                                        color="primary"
                                         *ngFor="
                                             let product of products$ | async
                                         "
                                         class="block mb-2"
-                                        [value]="product?.vc_cod_producto"
+                                        [value]="product"
                                     >
                                         {{ product?.vc_desc_producto }}
                                     </mat-radio-button>
-                                    <!-- <mat-radio-button class="block mb-2" [value]="'b'">Bitel</mat-radio-button>
-                                    <mat-radio-button class="block mb-2" [value]="'c'">Claro</mat-radio-button>
-                                    <mat-radio-button class="block mb-2" [value]="'e'">Entel</mat-radio-button> -->
                                 </mat-radio-group>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
+                                        (click)="nextStepOfHub()"
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
                                     >
                                         Siguiente

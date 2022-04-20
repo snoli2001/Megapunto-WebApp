@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { BalanceService } from 'app/modules/admin/dashboards/balance/balance.service';
 import { ProfileInfo } from './../profile/profile.interfaces';
 import {
@@ -34,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     products$: Observable<Product[]>;
     commerceInfo$: Observable<ProfileInfo>;
     balance$: Observable<string>;
+    topUpCellphoneBalanceForm: FormGroup;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
@@ -41,7 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _balanceService: BalanceService,
         private profileService: ProfileService,
-        private homeService: HomeService
+        private homeService: HomeService,
+        private fb: FormBuilder
     ) {}
 
     ngOnInit(): void {
@@ -51,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
-
+        this.initTopUpCellphoneBalanceForm();
         this.getName();
         this.getBalance();
         this.getDeposits();
@@ -80,6 +89,12 @@ export class HomeComponent implements OnInit, OnDestroy {
             navigation.toggle();
         }
     }
+    initTopUpCellphoneBalanceForm(): void {
+        this.topUpCellphoneBalanceForm = this.fb.group({
+            product: [{}, Validators.required],
+            vc_numero_servicio: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+        });
+    }
 
     toggleOperation(operation: string): void {
         this.operationActive = operation;
@@ -89,10 +104,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.commerceInfo$ = this.profileService.getProfileInfo();
     }
 
-    getBalance(): void{
+    getBalance(): void {
         this.balance$ = this._balanceService
-        .getBalance()
-        .pipe(map((resp: any) => resp.nu_saldo));
+            .getBalance()
+            .pipe(map((resp: any) => resp.nu_saldo));
     }
 
     getDeposits(): void {
@@ -108,5 +123,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.products$ = this.homeService
             .getProducts('5', '1')
             .pipe(map((resp: any[]) => resp));
+    }
+
+    nextStepOfHub(): void {
+        this.topUpCellphoneBalanceForm.markAsTouched();
+        if (this.topUpCellphoneBalanceForm.valid) {
+            console.log(this.topUpCellphoneBalanceForm.value);
+        }
     }
 }
