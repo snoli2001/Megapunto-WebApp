@@ -1,0 +1,42 @@
+<div class="w-56 sm:w-96 h-96 flex flex-col justify-between">
+    <div>
+        <h1 class="text-2xl font-bold">Monto a recargar</h1>
+        <mat-form-field class="mt-4 w-full">
+            <input
+                class="w-full"
+                autocomplete="off"
+                matInput
+                type="text"
+                mvndrMatCurrencyFormat
+                [allowNegative]="false"
+                [currencyCode]="'S/ '"
+                [value]="nu_precio"
+                (blur)="updateNuPrecio($event)"
+            />
+        </mat-form-field>
+        <hr class="m-0" />
+        <h2 class="text-xl font-bold mt-3">Persona Titular</h2>
+        <div class="w-2/6 sm:w-1/6 border-[#7c66f7] border-b-2 my-1"></div>
+        <div class="flex flex-col my-2">
+            <span class="font-bold text-lg">Celular</span>
+            <span class="text-lg">
+                {{ data.vc_numero_servicio }}
+            </span>
+        </div>
+        <div class="flex flex-col mt-2">
+            <span class="font-bold text-lg">Operador</span>
+            <span class="text-lg">
+                {{ data.product.vc_desc_producto }}
+            </span>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <button
+            (click)="topUpCellphoneBalance()"
+            mat-raised-button
+            color="primary"
+        >
+            Recargar
+        </button>
+    </div>
+</div>

@@ -20,10 +20,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-
+import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
+import { MatCurrencyFormatModule } from 'mat-currency-format';
 @NgModule({
     declarations: [
-        HomeComponent
+        HomeComponent,
+        TopUpCellphoneBallanceComponent
     ],
     imports     : [
         RouterModule.forChild(homeRoutes),
@@ -44,7 +46,8 @@ import { MatSelectModule } from '@angular/material/select';
         MatSelectModule,
         NgApexchartsModule,
         TranslocoModule,
-        SharedModule
+        SharedModule,
+        MatCurrencyFormatModule
     ]
 })
 export class HomeModule

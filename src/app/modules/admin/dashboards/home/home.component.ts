@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
     FormBuilder,
@@ -27,6 +28,7 @@ import { DepositInfo } from '../profile/profile.interfaces';
 import { ProfileService } from '../profile/profile.service';
 import moment from 'moment';
 import { Product } from './home.interfaces';
+import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 
 @Component({
     selector: 'home',
@@ -50,7 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private _balanceService: BalanceService,
         private profileService: ProfileService,
         private homeService: HomeService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private matDialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -128,7 +131,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     nextStepOfHub(): void {
         this.topUpCellphoneBalanceForm.markAsTouched();
         if (this.topUpCellphoneBalanceForm.valid) {
-            console.log(this.topUpCellphoneBalanceForm.value);
+            const dialogREf = this.matDialog.open(TopUpCellphoneBallanceComponent, {
+                data: this.topUpCellphoneBalanceForm.value,
+            });
         }
     }
 }
