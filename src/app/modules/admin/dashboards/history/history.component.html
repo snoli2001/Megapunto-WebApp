@@ -21,6 +21,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 my-4">
                 <!-- Current balance -->
                 <div class="min-h-40">
+                    <div class="mb-4 flex justify-between">
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(7)"
+                        >
+                            Última semana
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(3)"
+                        >
+                            Últimos 3 días
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(0)"
+                        >
+                            Hoy
+                        </button>
+                    </div>
                     <div class="flex items-center justify-between">
                         <span class="text-lg font-bold mr-1"
                             >Operaciones de mis clientes</span
@@ -60,32 +86,6 @@
                                 ></mat-date-range-picker>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="mt-2 flex justify-between">
-                        <button
-                            mat-raised-button
-                            color="primary"
-                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
-                            (click)="changeDates(7)"
-                        >
-                            Última semana
-                        </button>
-                        <button
-                            mat-raised-button
-                            color="primary"
-                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
-                            (click)="changeDates(3)"
-                        >
-                            Últimos 3 días
-                        </button>
-                        <button
-                            mat-raised-button
-                            color="primary"
-                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
-                            (click)="changeDates(0)"
-                        >
-                            Hoy
-                        </button>
                     </div>
                     <div class="mb-4 flex justify-center">
                         <button
