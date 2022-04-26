@@ -1,17 +1,9 @@
-<div class="m-10 flex justify-center" [ngSwitch]="data">
+<div class="m-10 flex justify-center">
     <object
-        *ngSwitchCase="'BBVA'"
-        data="assets/pdfs/MEGAPUNTO_BBVA.pdf"
+        [data]="data | safe: 'resourceUrl'"
         width="900px"
         height="700px"
         type="application/pdf"
-    ></object>
-    <object
-        type="application/pdf"
-        *ngSwitchCase="'BCP'"
-        data="assets/pdfs/MEGAPUNTO_BCP.pdf"
-        width="900px"
-        height="700px"
     ></object>
 </div>
 

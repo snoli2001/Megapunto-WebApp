@@ -1,3 +1,5 @@
+import { SafePipe } from './../../../../utils/pipes/safeUrl.pipe';
+import { UtilsModule } from './../../../../utils/utils.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -20,7 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BankGuidePdfPopUpComponent } from './guides/bank-guide-pdf-pop-up/bank-guide-pdf-pop-up.component';
 
 @NgModule({
-    declarations: [BalanceComponent, BankGuidePdfPopUpComponent],
+    declarations: [BalanceComponent, BankGuidePdfPopUpComponent, SafePipe],
     imports: [
         RouterModule.forChild(balanceRoutes),
         MatButtonModule,
@@ -38,6 +40,7 @@ import { BankGuidePdfPopUpComponent } from './guides/bank-guide-pdf-pop-up/bank-
         MatSelectModule,
         MatInputModule,
         MatDialogModule,
+        UtilsModule
     ],
 })
 export class BalanceModule {}

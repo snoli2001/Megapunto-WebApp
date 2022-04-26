@@ -1,3 +1,4 @@
+import { SafePipe } from './pipes/safeUrl.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertComponent } from './alert/component/alert.component';
@@ -10,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    AlertComponent
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -19,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
   ],
   providers: [
-    AlertService
+    AlertService,
   ]
 })
 export class UtilsModule { }

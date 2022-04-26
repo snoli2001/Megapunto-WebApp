@@ -28,4 +28,16 @@ export class BalanceService {
             }
         );
     }
+
+    getBanks(): Observable<any> {
+        const user: any = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Banco/sel`,
+            {
+                nu_id_comercio_app
+            }
+        );
+    }
 }

@@ -18,6 +18,7 @@ import {
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { takeUntil, Observable, map } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
+import { BankInformationInterface } from './balance.interfaces';
 
 @Component({
     selector: 'balance',
@@ -29,6 +30,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     balanceForm: FormGroup;
     balance$: Observable<string>;
     isScreenSmall: boolean;
+    banks$: Observable<BankInformationInterface[]>;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -47,6 +49,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
+        this.getBanks();
         this.initData();
         this.initBalanceForm();
     }
@@ -61,6 +64,10 @@ export class BalanceComponent implements OnInit, OnDestroy {
         this.balance$ = this._balanceService
             .getBalance()
             .pipe(map((resp: any) => resp.nu_saldo));
+    }
+
+    getBanks(): void {
+        this.banks$ = this._balanceService.getBanks();
     }
 
     trackByFn(index: number, item: any): any {
