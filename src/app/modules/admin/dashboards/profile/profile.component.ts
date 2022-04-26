@@ -7,7 +7,7 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import {
@@ -31,10 +31,7 @@ import { ProfileInfo, DepositInfo } from './profile.interfaces';
     encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-    range = new FormGroup({
-        depositsStartDate: new FormControl(),
-        depositsEndDate: new FormControl(),
-    });
+    range: FormGroup;
     profileInfo: ProfileInfo = null;
     deposits: DepositInfo[] = [];
     today: Moment = moment(new Date());
@@ -54,9 +51,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         public dialog: MatDialog,
+        private fb: FormBuilder
     ) {}
 
     ngOnInit(): void {
+        this.range = this.fb.group({
+            depositsStartDate: [moment(), Validators.required],
+            depositsEndDate: [moment(), Validators.required],
+        });
+
         this.dateFormat = {
             sameDay: '[hoy]',
             nextDay: '[mañana]',
@@ -81,8 +84,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .subscribe((resp) => (this.profileInfo = resp));
         this.profileService
             .getDepositsInfo(
-                this.formatDate(moment()),
-                this.formatDate(moment())
+                this.formatDate(this.range.get('depositsStartDate').value),
+                this.formatDate(this.range.get('depositsEndDate').value)
             )
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((resp: DepositInfo[]) => (this.deposits = resp));
@@ -102,13 +105,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
         return day < moment();
     };
 
-    resetDates(): void {
-        this.range.reset();
-        this.maxDate = moment(new Date());
-        this.deposits = [];
+    resetDates(days: number): void {
+        this.range.get('depositsStartDate').setValue(moment().subtract(days, 'days'));
+        this.range.get('depositsEndDate').setValue(moment());
+        this.maxDate = moment();
+        this.selectEndDate();
     }
 
-    selectEndDate(value: Moment): void {
+    selectEndDate(): void {
         if (this.range.get('depositsEndDate').value) {
             this.profileService
                 .getDepositsInfo(
@@ -176,3 +180,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
         });
     }
 }
+

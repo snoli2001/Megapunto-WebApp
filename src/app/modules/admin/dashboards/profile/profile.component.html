@@ -193,6 +193,32 @@
                     <div class="border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5">
                         <div class="flex flex-col justify-center items-center">
                             <span class="mb-2">Filtrar por fecha</span>
+                            <div class="mb-4 block">
+                                <button
+                                    mat-raised-button
+                                    color="primary"
+                                    class="w-full sm:w-40 md:mx-1"
+                                    (click)="resetDates(7)"
+                                >
+                                    Última semana
+                                </button>
+                                <button
+                                    mat-raised-button
+                                    color="primary"
+                                    class="w-full sm:w-40 md:mx-1"
+                                    (click)="resetDates(3)"
+                                >
+                                    Últimos 3 días
+                                </button>
+                                <button
+                                    mat-raised-button
+                                    color="primary"
+                                    class="w-full sm:w-40 md:mx-1"
+                                    (click)="resetDates(0)"
+                                >
+                                    Hoy
+                                </button>
+                            </div>
                             <div
                                 class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center justify-center w-full"
                             >
@@ -239,7 +265,7 @@
                                     mat-raised-button
                                     color="primary"
                                     class="mt-2 w-full sm:w-60 sm:ml-4 md:w-full md:ml-0 lg:ml-4 lg:w-60"
-                                    (click)="resetDates()"
+                                    (click)="resetDates(0)"
                                 >
                                     Reiniciar Fechas
                                 </button>
