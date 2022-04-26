@@ -47,7 +47,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
-        this.resetDates();
+        this.changeDates(0);
     }
 
     ngOnDestroy(): void {
@@ -103,8 +103,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         return moment(date).format('YYYY-MM-DD');
     }
 
-    resetDates(): void {
-        this.range.get('trxStartDate').setValue(moment());
+    changeDates(days: number): void {
+        this.range.get('trxStartDate').setValue(moment().subtract(days, 'days'));
         this.range.get('trxEndDate').setValue(moment());
         this.maxDate = moment(new Date());
         this.getTransactions();

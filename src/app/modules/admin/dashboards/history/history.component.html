@@ -61,12 +61,38 @@
                             </mat-form-field>
                         </div>
                     </div>
+                    <div class="mt-2 flex justify-between">
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(7)"
+                        >
+                            Última semana
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(3)"
+                        >
+                            Últimos 3 días
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            class="w-full sm:w-60 sm:ml-4 md:w-60 md:mx-1"
+                            (click)="changeDates(0)"
+                        >
+                            Hoy
+                        </button>
+                    </div>
                     <div class="mb-4 flex justify-center">
                         <button
                             mat-raised-button
                             color="primary"
                             class="mt-2 w-full sm:w-60 sm:ml-4 md:w-60 md:ml-0"
-                            (click)="resetDates()"
+                            (click)="changeDates(0)"
                         >
                             Reiniciar Fechas
                         </button>
