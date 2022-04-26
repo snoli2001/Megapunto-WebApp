@@ -219,7 +219,7 @@
                                         'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
                                             operationActive !== 'charges'
                                     }"
-                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2 mb-4"
+                                    class="block py-2 px-4 w-full rounded-xl border-[#41ac9a] border-2 mb-4"
                                 >
                                     <span class="text-lg font-semibold"
                                         >Hacer recargas</span
@@ -233,10 +233,26 @@
                                         'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
                                             operationActive !== 'services'
                                     }"
-                                    class="block py-2 px-4 rounded-xl border-[#41ac9a] border-2"
+                                    class="block w-full py-2 px-4 rounded-xl border-[#41ac9a] border-2"
                                 >
                                     <span class="text-lg font-semibold"
                                         >Pagar servicios</span
+                                    >
+                                </button>
+                                <button
+                                    (click)="toggleOperation('digitalProducts')"
+                                    [ngClass]="{
+                                        'bg-[#41ac9a] text-white':
+                                            operationActive ===
+                                            'digitalProducts',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
+                                            operationActive !==
+                                            'digitalProducts'
+                                    }"
+                                    class="block w-full py-2 mt-5 px-4 rounded-xl border-[#41ac9a] border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Productos Digitales</span
                                     >
                                 </button>
                             </div>
@@ -305,6 +321,48 @@
                                 >
                                     <input matInput placeholder="Código" />
                                 </mat-form-field>
+                                <div class="flex justify-end mt-4 sm:mt-8">
+                                    <button
+                                        class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+                                    >
+                                        Siguiente
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div *ngIf="operationActive === 'digitalProducts'">
+                                <button
+                                    (click)="
+                                        toggleDigitalProducts('playstation')
+                                    "
+                                    [ngClass]="{
+                                        'bg-primary text-white':
+                                            digitalProductActive ===
+                                            'playstation',
+                                        'bg-white text-[#130B32] hover:bg-primary hover:text-white':
+                                            digitalProductActive !==
+                                            'playstation'
+                                    }"
+                                    class="block w-full py-2 px-4 rounded-xl border-primary border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Playstation</span
+                                    >
+                                </button>
+                                <button
+                                    (click)="toggleDigitalProducts('sentinel')"
+                                    [ngClass]="{
+                                        'bg-primary text-white':
+                                            digitalProductActive === 'sentinel',
+                                        'bg-white text-[#130B32] hover:bg-primary hover:text-white':
+                                            digitalProductActive !== 'sentinel'
+                                    }"
+                                    class="block w-full mt-4 py-2 px-4 rounded-xl border-primary border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Sentinel</span
+                                    >
+                                </button>
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"

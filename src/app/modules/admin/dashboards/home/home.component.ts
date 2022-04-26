@@ -39,6 +39,7 @@ import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone
 export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     operationActive: string = 'charges';
+    digitalProductActive: string = 'playstation';
     deposits$: Observable<DepositInfo[]>;
     products$: Observable<Product[]>;
     commerceInfo$: Observable<ProfileInfo>;
@@ -101,6 +102,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     toggleOperation(operation: string): void {
         this.operationActive = operation;
+    }
+
+    toggleDigitalProducts(digitalProduct: string): void {
+        this.digitalProductActive = digitalProduct;
     }
 
     getName(): void {
