@@ -88,6 +88,8 @@ export class BalanceComponent implements OnInit, OnDestroy {
     openGuide(bankName: string): void {
         const dialogRef = this._matDialog.open(BankGuidePdfPopUpComponent, {
             data: bankName,
+            width: '90%',
+            height: '90%',
         });
     }
 
