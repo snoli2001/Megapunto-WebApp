@@ -209,6 +209,34 @@
             type="file" accept="image/jpeg" [id]="idInputBackFileName" placeholder="Parte trasera de su documento de identidad" >
         </div>
 
+        <div class="mb-3 flex items-center mt-5 md:col-start-2 md:row-start-2">
+            <label [for]="idInputWithPhotoFileName" class="
+            w-4/5
+            px-3
+            py-1.5
+            text-base
+            font-normal
+            text-gray-700
+            bg-white bg-clip-padding
+            border border-solid border-gray-300
+            rounded
+            transition
+            ease-in-out
+            cursor-pointer
+            m-0
+            flex
+            items-center
+            justify-center
+            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+            <!-- <mat-icon svgIcon="heroicons_outline:document-add"></mat-icon> -->
+            <mat-icon svgIcon="heroicons_outline:identification"></mat-icon>
+            <span class="ml-2">Foto con tu DNI</span>
+            </label>
+            <span class="ml-1" id="file-chosen-2">{{documentWithPhoto}}</span>
+            <input class="inputfile" (change)="onBackDocumentFileSelected($event)"
+            type="file" accept="image/jpeg" [id]="idInputWithPhotoFileName" placeholder="Parte trasera de su documento de identidad" >
+        </div>
+
         <!-- Cellphone field -->
         <mat-form-field class="w-full">
             <input

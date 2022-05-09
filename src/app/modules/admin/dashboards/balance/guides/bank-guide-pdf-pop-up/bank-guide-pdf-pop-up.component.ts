@@ -15,7 +15,8 @@ export class BankGuidePdfPopUpComponent implements OnInit {
         public matDialogRef: MatDialogRef<BankGuidePdfPopUpComponent>,
         private sanitizer: DomSanitizer
     ) {
-        this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(data);
+        console.log(data);
+        this.iframeSrc = data;
     }
 
     ngOnInit(): void {}

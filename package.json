@@ -37,6 +37,7 @@
         "mat-currency-format": "^0.0.7",
         "moment": "2.29.1",
         "ng-apexcharts": "1.6.0",
+        "ng2-pdf-viewer": "^9.0.0",
         "ngx-markdown": "13.0.0",
         "ngx-quill": "16.1.1",
         "perfect-scrollbar": "1.5.3",

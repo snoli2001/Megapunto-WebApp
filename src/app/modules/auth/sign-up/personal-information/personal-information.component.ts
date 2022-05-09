@@ -18,12 +18,14 @@ import {
 export class PersonalInformationComponent implements OnInit {
     @Input() idInputFrontFileName: string = 'documentFile';
     @Input() idInputBackFileName: string = 'documentFile2';
+    @Input() idInputWithPhotoFileName: string = 'documentFile3';
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
     documentFrontName = 'No file chosen';
     documentBackName = 'No file chosen';
+    documentWithPhoto = 'No file chosen';
 
     personalInformationForm: FormGroup;
     showAlert: boolean = false;
@@ -77,6 +79,15 @@ export class PersonalInformationComponent implements OnInit {
     onBackDocumentFileSelected(event): void {
         if (event.target.files.length > 0) {
             this.documentBackName = event.target.files[0].name;
+            this.convertFile(event.target.files[0]).subscribe((base64) => {
+                this.vc_cadena_imagen_dni_reverso.setValue(base64);
+            });
+        }
+    }
+
+    onBackDocumentWithPhotoFileSelected(event): void {
+        if (event.target.files.length > 0) {
+            this.documentWithPhoto = event.target.files[0].name;
             this.convertFile(event.target.files[0]).subscribe((base64) => {
                 this.vc_cadena_imagen_dni_reverso.setValue(base64);
             });

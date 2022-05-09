@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { BankGuidePdfPopUpComponent } from './guides/bank-guide-pdf-pop-up/bank-guide-pdf-pop-up.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations: [BalanceComponent, BankGuidePdfPopUpComponent, SafePipe],
@@ -40,7 +41,8 @@ import { BankGuidePdfPopUpComponent } from './guides/bank-guide-pdf-pop-up/bank-
         MatSelectModule,
         MatInputModule,
         MatDialogModule,
-        UtilsModule
+        UtilsModule,
+        PdfViewerModule
     ],
 })
 export class BalanceModule {}
