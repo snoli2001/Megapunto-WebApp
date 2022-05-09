@@ -5,7 +5,7 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import {
     FuseNavigationService,
     FuseVerticalNavigationComponent,
@@ -30,7 +30,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         trxEndDate: new FormControl(),
     });
     isScreenSmall: boolean;
-    transactions: TransactionInfo[] = [];
+    transactions: Observable<TransactionInfo[]>;
     maxDate: Moment;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -74,13 +74,14 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
 
     getTransactions(): void {
-        this.historyService
-            .getHistoryInfo(
-                this.formatDate(this.range.get('trxStartDate').value),
-                this.formatDate(this.range.get('trxEndDate').value),
-            )
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((resp: TransactionInfo[]) => (this.transactions = resp));
+        if (this.range.get('trxEndDate').value) {
+            this.transactions = this.historyService
+                .getHistoryInfo(
+                    this.formatDate(this.range.get('trxStartDate').value),
+                    this.formatDate(this.range.get('trxEndDate').value),
+                )
+                .pipe(takeUntil(this._unsubscribeAll));
+        }
     }
 
     myFilter = (d: Moment | null): boolean => {

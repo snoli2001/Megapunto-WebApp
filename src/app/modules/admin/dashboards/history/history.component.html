@@ -98,12 +98,14 @@
                         </button>
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">
-                        <div *ngIf="transactions.length > 0">
+                        <div *ngIf="transactions | async as transf">
                             <div
-                                *ngFor="let transaction of transactions"
+                                *ngFor="let transaction of transf"
                                 class="my-4"
                             >
-                                <div class="mb-4">
+                                <div
+                                    *ngIf="transf.length > 0" 
+                                    class="mb-4">
                                     <div class="flex justify-between mb-1">
                                         <div class=" flex flex-col">
                                             <span
@@ -124,14 +126,6 @@
                                             }}</span>
                                         </div>
                                     </div>
-                                    <!-- <div class="flex justify-between mb-1.5">
-                                        <span class="text-[#7c66f7]">
-                                            **********5133
-                                        </span>
-                                        <div class="text-sm">
-                                            <span>18:27:45</span>
-                                        </div>
-                                    </div> -->
                                     <div class="flex justify-between mb-4">
                                         <div>
                                             <span class="mr-1">Comisión:</span>
@@ -154,15 +148,15 @@
                                     <mat-divider></mat-divider>
                                 </div>
                             </div>
-                        </div>
-                        <div
-                            *ngIf="transactions.length < 1"
-                            class="flex justify-center"
-                        >
-                            <span class="font-semibold text-lg">
-                                No se encontraron registros para la fecha
-                                indicada
-                            </span>
+                            <div
+                                *ngIf="transf.length < 1"
+                                class="flex justify-center"
+                            >
+                                <span class="font-semibold text-lg">
+                                    No se encontraron registros para la fecha
+                                    indicada
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

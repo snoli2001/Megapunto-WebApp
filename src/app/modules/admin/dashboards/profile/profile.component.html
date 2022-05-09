@@ -273,30 +273,38 @@
                         </div>
                         <div>
                             <div *ngFor="let deposit of deposits" class="my-4">
-                                <div class="flex justify-between mb-1.5">
-                                    <div class="text-[#7c66f7]">
-                                        <span class="font-semibold"
-                                            >Operación:</span
-                                        >
-                                        <span class="ml-1">{{
-                                            deposit.vc_nro_operacion
+                                <div *ngIf="deposits.length > 0">
+                                    <div class="flex justify-between mb-1.5">
+                                        <div class="text-[#7c66f7]">
+                                            <span class="font-semibold"
+                                                >Operación:</span
+                                            >
+                                            <span class="ml-1">{{
+                                                deposit.vc_nro_operacion
+                                            }}</span>
+                                        </div>
+                                        <span class="text-sm">{{
+                                            deposit.dt_fec_operacion
+                                                | date: "dd/MM/yyyy"
                                         }}</span>
                                     </div>
-                                    <span class="text-sm">{{
-                                        deposit.dt_fec_operacion
-                                            | date: "dd/MM/yyyy"
-                                    }}</span>
+                                    <div class="block mb-4">
+                                        <span class="mr-1">Monto:</span>
+                                        <span class="font-semibold"
+                                            >S/
+                                            {{
+                                                deposit.nu_importe | number: "1.2-2"
+                                            }}</span
+                                        >
+                                    </div>
+                                    <mat-divider></mat-divider>
                                 </div>
-                                <div class="block mb-4">
-                                    <span class="mr-1">Monto:</span>
-                                    <span class="font-semibold"
-                                        >S/
-                                        {{
-                                            deposit.nu_importe | number: "1.2-2"
-                                        }}</span
-                                    >
-                                </div>
-                                <mat-divider></mat-divider>
+                            </div>
+                            <div class="my-4 flex justify-center" *ngIf="deposits.length < 1">
+                                <span class="font-semibold text-lg">
+                                    No se encontraron registros para la fecha
+                                    indicada
+                                </span>
                             </div>
                         </div>
                     </div>
