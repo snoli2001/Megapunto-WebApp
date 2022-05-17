@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -47,7 +48,8 @@ import { MatCurrencyFormatModule } from 'mat-currency-format';
         NgApexchartsModule,
         TranslocoModule,
         SharedModule,
-        MatCurrencyFormatModule
+        MatCurrencyFormatModule,
+        MatDialogModule
     ]
 })
 export class HomeModule

@@ -46,10 +46,10 @@
                                         >Saldo actual</span
                                     >
                                     <span class="text-2xl font-semibold"
-                                        >S/{{ balance$ | async }}</span
+                                        >S/{{ balance }}</span
                                     >
                                 </div>
-                                <div class="flex items-center text-[#7c66f7]">
+                                <a routerLink="/dashboards/balance" class="flex items-center text-[#7c66f7]">
                                     <span class="font-semibold"
                                         >Aumentar saldo</span
                                     >
@@ -57,7 +57,7 @@
                                         class="text-[#7c66f7]"
                                         svgIcon="heroicons_outline:chevron-right"
                                     ></mat-icon>
-                                </div>
+                                </a>
                             </div>
                             <div class="hidden sm:flex">
                                 <img
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <!-- Notifications, general info and history -->
-                <div class="min-h-40 row-span-3 order-last md:order-2">
+                <div class="min-h-40 row-span-3 order-last md:order-2 invisible">
                     <!-- Notification -->
                     <div class="flex justify-between items-center">
                         <span class="text-lg font-bold">Notificación</span>
@@ -331,25 +331,34 @@
                             </div>
 
                             <div *ngIf="operationActive === 'digitalProducts'">
-                                <button
+                                <button *ngFor="let digitalProduct of digitalProducts$ | async"
                                     (click)="
-                                        toggleDigitalProducts('playstation')
+                                        toggleDigitalProducts(digitalProduct)
                                     "
                                     [ngClass]="{
                                         'bg-primary text-white':
                                             digitalProductActive ===
-                                            'playstation',
-                                        'bg-white text-[#130B32] hover:bg-primary hover:text-white':
+                                            digitalProduct,
+                                        'bg-white text-[#130B32] hover:bg-primary ':
                                             digitalProductActive !==
-                                            'playstation'
+                                            digitalProduct
                                     }"
-                                    class="block w-full sm:w-60 md:w-full py-2 px-4 rounded-xl border-primary border-2"
+                                    class="block w-full max-h-16 h-16 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2  flex justify-center items-center"
                                 >
-                                    <span class="text-lg font-semibold"
-                                        >Playstation</span
-                                    >
+                                    <!-- <span class="text-lg font-semibold"
+                                        >{{digitalProduct.vc_desc_grupo}}</span
+                                    > -->
+                                        <img
+
+                                        [ngClass]="{
+                                            'hover-white-active':
+                                                digitalProductActive ===
+                                                digitalProduct
+                                        }"
+
+                                        class="h-15 w-full m-2 hover-white" style="object-fit: contain;" [src]="digitalProduct.vc_url_imagen" alt="">
                                 </button>
-                                <button
+                                <!-- <button
                                     (click)="toggleDigitalProducts('sentinel')"
                                     [ngClass]="{
                                         'bg-primary text-white':
@@ -362,9 +371,10 @@
                                     <span class="text-lg font-semibold"
                                         >Sentinel</span
                                     >
-                                </button>
+                                </button> -->
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
+                                    (click)="nextStepDigitalProduct()"
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
                                     >
                                         Siguiente
@@ -378,3 +388,12 @@
         </div>
     </div>
 </div>
+
+<style>
+    .hover-white:hover{
+        filter: brightness(0) invert(1);
+    }
+    .hover-white-active{
+        filter: brightness(0) invert(1);
+    }
+</style>

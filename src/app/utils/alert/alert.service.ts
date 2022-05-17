@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AlertComponent } from './component/alert.component';
 
 @Injectable({
@@ -9,8 +9,8 @@ export class AlertService {
 
   constructor(private dialog: MatDialog) { }
 
-  showAlert(type: string, message: string, size: number, info: any): void {
-    this.dialog.open(AlertComponent, {
+  showAlert(type: string, message: string, size: number, info: any): MatDialogRef<AlertComponent, any> {
+    return this.dialog.open(AlertComponent, {
       data: {
         type: type,
         message: message,

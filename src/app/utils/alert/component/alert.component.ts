@@ -14,11 +14,15 @@ export class AlertComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dialogRef.updateSize(this.data.size > 760 ? '35%' : '70%');
+    this.dialogRef.updateSize(this.data.size);
+  }
+
+  tryAgain(): void {
+    this.dialogRef.close(false);
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
 }

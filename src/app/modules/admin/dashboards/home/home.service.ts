@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { AuthService } from 'app/core/auth/auth.service';
 import { environment } from 'environments/environment';
-import { Product } from './home.interfaces';
+import { DigitalProduct, DigitalProductDetail, Product } from './home.interfaces';
 
 @Injectable({
     providedIn: 'root',
@@ -54,6 +54,40 @@ export class HomeService {
                 vc_cod_producto,
                 vc_numero_servicio,
                 nu_precio,
+            }
+        );
+    }
+
+    getDigitalProducts(): Observable<DigitalProduct[]>{
+        const user: any = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const nu_id_seccion_app: string = '2';
+
+        return this._httpClient.post<DigitalProduct[]>(
+            `${environment.API_URL}/Grupo_Producto_APP/sel`,
+            {
+                nu_id_comercio_app,
+                nu_id_seccion_app
+            }
+        );
+    }
+
+    getDigitalProductsDetails(
+        nu_id_grupo_app: string,
+        nu_id_servicio_app: string = '2'
+    ): Observable<DigitalProductDetail[]>{
+        const user: any = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const nu_id_negocio: string = user.nu_id_negocio;
+
+
+        return this._httpClient.post<DigitalProductDetail[]>(
+            `${environment.API_URL}/Producto/sel_producto_app`,
+            {
+                nu_id_comercio_app,
+                nu_id_negocio,
+                nu_id_grupo_app,
+                nu_id_servicio_app
             }
         );
     }

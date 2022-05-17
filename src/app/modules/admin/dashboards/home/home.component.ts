@@ -1,3 +1,7 @@
+import { NgZone } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-shadow */
+import { AlertService } from 'app/utils/alert/alert.service';
+/* eslint-disable arrow-parens */
 import { MatDialog } from '@angular/material/dialog';
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -16,7 +20,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, observable, Observable, Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 import {
@@ -27,24 +31,26 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { DepositInfo } from '../profile/profile.interfaces';
 import { ProfileService } from '../profile/profile.service';
 import moment from 'moment';
-import { Product } from './home.interfaces';
+import { Product, DigitalProduct } from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
+import { DigitalProductsComponent } from './home-pop-ups/digital-products/digital-products.component';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     operationActive: string = 'charges';
-    digitalProductActive: string = 'playstation';
+    digitalProductActive: DigitalProduct;
     deposits$: Observable<DepositInfo[]>;
     products$: Observable<Product[]>;
     commerceInfo$: Observable<ProfileInfo>;
-    balance$: Observable<string>;
+    balance: string;
     topUpCellphoneBalanceForm: FormGroup;
+    digitalProducts$: Observable<DigitalProduct[]>;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
@@ -54,7 +60,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         private profileService: ProfileService,
         private homeService: HomeService,
         private fb: FormBuilder,
-        private matDialog: MatDialog
+        private matDialog: MatDialog,
+        private _alertService: AlertService,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit(): void {
@@ -69,6 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getBalance();
         this.getDeposits();
         this.getProducts();
+        this.getDigitalProducts();
     }
 
     ngOnDestroy(): void {
@@ -95,17 +104,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
     initTopUpCellphoneBalanceForm(): void {
         this.topUpCellphoneBalanceForm = this.fb.group({
-            product: [{}, Validators.required],
-            vc_numero_servicio: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+            product: [null, Validators.required],
+            vc_numero_servicio: [
+                '',
+                [
+                    Validators.required,
+                    Validators.minLength(9),
+                    Validators.maxLength(9),
+                ],
+            ],
         });
     }
 
     toggleOperation(operation: string): void {
         this.operationActive = operation;
+        this.digitalProductActive = null;
+        this.topUpCellphoneBalanceForm.get('product').setValue(null);
     }
 
-    toggleDigitalProducts(digitalProduct: string): void {
+    toggleDigitalProducts(digitalProduct: DigitalProduct): void {
         this.digitalProductActive = digitalProduct;
+        this.topUpCellphoneBalanceForm.get('product').setValue(null);
     }
 
     getName(): void {
@@ -113,9 +132,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     getBalance(): void {
-        this.balance$ = this._balanceService
+        this._balanceService
             .getBalance()
-            .pipe(map((resp: any) => resp.nu_saldo));
+            .pipe(map((resp: any) => resp.nu_saldo))
+            .subscribe((resp) => (this.balance = resp));
     }
 
     getDeposits(): void {
@@ -133,11 +153,67 @@ export class HomeComponent implements OnInit, OnDestroy {
             .pipe(map((resp: any[]) => resp));
     }
 
+    getDigitalProducts(): void {
+        this.digitalProducts$ = this.homeService.getDigitalProducts();
+    }
+
     nextStepOfHub(): void {
         this.topUpCellphoneBalanceForm.markAsTouched();
-        if (this.topUpCellphoneBalanceForm.valid) {
-            const dialogREf = this.matDialog.open(TopUpCellphoneBallanceComponent, {
-                data: this.topUpCellphoneBalanceForm.value,
+        if (!this.topUpCellphoneBalanceForm.valid) {
+            return;
+        }
+
+        this.ngZone.run(() => {
+            const dialogRef = this.matDialog.open(
+                TopUpCellphoneBallanceComponent,
+                {
+                    data: this.topUpCellphoneBalanceForm.value,
+                }
+            );
+
+            dialogRef.afterClosed().subscribe((transResp) => {
+                this._balanceService.getBalance().subscribe((resp) => {
+                    this.balance = resp.nu_saldo;
+                    if (transResp.nu_tran_stdo === '1') {
+                        this._alertService.showAlert(
+                            'success',
+                            transResp.tx_tran_mnsg,
+                            500,
+                            {
+                                balance: this.balance,
+                            }
+                        );
+                    }
+                });
+            });
+        });
+    }
+
+    nextStepDigitalProduct(): void {
+        if (this.digitalProductActive) {
+            this.ngZone.run(() => {
+                const dialogRef = this.matDialog.open(
+                    DigitalProductsComponent,
+                    {
+                        data: this.digitalProductActive,
+                    }
+                );
+
+                dialogRef.afterClosed().subscribe((transResp) => {
+                    this._balanceService.getBalance().subscribe((resp) => {
+                        this.balance = resp.nu_saldo;
+                        if (transResp.nu_tran_stdo === '1') {
+                            this._alertService.showAlert(
+                                'success',
+                                transResp.tx_tran_mnsg,
+                                500,
+                                {
+                                    balance: this.balance,
+                                }
+                            );
+                        }
+                    });
+                });
             });
         }
     }

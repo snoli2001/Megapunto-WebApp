@@ -9,11 +9,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     styleUrls: ['./bank-guide-pdf-pop-up.component.scss'],
 })
 export class BankGuidePdfPopUpComponent implements OnInit {
-    iframeSrc: SafeUrl;
+    iframeSrc: any;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: string,
         public matDialogRef: MatDialogRef<BankGuidePdfPopUpComponent>,
-        private sanitizer: DomSanitizer
     ) {
         console.log(data);
         this.iframeSrc = data;

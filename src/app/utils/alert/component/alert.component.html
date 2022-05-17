@@ -6,7 +6,7 @@
 <!-- Error message -->
 <div *ngIf="data.type === 'error'">
     <div class="flex items-center justify-center">
-        <img class="w-1/2" src="assets/images/draw/icon_payment_success.png" />
+        <img class="w-auto" src="assets/images/draw/icon_payment_success.png" />
     </div>
     <div class="text-center font-extrabold text-2xl my-2">
         Ha ocurrido un problema
@@ -15,14 +15,14 @@
         {{ data.message || 'La operación no ha podido completarse por un problema de sistema' }}
     </div>
     <div class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center mt-8">
-        <button mat-flat-button [color]="'secondary'">Cancelar operación</button>
-        <button mat-flat-button [color]="'primary'">Intentar de nuevo</button>
+        <button mat-flat-button [color]="'secondary'" (click)="onClose()">Cancelar operación</button>
+        <button mat-flat-button [color]="'primary'" (click)="tryAgain()" >Intentar de nuevo</button>
     </div>
 </div>
 <!-- Success operation message -->
 <div *ngIf="data.type === 'success'">
     <div class="flex items-center justify-center">
-        <img class="w-1/2" src="assets/images/draw/icon_payment_success.png" />
+        <img class="w-auto" src="assets/images/draw/icon_payment_success.png" />
     </div>
     <div class="text-center font-extrabold text-2xl my-2">
         Operación exitosa
@@ -31,7 +31,7 @@
         {{ data.message || 'Recuerda que puedes aumentar el saldo de tu cuenta en cualquier momento' }}
     </div>
     <div class="flex justify-center items-center my-4 sm:my-6">
-        <button mat-flat-button [color]="'primary'">Entendido</button>
+        <button mat-flat-button [color]="'primary'" (click)="onClose()">Entendido</button>
     </div>
     <div class="flex justify-center text-center text-gray-400">
         <span>
@@ -43,7 +43,7 @@
 <!-- Not enough balance message -->
 <div *ngIf="data.type === 'not-enough-balance'">
     <div class="flex items-center justify-center">
-        <img class="w-1/2" src="assets/images/draw/icon_payment_success.png" />
+        <img class="w-auto" src="assets/images/draw/icon_payment_success.png" />
     </div>
     <div class="text-center font-extrabold text-2xl my-2">
         No cuentas con saldo suficiente
@@ -76,7 +76,7 @@
     </div>
 </div>
 <!-- Business code -->
-<div *ngIf="data.type === 'business-code'">
+<div *ngIf="data.type === 'business-code'" >
     <div class="text-center font-extrabold text-2xl my-3">
         Para conocer tu código de comercio
     </div>

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+import { BalanceService } from './../../../balance/balance.service';
+/* eslint-disable arrow-parens */
+import { AlertService } from './../../../../../../utils/alert/alert.service';
 import { HomeService } from './../../home.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -13,7 +17,8 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TopUpCellphoneBallanceComponent>,
-        private homeService: HomeService
+        private homeService: HomeService,
+        private _alertService: AlertService,
     ) {}
 
     ngOnInit(): void {}
@@ -31,7 +36,21 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
                     this.data.vc_numero_servicio,
                     String(this.nu_precio)
                 )
-                .subscribe(resp => this.close());
+                .subscribe((resp) => {
+
+                    if (resp.nu_tran_stdo === '0') {
+                        this._alertService
+                            .showAlert('error', resp.tx_tran_mnsg, 500, null)
+                            .afterClosed()
+                            .subscribe((closeOperation) => {
+                                if (closeOperation === true) {
+                                    this.close();
+                                }
+                            });
+                    } else {
+                        this.matDialogRef.close(resp);
+                    }
+                });
         }
     }
 
