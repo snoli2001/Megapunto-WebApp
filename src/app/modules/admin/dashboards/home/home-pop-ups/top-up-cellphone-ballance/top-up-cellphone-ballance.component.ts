@@ -14,6 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class TopUpCellphoneBallanceComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     nu_precio = 0;
+    disable: boolean;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TopUpCellphoneBallanceComponent>,
@@ -29,6 +30,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
 
     topUpCellphoneBalance(): void {
         if (this.nu_precio > 0) {
+            this.disable = true;
             this.homeService
                 .topUpCellphoneBalance(
                     this.data.product.nu_id_producto_app,
@@ -37,7 +39,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
                     String(this.nu_precio)
                 )
                 .subscribe((resp) => {
-
+                    this.disable = false;
                     if (resp.nu_tran_stdo === '0') {
                         this._alertService
                             .showAlert('error', resp.tx_tran_mnsg, 500, null)

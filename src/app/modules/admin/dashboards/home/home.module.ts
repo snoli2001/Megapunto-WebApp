@@ -1,3 +1,4 @@
+import { DigitalProductsComponent } from './home-pop-ups/digital-products/digital-products.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -23,12 +24,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 import { MatCurrencyFormatModule } from 'mat-currency-format';
+import { MatStepperModule } from '@angular/material/stepper';
+
 @NgModule({
-    declarations: [
-        HomeComponent,
-        TopUpCellphoneBallanceComponent
-    ],
-    imports     : [
+    declarations: [HomeComponent, TopUpCellphoneBallanceComponent, DigitalProductsComponent],
+    imports: [
         RouterModule.forChild(homeRoutes),
         MatButtonModule,
         MatButtonToggleModule,
@@ -49,9 +49,8 @@ import { MatCurrencyFormatModule } from 'mat-currency-format';
         TranslocoModule,
         SharedModule,
         MatCurrencyFormatModule,
-        MatDialogModule
-    ]
+        MatDialogModule,
+        MatStepperModule,
+    ],
 })
-export class HomeModule
-{
-}
+export class HomeModule {}

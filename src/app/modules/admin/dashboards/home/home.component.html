@@ -49,7 +49,10 @@
                                         >S/{{ balance }}</span
                                     >
                                 </div>
-                                <a routerLink="/dashboards/balance" class="flex items-center text-[#7c66f7]">
+                                <a
+                                    routerLink="/dashboards/balance"
+                                    class="flex items-center text-[#7c66f7]"
+                                >
                                     <span class="font-semibold"
                                         >Aumentar saldo</span
                                     >
@@ -70,7 +73,9 @@
                     </div>
                 </div>
                 <!-- Notifications, general info and history -->
-                <div class="min-h-40 row-span-3 order-last md:order-2 invisible">
+                <div
+                    class="min-h-40 row-span-3 order-last md:order-2 invisible"
+                >
                     <!-- Notification -->
                     <div class="flex justify-between items-center">
                         <span class="text-lg font-bold">Notificación</span>
@@ -273,6 +278,11 @@
                                         matInput
                                         placeholder="Número de celular"
                                     />
+                                    <mat-error
+                                        *ngIf="vc_numero_servicioInvalid"
+                                    >
+                                        Ingrese un número de celular válido
+                                    </mat-error>
                                 </mat-form-field>
                                 <mat-radio-group formControlName="product">
                                     <mat-radio-button
@@ -286,6 +296,9 @@
                                         {{ product?.vc_desc_producto }}
                                     </mat-radio-button>
                                 </mat-radio-group>
+                                <mat-error *ngIf="productInvalid"
+                                    >Seleccione un operador</mat-error
+                                >
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
                                         (click)="nextStepOfHub()"
@@ -331,7 +344,11 @@
                             </div>
 
                             <div *ngIf="operationActive === 'digitalProducts'">
-                                <button *ngFor="let digitalProduct of digitalProducts$ | async"
+                                <button
+                                    *ngFor="
+                                        let digitalProduct of digitalProducts$
+                                            | async
+                                    "
                                     (click)="
                                         toggleDigitalProducts(digitalProduct)
                                     "
@@ -343,38 +360,26 @@
                                             digitalProductActive !==
                                             digitalProduct
                                     }"
-                                    class="block w-full max-h-16 h-16 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2  flex justify-center items-center"
+                                    class="block w-full max-h-16 h-16 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2 flex justify-center items-center"
                                 >
                                     <!-- <span class="text-lg font-semibold"
                                         >{{digitalProduct.vc_desc_grupo}}</span
                                     > -->
-                                        <img
-
+                                    <img
                                         [ngClass]="{
                                             'hover-white-active':
                                                 digitalProductActive ===
                                                 digitalProduct
                                         }"
-
-                                        class="h-15 w-full m-2 hover-white" style="object-fit: contain;" [src]="digitalProduct.vc_url_imagen" alt="">
+                                        class="h-15 w-full m-2 hover-white"
+                                        style="object-fit: contain"
+                                        [src]="digitalProduct.vc_url_imagen"
+                                        alt=""
+                                    />
                                 </button>
-                                <!-- <button
-                                    (click)="toggleDigitalProducts('sentinel')"
-                                    [ngClass]="{
-                                        'bg-primary text-white':
-                                            digitalProductActive === 'sentinel',
-                                        'bg-white text-[#130B32] hover:bg-primary hover:text-white':
-                                            digitalProductActive !== 'sentinel'
-                                    }"
-                                    class="block w-full sm:w-60 md:w-full mt-4 py-2 px-4 rounded-xl border-primary border-2"
-                                >
-                                    <span class="text-lg font-semibold"
-                                        >Sentinel</span
-                                    >
-                                </button> -->
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
-                                    (click)="nextStepDigitalProduct()"
+                                        (click)="nextStepDigitalProduct()"
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
                                     >
                                         Siguiente
@@ -390,10 +395,10 @@
 </div>
 
 <style>
-    .hover-white:hover{
+    .hover-white:hover {
         filter: brightness(0) invert(1);
     }
-    .hover-white-active{
+    .hover-white-active {
         filter: brightness(0) invert(1);
     }
 </style>

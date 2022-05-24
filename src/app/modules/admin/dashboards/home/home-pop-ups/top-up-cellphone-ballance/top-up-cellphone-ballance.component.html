@@ -6,6 +6,7 @@
                 class="w-full"
                 autocomplete="off"
                 matInput
+                [disabled]="disable"
                 type="text"
                 mvndrMatCurrencyFormat
                 [allowNegative]="false"
@@ -31,12 +32,19 @@
         </div>
     </div>
     <div class="flex justify-center">
-        <button mat-raised-button color="warn" class="mr-2" (click)="close()">
+        <button
+            [disabled]="disable"
+            mat-raised-button
+            color="warn"
+            class="mr-2"
+            (click)="close()"
+        >
             Cancelar
         </button>
         <button
             (click)="topUpCellphoneBalance()"
             mat-raised-button
+            [disabled]="disable"
             color="primary"
         >
             Recargar

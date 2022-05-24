@@ -44,6 +44,7 @@ export class HomeService {
         const user: any = jwt_decode(this._authService.user);
         const nu_id_comercio: string = user.nu_id_comercio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const vc_tran_usua_regi: string = '123142341';
 
         return this._httpClient.post<Product[]>(
             `${environment.API_URL}/Transacciones_App/ins_izipay_hub`,
@@ -54,6 +55,7 @@ export class HomeService {
                 vc_cod_producto,
                 vc_numero_servicio,
                 nu_precio,
+                vc_tran_usua_regi
             }
         );
     }

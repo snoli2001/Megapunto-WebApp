@@ -65,6 +65,20 @@ export class HomeComponent implements OnInit, OnDestroy {
         private ngZone: NgZone
     ) {}
 
+    get vc_numero_servicioInvalid(): boolean {
+        return (
+            this.topUpCellphoneBalanceForm.get('vc_numero_servicio').invalid &&
+            this.topUpCellphoneBalanceForm.get('vc_numero_servicio').touched
+        );
+    }
+
+    get productInvalid(): boolean {
+        return (
+            this.topUpCellphoneBalanceForm.get('product').invalid &&
+            this.topUpCellphoneBalanceForm.get('product').touched
+        );
+    }
+
     ngOnInit(): void {
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -158,7 +172,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     nextStepOfHub(): void {
-        this.topUpCellphoneBalanceForm.markAsTouched();
+        this.topUpCellphoneBalanceForm.markAllAsTouched();
         if (!this.topUpCellphoneBalanceForm.valid) {
             return;
         }
@@ -167,6 +181,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             const dialogRef = this.matDialog.open(
                 TopUpCellphoneBallanceComponent,
                 {
+                    disableClose: true,
                     data: this.topUpCellphoneBalanceForm.value,
                 }
             );
@@ -195,6 +210,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 const dialogRef = this.matDialog.open(
                     DigitalProductsComponent,
                     {
+                        disableClose: true,
                         data: this.digitalProductActive,
                     }
                 );
@@ -202,6 +218,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                 dialogRef.afterClosed().subscribe((transResp) => {
                     this._balanceService.getBalance().subscribe((resp) => {
                         this.balance = resp.nu_saldo;
+                        if (!transResp) {
+                            return;
+                        }
                         if (transResp.nu_tran_stdo === '1') {
                             this._alertService.showAlert(
                                 'success',
