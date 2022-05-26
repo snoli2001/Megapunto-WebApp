@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DigitalProductsComponent } from './digital-products.component';
+import { IncommComponent } from './incomm.component';
 
-describe('DigitalProductsComponent', () => {
-  let component: DigitalProductsComponent;
-  let fixture: ComponentFixture<DigitalProductsComponent>;
+describe('IncommComponent', () => {
+  let component: IncommComponent;
+  let fixture: ComponentFixture<IncommComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DigitalProductsComponent ]
+      declarations: [ IncommComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DigitalProductsComponent);
+    fixture = TestBed.createComponent(IncommComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,3 @@
-import { DigitalProductsComponent } from './home-pop-ups/digital-products/digital-products.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -25,9 +24,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 import { MatCurrencyFormatModule } from 'mat-currency-format';
 import { MatStepperModule } from '@angular/material/stepper';
+import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
+import { IncommComponent } from './home-pop-ups/digital-products/incomm/incomm.component';
 
 @NgModule({
-    declarations: [HomeComponent, TopUpCellphoneBallanceComponent, DigitalProductsComponent],
+    declarations: [HomeComponent, TopUpCellphoneBallanceComponent, SentinelComponent, IncommComponent],
     imports: [
         RouterModule.forChild(homeRoutes),
         MatButtonModule,

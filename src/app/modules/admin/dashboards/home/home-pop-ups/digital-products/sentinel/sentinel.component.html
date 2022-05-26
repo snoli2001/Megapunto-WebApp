@@ -1,0 +1,252 @@
+<div class="w-full flex flex-col">
+    <mat-stepper linear #stepper>
+        <mat-step [stepControl]="detailSelectedForm">
+            <div class="mb-4">
+                <h1 class="text-xl font-semibold">Detalles de Grupos</h1>
+                <p>Seleccione el detalle del producto a facturar</p>
+            </div>
+
+            <button
+                *ngFor="let detail of digitalProductDetails$ | async"
+                (click)="toggleDigitalDetails(detail)"
+                [ngClass]="{
+                    'bg-primary text-white': detailActive === detail,
+                    'bg-white text-[#130B32] hover:bg-primary hover:text-white':
+                        detailActive !== detail
+                }"
+                class="block w-full h-10 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2 flex justify-center items-center"
+            >
+                {{ detail.vc_desc_producto }}
+            </button>
+
+            <div *ngIf="detailActive">
+                <div *ngIf="detailActive.vc_descripcion.length > 0">
+                    <h3 class="text-lg text-primary">Descripcion:</h3>
+                    <p>
+                        {{ detailActive.vc_descripcion }}
+                    </p>
+                </div>
+            </div>
+            <mat-error *ngIf="!detailActive && nextClicked">
+                Seleccione un detalle
+            </mat-error>
+        </mat-step>
+        <mat-step [stepControl]="validDocuments">
+            <div *ngIf="detailActive" class="text-xl font-semibold">
+                {{ detailActive.vc_desc_producto }}
+            </div>
+
+            <div class="flex justify-between items-center mt-3">
+                <div class="w-1/2 h-10">
+                    <img [src]="data.digitalProduct.vc_url_imagen" alt="" />
+                </div>
+                <div class="w-1/2 flex flex-col justify-center p-5 ml-5">
+                    <div class="flex justify-between items-center">
+                        <div class="font-semibold">Importe:</div>
+                        <div class="text-primary">S/ 5,00</div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="font-semibold"># Gratuitos:</div>
+                        <div class="text-primary">0</div>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="documentsValidationForm">
+                <div class="flex flex-col items-center mt-5">
+                    <div class="font-semibold uppercase tracking-wide w-full">
+                        Datos del Solicitante
+                        <div
+                            class="w-1/6 border-[#7c66f7] border-b-2 my-1"
+                        ></div>
+                    </div>
+                    <div class="w-full mt-2">
+                        <mat-form-field class="w-full" appereance="fill">
+                            <mat-select
+                                formControlName="consultantDocumentType"
+                                placeholder="Tipo de documento"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let documentType of documentTypes$
+                                            | async
+                                    "
+                                    [value]="
+                                        documentType.nu_id_tipo_doc_identidad
+                                    "
+                                >
+                                    {{
+                                        documentType.vc_desc_tipo_doc_identidad
+                                    }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full">
+                        <mat-form-field class="w-full" appereance="fill">
+                            <input
+                                [disabled]="disable"
+                                id="vc_numero_servicio"
+                                matInput
+                                placeholder="Número de Documento"
+                                formControlName="consultantDocumentNumber"
+                            />
+                            <mat-error *ngIf="false">
+                                Ingrese el número de documento
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center mt-3">
+                    <div class="font-semibold uppercase tracking-wide w-full">
+                        Datos del Consultado
+                        <div
+                            class="w-1/6 border-[#7c66f7] border-b-2 my-1"
+                        ></div>
+                    </div>
+                    <div class="w-full mt-2">
+                        <mat-form-field class="w-full" appereance="fill">
+                            <mat-select
+                                formControlName="consultedDocumentType"
+                                placeholder="Tipo de documento"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let documentType of documentTypes$
+                                            | async
+                                    "
+                                    [value]="
+                                        documentType.nu_id_tipo_doc_identidad
+                                    "
+                                >
+                                    {{
+                                        documentType.vc_desc_tipo_doc_identidad
+                                    }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full">
+                        <mat-form-field class="w-full" appereance="fill">
+                            <input
+                                [disabled]="disable"
+                                id="vc_numero_servicio"
+                                matInput
+                                placeholder="Número de Documento"
+                                formControlName="consultedDocumentNumber"
+                            />
+                            <mat-error *ngIf="false">
+                                Ingrese el número de documento
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <div class="flex flex-col items-center mt-5">
+                <div class="font-semibold uppercase tracking-wide w-full">
+                    Solicitante
+                    <div class="w-1/6 border-[#7c66f7] border-b-2 my-1"></div>
+                </div>
+            </div>
+            <div class="mt-2" *ngIf="consultant">
+                <h3 class="text-[#64748B] font-semibold">
+                    {{ consultant.nombres }} {{ consultant.apellidoPaterno }}
+                    {{ consultant.apellidoMaterno }}
+                </h3>
+                <h3 class="text-[#64748B] font-semibold mt-1">
+                    {{ consultantDocumentNumber }}
+                </h3>
+            </div>
+            <h1 class="text-xl font-semibold mt-3">
+                Registrar los siguientes datos
+            </h1>
+            <form [formGroup]="consultantInformationForm">
+                <div class="w-full mt-2">
+                    <mat-form-field class="w-full" appereance="fill">
+                        <input
+                            [disabled]="disable"
+                            matInput
+                            placeholder="Correo del solicitante"
+                            formControlName="email"
+                        />
+                        <mat-error *ngIf="InvalidEmail">
+                            Ingrese un correo válido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="w-full">
+                    <mat-form-field class="w-full" appereance="fill">
+                        <input
+                            [disabled]="disable"
+                            matInput
+                            placeholder="Celular del solicitante"
+                            formControlName="cellphone"
+                        />
+                        <mat-error *ngIf="InvalidCellphone">
+                            Ingrese un número de celular válido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="w-full">
+                    <mat-form-field class="w-full" appereance="fill">
+                        <mat-select
+                            [disabled]="disable"
+                            id="billType"
+                            placeholder="Tipo de comprobante"
+                            [formControlName]="'billType'"
+                        >
+                            <mat-option value="1">Factura</mat-option>
+                            <mat-option value="2">Boleta de venta</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+
+            <div class="flex flex-col items-center mt-5">
+                <div class="font-semibold uppercase tracking-wide w-full">
+                    Consultado
+                    <div class="w-1/6 border-[#7c66f7] border-b-2 my-1"></div>
+                </div>
+            </div>
+
+            <div class="mt-2" *ngIf="consulted">
+                <h3 class="text-[#64748B] font-semibold">
+                    {{ consulted.nombres }} {{ consulted.apellidoPaterno }}
+                    {{ consulted.apellidoMaterno }}
+                </h3>
+                <h3 class="text-[#64748B] font-semibold mt-1">
+                    {{ consultedDocumentNumber }}
+                </h3>
+            </div>
+        </mat-step>
+    </mat-stepper>
+
+    <div class="flex justify-center mt-4 sm:mt-8">
+        <button
+            [disabled]="disable"
+            class="text-red-500 font-bold border-2 border-red-500 px-6 py-1 rounded-xl hover:text-white hover:bg-red-500"
+            (click)="close()"
+        >
+            Cancelar
+        </button>
+        <button
+            *ngIf="stepper.selectedIndex === 0 || stepper.selectedIndex === 1"
+            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            (click)="nextStep(stepper)"
+        >
+            Siguiente
+        </button>
+        <button
+            [disabled]="disable"
+            *ngIf="stepper.selectedIndex === 2"
+            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            (click)="sellDigitalProduct()"
+        >
+            Vender
+        </button>
+    </div>
+</div>

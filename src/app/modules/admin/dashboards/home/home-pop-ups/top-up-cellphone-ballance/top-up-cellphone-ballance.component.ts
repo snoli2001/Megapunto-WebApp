@@ -19,10 +19,12 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TopUpCellphoneBallanceComponent>,
         private homeService: HomeService,
-        private _alertService: AlertService,
+        private _alertService: AlertService
     ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.matDialogRef.updateSize(this.data.size);
+    }
 
     updateNuPrecio(event): void {
         this.nu_precio = event.target.value;
@@ -33,9 +35,9 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
             this.disable = true;
             this.homeService
                 .topUpCellphoneBalance(
-                    this.data.product.nu_id_producto_app,
-                    this.data.product.vc_cod_producto,
-                    this.data.vc_numero_servicio,
+                    this.data.value.product.nu_id_producto_app,
+                    this.data.value.product.vc_cod_producto,
+                    this.data.value.vc_numero_servicio,
                     String(this.nu_precio)
                 )
                 .subscribe((resp) => {

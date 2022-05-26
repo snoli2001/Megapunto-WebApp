@@ -1,4 +1,4 @@
-<div class="w-56 sm:w-96 h-96 flex flex-col justify-between">
+<div class="w-full  flex flex-col justify-between">
     <div>
         <h1 class="text-2xl font-bold">Monto a recargar</h1>
         <mat-form-field class="mt-4 w-full">
@@ -21,17 +21,17 @@
         <div class="flex flex-col my-2">
             <span class="font-bold text-lg">Celular</span>
             <span class="text-lg">
-                {{ data.vc_numero_servicio }}
+                {{ data.value.vc_numero_servicio }}
             </span>
         </div>
         <div class="flex flex-col mt-2">
             <span class="font-bold text-lg">Operador</span>
             <span class="text-lg">
-                {{ data.product.vc_desc_producto }}
+                {{ data.value.product.vc_desc_producto }}
             </span>
         </div>
     </div>
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-3">
         <button
             [disabled]="disable"
             mat-raised-button

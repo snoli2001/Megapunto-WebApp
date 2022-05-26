@@ -1,3 +1,5 @@
+import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
+import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
 import { NgZone } from '@angular/core';
 /* eslint-disable @typescript-eslint/no-shadow */
 import { AlertService } from 'app/utils/alert/alert.service';
@@ -33,7 +35,6 @@ import { ProfileService } from '../profile/profile.service';
 import moment from 'moment';
 import { Product, DigitalProduct } from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
-import { DigitalProductsComponent } from './home-pop-ups/digital-products/digital-products.component';
 
 @Component({
     selector: 'home',
@@ -182,7 +183,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                 TopUpCellphoneBallanceComponent,
                 {
                     disableClose: true,
-                    data: this.topUpCellphoneBalanceForm.value,
+                    data: {
+                        value: this.topUpCellphoneBalanceForm.value,
+                        size: 500,
+                    },
                 }
             );
 
@@ -206,34 +210,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     nextStepDigitalProduct(): void {
         if (this.digitalProductActive) {
-            this.ngZone.run(() => {
-                const dialogRef = this.matDialog.open(
-                    DigitalProductsComponent,
-                    {
+            console.log(this.digitalProductActive.nu_id_grupo_app);
+            if (this.digitalProductActive.nu_id_grupo_app === '1') {
+                this.ngZone.run(() => {
+                    this.matDialog.open(SentinelComponent, {
                         disableClose: true,
-                        data: this.digitalProductActive,
-                    }
-                );
-
-                dialogRef.afterClosed().subscribe((transResp) => {
-                    this._balanceService.getBalance().subscribe((resp) => {
-                        this.balance = resp.nu_saldo;
-                        if (!transResp) {
-                            return;
-                        }
-                        if (transResp.nu_tran_stdo === '1') {
-                            this._alertService.showAlert(
-                                'success',
-                                transResp.tx_tran_mnsg,
-                                500,
-                                {
-                                    balance: this.balance,
-                                }
-                            );
-                        }
+                        data: {
+                            digitalProduct: this.digitalProductActive,
+                            size: 500,
+                        },
                     });
                 });
-            });
+            }
+            if (this.digitalProductActive.nu_id_grupo_app === '3') {
+                this.ngZone.run(() => {
+                    this.matDialog.open(IncommComponent, {
+                        disableClose: true,
+                        data: {
+                            digitalProduct: this.digitalProductActive,
+                            size: 500,
+                        },
+                    });
+                });
+            }
         }
     }
 }

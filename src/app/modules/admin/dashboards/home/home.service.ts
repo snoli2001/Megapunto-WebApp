@@ -5,7 +5,12 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { AuthService } from 'app/core/auth/auth.service';
 import { environment } from 'environments/environment';
-import { DigitalProduct, DigitalProductDetail, Product } from './home.interfaces';
+import {
+    DigitalProduct,
+    DigitalProductDetail,
+    Product,
+} from './home.interfaces';
+import { UserInterface } from 'app/core/auth/User.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -20,7 +25,7 @@ export class HomeService {
         nu_id_grupo_app: string,
         nu_id_servicio_app: string
     ): Observable<Product[]> {
-        const user: any = jwt_decode(this._authService.user);
+        const user: UserInterface = jwt_decode(this._authService.user);
         const nu_id_negocio: string = user.nu_id_negocio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
 
@@ -45,7 +50,6 @@ export class HomeService {
         const nu_id_comercio: string = user.nu_id_comercio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
         const vc_tran_usua_regi: string = '123142341';
-
         return this._httpClient.post<Product[]>(
             `${environment.API_URL}/Transacciones_App/ins_izipay_hub`,
             {
@@ -55,13 +59,13 @@ export class HomeService {
                 vc_cod_producto,
                 vc_numero_servicio,
                 nu_precio,
-                vc_tran_usua_regi
+                vc_tran_usua_regi,
             }
         );
     }
 
-    getDigitalProducts(): Observable<DigitalProduct[]>{
-        const user: any = jwt_decode(this._authService.user);
+    getDigitalProducts(): Observable<DigitalProduct[]> {
+        const user: UserInterface = jwt_decode(this._authService.user);
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
         const nu_id_seccion_app: string = '2';
 
@@ -69,7 +73,7 @@ export class HomeService {
             `${environment.API_URL}/Grupo_Producto_APP/sel`,
             {
                 nu_id_comercio_app,
-                nu_id_seccion_app
+                nu_id_seccion_app,
             }
         );
     }
@@ -77,11 +81,10 @@ export class HomeService {
     getDigitalProductsDetails(
         nu_id_grupo_app: string,
         nu_id_servicio_app: string = '2'
-    ): Observable<DigitalProductDetail[]>{
-        const user: any = jwt_decode(this._authService.user);
+    ): Observable<DigitalProductDetail[]> {
+        const user: UserInterface = jwt_decode(this._authService.user);
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
         const nu_id_negocio: string = user.nu_id_negocio;
-
 
         return this._httpClient.post<DigitalProductDetail[]>(
             `${environment.API_URL}/Producto/sel_producto_app`,
@@ -89,7 +92,7 @@ export class HomeService {
                 nu_id_comercio_app,
                 nu_id_negocio,
                 nu_id_grupo_app,
-                nu_id_servicio_app
+                nu_id_servicio_app,
             }
         );
     }
