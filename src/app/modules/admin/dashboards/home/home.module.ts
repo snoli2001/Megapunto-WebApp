@@ -12,8 +12,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TranslocoModule } from '@ngneat/transloco';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { HomeComponent } from 'app/modules/admin/dashboards/home/home.component';
 import { homeRoutes } from 'app/modules/admin/dashboards/home/home.routing';
@@ -25,10 +23,15 @@ import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone
 import { MatCurrencyFormatModule } from 'mat-currency-format';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
-import { IncommComponent } from './home-pop-ups/digital-products/incomm/incomm.component';
+import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
 
 @NgModule({
-    declarations: [HomeComponent, TopUpCellphoneBallanceComponent, SentinelComponent, IncommComponent],
+    declarations: [
+        HomeComponent,
+        TopUpCellphoneBallanceComponent,
+        SentinelComponent,
+        IncommComponent,
+    ],
     imports: [
         RouterModule.forChild(homeRoutes),
         MatButtonModule,
@@ -46,8 +49,6 @@ import { IncommComponent } from './home-pop-ups/digital-products/incomm/incomm.c
         MatInputModule,
         MatRadioModule,
         MatSelectModule,
-        NgApexchartsModule,
-        TranslocoModule,
         SharedModule,
         MatCurrencyFormatModule,
         MatDialogModule,
