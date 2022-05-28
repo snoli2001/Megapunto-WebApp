@@ -31,7 +31,7 @@
                             class="flex justify-center items-center px-3 py-1 border-2 shadow-sm rounded-lg w-full sm:min-w-24 sm:max-w-60"
                         >
                             <span class="text-[#7c66f7] font-bold text-xl"
-                                >S/ {{ balance$ | async }}</span
+                                >S/ {{ balance$ | async | number: "" }}</span
                             >
                         </div>
                         <div class="my-2 sm:mx-2">
@@ -66,10 +66,14 @@
                         <div>
                             Puede realizar el depósito en la cuenta que elijas:
                         </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 lg:gap-1 mt-5 w-full">
+                        <div
+                            class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 lg:gap-1 mt-5 w-full"
+                        >
                             <button
                                 *ngFor="let bank of banks$ | async"
-                                (click)="openGuide(bank.vc_url_flyer_web_megapunto)"
+                                (click)="
+                                    openGuide(bank.vc_url_flyer_web_megapunto)
+                                "
                                 class="px-8 py-1 text-white rounded font-semibold w-28 mr-2"
                                 [style]="{
                                     'background-color': bank.vc_hex_color

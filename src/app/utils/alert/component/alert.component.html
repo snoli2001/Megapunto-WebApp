@@ -1,5 +1,8 @@
 <div class="flex justify-end mb-4">
-    <span class="cursor-pointer h-8 p-1 rounded-full bg-gray-200" (click)="onClose()">
+    <span
+        class="cursor-pointer h-8 p-1 rounded-full bg-gray-200"
+        (click)="onClose()"
+    >
         <mat-icon svgIcon="heroicons_outline:x"></mat-icon>
     </span>
 </div>
@@ -11,12 +14,22 @@
     <div class="text-center font-extrabold text-2xl my-2">
         Ha ocurrido un problema
     </div>
-    <div class="text-center">
-        {{ data.message || 'La operación no ha podido completarse por un problema de sistema' }}
-    </div>
-    <div class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center mt-8">
-        <button mat-flat-button [color]="'secondary'" (click)="onClose()">Cancelar operación</button>
-        <button mat-flat-button [color]="'primary'" (click)="tryAgain()" >Intentar de nuevo</button>
+    <div
+        class="text-center"
+        [innerHtml]="
+            data.message ||
+            'La operación no ha podido completarse por un problema de sistema'
+        "
+    ></div>
+    <div
+        class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center mt-8"
+    >
+        <button mat-flat-button [color]="'secondary'" (click)="onClose()">
+            Cancelar operación
+        </button>
+        <button mat-flat-button [color]="'primary'" (click)="tryAgain()">
+            Intentar de nuevo
+        </button>
     </div>
 </div>
 <!-- Success operation message -->
@@ -27,16 +40,22 @@
     <div class="text-center font-extrabold text-2xl my-2">
         Operación exitosa
     </div>
-    <div class="text-center">
-        {{ data.message || 'Recuerda que puedes aumentar el saldo de tu cuenta en cualquier momento' }}
-    </div>
+    <div
+        class="text-center"
+        [innerHtml]="
+            data.message ||
+            'Recuerda que puedes aumentar el saldo de tu cuenta en cualquier momento'
+        "
+    ></div>
     <div class="flex justify-center items-center my-4 sm:my-6">
-        <button mat-flat-button [color]="'primary'" (click)="onClose()">Entendido</button>
+        <button mat-flat-button [color]="'primary'" (click)="onClose()">
+            Entendido
+        </button>
     </div>
     <div class="flex justify-center text-center text-gray-400">
         <span>
             El saldo actual de tu negocio es de&nbsp;
-            <strong>S/ {{ data.info.balance | number:'1.2-2' }}</strong>
+            <strong>S/ {{ data.info.balance | number: "1.2-2" }}</strong>
         </span>
     </div>
 </div>
@@ -49,7 +68,10 @@
         No cuentas con saldo suficiente
     </div>
     <div class="text-center">
-        {{ data.message || 'Recuerda que puedes modificar el importe de la operación' }}
+        {{
+            data.message ||
+                "Recuerda que puedes modificar el importe de la operación"
+        }}
     </div>
     <div class="flex justify-center items-center my-4 sm:my-6">
         <button mat-flat-button [color]="'primary'">Modifica el importe</button>
@@ -62,29 +84,37 @@
 </div>
 <!-- Payment confirmation -->
 <div *ngIf="data.type === 'payment-confirmation'">
-    <div class="text-center">
-        Estás realizando un pago de
-    </div>
+    <div class="text-center">Estás realizando un pago de</div>
     <div class="text-center font-extrabold text-2xl my-2">
-        S/ {{ data.info.amount | number:'1.2-2' }}
+        S/ {{ data.info.amount | number: "1.2-2" }}
     </div>
-    <div class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center my-4 sm:my-6">
-        <span class="order-last sm:order-first font-semibold underline cursor-pointer text-primary text-center">
+    <div
+        class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center my-4 sm:my-6"
+    >
+        <span
+            class="order-last sm:order-first font-semibold underline cursor-pointer text-primary text-center"
+        >
             Cancelar pago
         </span>
-        <button class="order-first sm:order-last" mat-flat-button [color]="'primary'">Confirmar</button>
+        <button
+            class="order-first sm:order-last"
+            mat-flat-button
+            [color]="'primary'"
+        >
+            Confirmar
+        </button>
     </div>
 </div>
 <!-- Business code -->
-<div *ngIf="data.type === 'business-code'" >
+<div *ngIf="data.type === 'business-code'">
     <div class="text-center font-extrabold text-2xl my-3">
         Para conocer tu código de comercio
     </div>
-    <div class="text-center mb-3">
-        Comunícate con nuestro call center
-    </div>
+    <div class="text-center mb-3">Comunícate con nuestro call center</div>
     <div class="flex justify-center text-center mb-3">
-        <span class="font-semibold underline cursor-pointer text-primary text-center">
+        <span
+            class="font-semibold underline cursor-pointer text-primary text-center"
+        >
             924820688
         </span>
     </div>

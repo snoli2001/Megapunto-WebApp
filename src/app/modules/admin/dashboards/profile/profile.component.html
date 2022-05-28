@@ -174,9 +174,22 @@
                                     <span class="font-semibold block"
                                         >Tipo de comprobante</span
                                     >
-                                    <span>{{
-                                        profileInfo.ch_tipo_documento
-                                    }}</span>
+                                    <span
+                                        *ngIf="
+                                            profileInfo.ch_tipo_documento ===
+                                            'BV'
+                                        "
+                                    >
+                                        Boleta de Venta
+                                    </span>
+                                    <span
+                                        *ngIf="
+                                            profileInfo.ch_tipo_documento ===
+                                            'FA'
+                                        "
+                                    >
+                                        Factura
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -296,14 +309,18 @@
                                         <span class="font-semibold"
                                             >S/
                                             {{
-                                                deposit.nu_importe | number: "1.2-2"
+                                                deposit.nu_importe
+                                                    | number: "1.2-2"
                                             }}</span
                                         >
                                     </div>
                                     <mat-divider></mat-divider>
                                 </div>
                             </div>
-                            <div class="my-4 flex justify-center" *ngIf="deposits.length < 1">
+                            <div
+                                class="my-4 flex justify-center"
+                                *ngIf="deposits.length < 1"
+                            >
                                 <span class="font-semibold text-lg">
                                     No se encontraron registros para la fecha
                                     indicada

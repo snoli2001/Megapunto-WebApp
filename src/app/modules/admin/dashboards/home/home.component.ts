@@ -191,19 +191,22 @@ export class HomeComponent implements OnInit, OnDestroy {
             );
 
             dialogRef.afterClosed().subscribe((transResp) => {
-                this._balanceService.getBalance().subscribe((resp) => {
-                    this.balance = resp.nu_saldo;
-                    if (transResp.nu_tran_stdo === '1') {
-                        this._alertService.showAlert(
-                            'success',
-                            transResp.tx_tran_mnsg,
-                            500,
-                            {
-                                balance: this.balance,
-                            }
-                        );
-                    }
-                });
+                if (transResp) {
+                    this._balanceService.getBalance().subscribe((resp) => {
+                        this.balance = resp.nu_saldo;
+                        if (transResp.nu_tran_stdo === '1') {
+                            this._alertService.showAlert(
+                                'success',
+                                transResp.tx_tran_mnsg,
+                                500,
+                                {
+                                    balance: this.balance,
+                                }
+                            );
+                        }
+                    });
+                }
+                this.initTopUpCellphoneBalanceForm();
             });
         });
     }

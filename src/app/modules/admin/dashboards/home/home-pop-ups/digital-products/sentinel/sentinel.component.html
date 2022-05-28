@@ -14,19 +14,23 @@
                     'bg-white text-[#130B32] hover:bg-primary hover:text-white':
                         detailActive !== detail
                 }"
-                class="block w-full h-10 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2 flex justify-center items-center"
+                class="block w-full h-10 py-2 px-4 mb-3 rounded-xl border-primary border-2 flex justify-center items-center"
             >
                 {{ detail.vc_desc_producto }}
             </button>
 
             <div *ngIf="detailActive">
-                <div *ngIf="detailActive.vc_descripcion.length > 0">
-                    <h3 class="text-lg text-primary">Descripcion:</h3>
-                    <p>
-                        {{ detailActive.vc_descripcion }}
-                    </p>
+                <div class="h-32">
+                    <div *ngIf="detailActive.vc_descripcion.length > 0">
+                        <h3 class="text-lg text-primary">Descripcion:</h3>
+                        <p>
+                            {{ detailActive.vc_descripcion }}
+                        </p>
+                    </div>
                 </div>
             </div>
+            <div *ngIf="!detailActive" class="h-32"></div>
+
             <mat-error *ngIf="!detailActive && nextClicked">
                 Seleccione un detalle
             </mat-error>
@@ -41,9 +45,14 @@
                     <img [src]="data.digitalProduct.vc_url_imagen" alt="" />
                 </div>
                 <div class="w-1/2 flex flex-col justify-center p-5 ml-5">
-                    <div class="flex justify-between items-center">
+                    <div
+                        *ngIf="detailActive"
+                        class="flex justify-between items-center"
+                    >
                         <div class="font-semibold">Importe:</div>
-                        <div class="text-primary">S/ 5,00</div>
+                        <div class="text-primary">
+                            S/ {{ detailActive.nu_precio }}
+                        </div>
                     </div>
                     <div class="flex justify-between items-center">
                         <div class="font-semibold"># Gratuitos:</div>
