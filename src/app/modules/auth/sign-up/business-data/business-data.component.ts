@@ -1,5 +1,11 @@
+/* eslint-disable arrow-parens */
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    FormGroupDirective,
+    Validators,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
     LineOfBusiness,
@@ -15,6 +21,7 @@ export class BusinessDataComponent implements OnInit {
     businessDataForm: FormGroup;
     showAlert: boolean = false;
     lineOfBusinesses$: Observable<LineOfBusiness[]>;
+    withRUC: FormControl = new FormControl(true, Validators.required);
 
     constructor(
         private rootFormGroup: FormGroupDirective,
@@ -33,9 +40,26 @@ export class BusinessDataComponent implements OnInit {
         ) as FormControl;
     }
 
+    get tradeName(): FormControl {
+        return this.businessDataForm.controls['businessData'].get(
+            'tradeName'
+        ) as FormControl;
+    }
+
+    get billType(): FormControl {
+        return this.businessDataForm.controls['businessData'].get(
+            'billType'
+        ) as FormControl;
+    }
+
+    get isWithRUC(): boolean {
+        return this.withRUC.value === true;
+    }
+
     ngOnInit(): void {
         this.businessDataForm = this.rootFormGroup.control;
         this.getLineOfBusinessSelection();
+        this.detectWithRUCChanges();
     }
 
     getNameByRUC(): void {
@@ -53,13 +77,50 @@ export class BusinessDataComponent implements OnInit {
         this.businessDataForm.get('step').setValue(1);
     }
     nextStep(): void {
+        this.businessDataForm.markAllAsTouched();
         if (this.businessDataForm.controls['businessData'].valid) {
             this.businessDataForm.get('step').setValue(3);
         }
+        console.log(this.businessDataForm.value);
     }
 
     getLineOfBusinessSelection(): void {
         this.lineOfBusinesses$ =
             this._personalInformationService.getLineOfBusinessSelection();
+    }
+
+    detectWithRUCChanges(): void {
+        this.withRUC.valueChanges.subscribe((value) => {
+            if (value === true) {
+                this.ruc.clearValidators();
+                this.billType.clearValidators();
+                this.businessName.clearValidators();
+
+                this.ruc.updateValueAndValidity();
+                this.billType.updateValueAndValidity();
+                this.businessName.updateValueAndValidity();
+            } else {
+                this.ruc.setValidators([Validators.required]);
+                this.billType.setValidators([Validators.required]);
+                this.businessName.setValidators([Validators.required]);
+
+                this.ruc.setValue(
+                    this.businessDataForm.controls['personalInformation'].get(
+                        'documentNumber'
+                    ).value
+                );
+                this.billType.setValue('BV');
+
+                this.businessName.setValue(
+                    this.businessDataForm.controls['personalInformation'].get(
+                        'name'
+                    ).value
+                );
+
+                this.ruc.updateValueAndValidity();
+                this.billType.updateValueAndValidity();
+                this.businessName.updateValueAndValidity();
+            }
+        });
     }
 }

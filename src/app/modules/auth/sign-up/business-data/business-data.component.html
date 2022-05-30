@@ -3,6 +3,8 @@
     Datos para el negocio
 </div>
 
+<mat-slide-toggle color="primary" [formControl]="withRUC"> </mat-slide-toggle>
+
 <!-- Alert -->
 <fuse-alert
     class="mt-8 -mb-4"
@@ -20,14 +22,14 @@
     <div formGroupName="businessData">
         <div class="grid grid-cols-1 md:grid-cols-3">
             <!-- Document type field -->
-            <mat-form-field class="md:mr-1 w-full">
+            <mat-form-field class="md:mr-1 w-full" *ngIf="isWithRUC">
                 <mat-select id="documentType" [disabled]="true" value="ruc">
                     <mat-option [value]="'ruc'"> RUC </mat-option>
                 </mat-select>
             </mat-form-field>
 
             <!-- Document number field -->
-            <div class="md:ml-2 flex w-full col-span-2">
+            <div class="md:ml-2 flex w-full col-span-2" *ngIf="isWithRUC">
                 <mat-form-field class="w-3/4">
                     <input
                         id="ruc"
@@ -58,7 +60,7 @@
             </div>
         </div>
         <!-- Name field -->
-        <mat-form-field class="w-full">
+        <mat-form-field class="w-full" *ngIf="isWithRUC">
             <input
                 id="name"
                 matInput
@@ -133,7 +135,7 @@
         </mat-form-field>
 
         <!-- Bill type field -->
-        <mat-form-field class="w-full">
+        <mat-form-field class="w-full" *ngIf="isWithRUC">
             <mat-select
                 id="billType"
                 placeholder="Tipo de comprobante"
@@ -162,7 +164,6 @@
                 (click)="prevStep()"
             >
                 <span> Anterior </span>
-
             </button>
             <button
                 class="fuse-mat-button-large w-full md:w-1/3 mt-6"

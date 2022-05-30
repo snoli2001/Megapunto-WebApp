@@ -34,18 +34,25 @@ export class AuthSignUpComponent implements OnInit {
             personalInformation: this._formBuilder.group({
                 name: ['', Validators.required],
                 email: ['', [Validators.required, Validators.email]],
-                password: ['', Validators.required],
-                cellphone: ['', Validators.required],
+                cellphone: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(9),
+                        Validators.maxLength(9),
+                    ],
+                ],
                 documentType: ['', Validators.required],
                 documentNumber: ['', Validators.required],
                 birthDate: ['', Validators.required],
                 vc_cadena_imagen_dni_anverso: ['', Validators.required],
                 vc_cadena_imagen_dni_reverso: ['', Validators.required],
+                vc_cadena_imagen_dni_anverso_persona: ['', Validators.required],
             }),
             businessData: this._formBuilder.group({
                 ruc: ['', Validators.required],
-                businessName: ['', Validators.required],
                 tradename: ['', Validators.required],
+                businessName: ['', Validators.required],
                 telephone: ['', Validators.required],
                 businessLine: ['', Validators.required],
                 billType: ['', Validators.required],
@@ -57,7 +64,7 @@ export class AuthSignUpComponent implements OnInit {
                 city: ['', Validators.required],
                 district: ['', Validators.required],
                 agreements: ['', Validators.requiredTrue],
-                secondAgreements: ['', Validators.requiredTrue]
+                secondAgreements: ['', Validators.requiredTrue],
             }),
             step: [1],
         });

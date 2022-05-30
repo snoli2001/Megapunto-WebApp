@@ -18,16 +18,16 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { BusinessDataComponent } from './business-data/business-data.component';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export const MY_FORMATS = {
     parse: {
-      dateInput: 'DD/MM/YYYY',
+        dateInput: 'DD/MM/YYYY',
     },
     display: {
-      dateInput: 'DD/MM/YYYY',
-      monthYearLabel: 'MMMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MM YYYY',
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MM YYYY',
     },
 };
 
@@ -36,9 +36,9 @@ export const MY_FORMATS = {
         AuthSignUpComponent,
         PersonalInformationComponent,
         BusinessAddressComponent,
-        BusinessDataComponent
+        BusinessDataComponent,
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(authSignupRoutes),
         MatButtonModule,
         MatCheckboxModule,
@@ -51,13 +51,12 @@ export const MY_FORMATS = {
         MatProgressSpinnerModule,
         FuseCardModule,
         FuseAlertModule,
-        SharedModule
+        SharedModule,
+        MatSlideToggleModule,
     ],
     providers: [
-      { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-      { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     ],
 })
-export class AuthSignUpModule
-{
-}
+export class AuthSignUpModule {}

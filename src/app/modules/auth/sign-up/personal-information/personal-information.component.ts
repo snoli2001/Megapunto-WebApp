@@ -67,6 +67,45 @@ export class PersonalInformationComponent implements OnInit {
         ) as FormControl;
     }
 
+    get vc_cadena_imagen_dni_anverso_persona(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'vc_cadena_imagen_dni_anverso_persona'
+        ) as FormControl;
+    }
+
+    get vc_cadena_imagen_dni_anversoError(): boolean {
+        return (
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_anverso'
+            ).touched &&
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_anverso'
+            ).invalid
+        );
+    }
+
+    get vc_cadena_imagen_dni_reversoError(): boolean {
+        return (
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_reverso'
+            ).touched &&
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_reverso'
+            ).invalid
+        );
+    }
+
+    get vc_cadena_imagen_dni_anverso_personaError(): boolean {
+        return (
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_anverso_persona'
+            ).touched &&
+            this.personalInformationForm.controls['personalInformation'].get(
+                'vc_cadena_imagen_dni_anverso_persona'
+            ).invalid
+        );
+    }
+
     onFrontDocumentFileSelected(event): void {
         if (event.target.files.length > 0) {
             this.documentFrontName = event.target.files[0].name;
@@ -89,7 +128,7 @@ export class PersonalInformationComponent implements OnInit {
         if (event.target.files.length > 0) {
             this.documentWithPhoto = event.target.files[0].name;
             this.convertFile(event.target.files[0]).subscribe((base64) => {
-                this.vc_cadena_imagen_dni_reverso.setValue(base64);
+                this.vc_cadena_imagen_dni_anverso_persona.setValue(base64);
             });
         }
     }
@@ -109,6 +148,7 @@ export class PersonalInformationComponent implements OnInit {
     }
 
     nextStep(): void {
+        this.personalInformationForm.markAllAsTouched();
         if (
             this.personalInformationForm.controls['personalInformation'].valid
         ) {
