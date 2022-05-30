@@ -230,6 +230,7 @@ export class BusinessAddressComponent implements OnInit {
                 nu_anio: new Date(personalInformation.get('birthDate').value).getFullYear().toString(),
                 vc_cadena_imagen_dni_anverso: personalInformation.get('vc_cadena_imagen_dni_anverso').value,
                 vc_cadena_imagen_dni_reverso: personalInformation.get('vc_cadena_imagen_dni_reverso').value,
+                vc_cadena_imagen_dni_anverso_persona: personalInformation.get('vc_cadena_imagen_dni_anverso_persona').value,
 
                 // Business Data
                 vc_ruc_comercio: businessData.get('ruc').value,

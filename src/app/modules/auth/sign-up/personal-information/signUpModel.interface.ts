@@ -23,4 +23,5 @@ export interface SignUpModel {
     nu_id_distrito: string;
     vc_cadena_imagen_dni_anverso: string;
     vc_cadena_imagen_dni_reverso: string;
+    vc_cadena_imagen_dni_anverso_persona: string;
 }
