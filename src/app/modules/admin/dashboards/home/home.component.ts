@@ -1,3 +1,4 @@
+import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
 import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
 import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
 import { NgZone } from '@angular/core';
@@ -22,7 +23,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, observable, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil, filter } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 import {
@@ -63,6 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     selectServiceForm: FormGroup;
     // enterprise: string;
     enterprisesService: EnterpriseService[];
+    filteredEnterprisesService: Observable<EnterpriseService[]>;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
@@ -111,13 +113,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
         this.initTopUpCellphoneBalanceForm();
+        this.initSelectServiceForm();
         this.getName();
         this.getBalance();
         this.getDeposits();
         this.getProducts();
         this.getDigitalProducts();
         this.getServiceCategories();
-        this.initSelectServiceForm();
         this.detectServiceCategoryChangeAndUpdateEnterprises();
     }
 
@@ -150,6 +152,23 @@ export class HomeComponent implements OnInit, OnDestroy {
             nu_id_rubro_servicio_app: [null, Validators.required],
             nu_id_empresa_servicio_app: [null, [Validators.required]],
         });
+    }
+
+    initEnterprisesFilteredOptions(): void {
+        console.log('holi');
+        this.filteredEnterprisesService =
+            this.nu_id_empresa_servicio_appForm.valueChanges.pipe(
+                filter((value) => !!value),
+                startWith(''),
+                map((value) =>
+                    typeof value === 'string' ? value : value.vc_desc_empresa
+                ),
+                map((vc_desc_empresa) =>
+                    vc_desc_empresa
+                        ? this._filter(vc_desc_empresa)
+                        : this.enterprisesService.slice()
+                )
+            );
     }
 
     getName(): void {
@@ -210,6 +229,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.topUpCellphoneBalanceForm.get('product').setValue(null);
     }
 
+    displayFn(enterprise: EnterpriseService): string {
+        return enterprise && enterprise.vc_desc_empresa
+            ? enterprise.vc_desc_empresa
+            : '';
+    }
+
     nextStepOfHub(): void {
         this.topUpCellphoneBalanceForm.markAllAsTouched();
         if (!this.topUpCellphoneBalanceForm.valid) {
@@ -251,7 +276,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     nextStepDigitalProduct(): void {
         if (this.digitalProductActive) {
-            console.log(this.digitalProductActive.nu_id_grupo_app);
             if (this.digitalProductActive.nu_id_grupo_app === '1') {
                 this.ngZone.run(() => {
                     this.matDialog.open(SentinelComponent, {
@@ -279,15 +303,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     detectServiceCategoryChangeAndUpdateEnterprises(): void {
         this.nu_id_rubro_servicio_appForm.valueChanges.subscribe((value) => {
-            console.log(value);
             if (value) {
                 this.homeService
                     .getEnterprisesByService(value)
                     .subscribe((resp) => {
                         this.nu_id_empresa_servicio_appForm.setValue(null);
                         this.enterprisesService = resp;
+                        this.initEnterprisesFilteredOptions();
                     });
             }
         });
+    }
+
+    nextStepPayServices(): void {
+        this.selectServiceForm.markAllAsTouched();
+        if (this.selectServiceForm.valid) {
+            this.ngZone.run(() => {
+                this.matDialog.open(PayServicesComponent, {
+                    disableClose: true,
+                    data: {
+                        nu_id_empresa_servicio_app:
+                            this.nu_id_empresa_servicio_appForm.value,
+                        size: 500,
+                    },
+                });
+            });
+        }
+    }
+
+    private _filter(value: string): EnterpriseService[] {
+        const filterValue = value.toLowerCase();
+        return this.enterprisesService.filter((enterprise) =>
+            enterprise.vc_desc_empresa.toLowerCase().includes(filterValue)
+        );
     }
 }

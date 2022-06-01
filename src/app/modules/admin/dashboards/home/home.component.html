@@ -346,7 +346,23 @@
                                             >Empresa del servicio a
                                             pagar</mat-label
                                         >
-                                        <mat-select
+                                        <input
+                                            [disabled]="
+                                                nu_id_rubro_servicio_appForm.value ===
+                                                null
+                                            "
+                                            formControlName="nu_id_empresa_servicio_app"
+                                            type="text"
+                                            placeholder="Seleccione La empresa"
+                                            aria-label="Seleccione La empresa"
+                                            matInput
+                                            [matAutocomplete]="auto"
+                                        />
+                                        <!-- <mat-label
+                                            >Empresa del servicio a
+                                            pagar</mat-label
+                                        > -->
+                                        <!-- <mat-select
                                             [disabled]="
                                                 nu_id_rubro_servicio_appForm.value ===
                                                 null
@@ -368,13 +384,30 @@
                                                     enterpriseService.vc_desc_empresa
                                                 }}
                                             </mat-option>
-                                        </mat-select>
+                                        </mat-select> -->
+                                        <mat-autocomplete
+                                            [displayWith]="displayFn"
+                                            #auto="matAutocomplete"
+                                        >
+                                            <mat-option
+                                                *ngFor="
+                                                    let enterpriseService of filteredEnterprisesService
+                                                        | async
+                                                "
+                                                [value]="enterpriseService"
+                                            >
+                                                {{
+                                                    enterpriseService.vc_desc_empresa
+                                                }}
+                                            </mat-option>
+                                        </mat-autocomplete>
                                     </mat-form-field>
                                 </form>
 
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+                                        (click)="nextStepPayServices()"
                                     >
                                         Siguiente
                                     </button>

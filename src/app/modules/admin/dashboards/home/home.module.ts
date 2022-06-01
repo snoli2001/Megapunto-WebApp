@@ -25,6 +25,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
 import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
 import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.c
         MatCurrencyFormatModule,
         MatDialogModule,
         MatStepperModule,
+        MatAutocompleteModule,
     ],
 })
 export class HomeModule {}
