@@ -24,6 +24,7 @@ import { MatCurrencyFormatModule } from 'mat-currency-format';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
 import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
+import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.c
         TopUpCellphoneBallanceComponent,
         SentinelComponent,
         IncommComponent,
+        PayServicesComponent,
     ],
     imports: [
         RouterModule.forChild(homeRoutes),

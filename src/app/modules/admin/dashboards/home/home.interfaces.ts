@@ -17,7 +17,7 @@ export interface DigitalProduct {
     vc_url_imagen: string;
 }
 
-export interface DigitalProductDetail{
+export interface DigitalProductDetail {
     vc_cod_producto: string;
     vc_desc_producto: string;
     nu_precio: string;
@@ -25,4 +25,19 @@ export interface DigitalProductDetail{
     nu_valor_comision: string;
     bi_descripcion: string;
     vc_descripcion: string;
+}
+
+export interface ServiceCategory {
+    nu_id_rubro_servicio_app: string;
+    vc_cod_rubro: string;
+    vc_desc_rubro: string;
+    nu_cant_emp: string;
+}
+
+export interface EnterpriseService {
+    nu_id_empresa_servicio_app: string;
+    vc_cod_empresa: string;
+    vc_desc_empresa: string;
+    vc_url_imagen: string;
+    nu_cant_prod: string;
 }

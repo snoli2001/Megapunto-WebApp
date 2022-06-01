@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import {
     FormGroup,
     FormBuilder,
@@ -101,7 +102,11 @@ export class SentinelComponent implements OnInit {
             ],
             consultedDocumentNumber: [
                 '',
-                [Validators.required, Validators.minLength(8)],
+                [
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.maxLength(8),
+                ],
             ],
             consultantDocumentType: [
                 { value: '1', disabled: true },
@@ -109,7 +114,11 @@ export class SentinelComponent implements OnInit {
             ],
             consultantDocumentNumber: [
                 '',
-                [Validators.required, Validators.minLength(8)],
+                [
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.maxLength(8),
+                ],
             ],
         });
     }
@@ -200,6 +209,40 @@ export class SentinelComponent implements OnInit {
                         this.validDocuments.setValue(true);
                         this.disable = false;
                         stepper.next();
+                    } else {
+                        const indexError: number[] = [];
+                        const errors = resp.filter((r, index) => {
+                            if (r.codigoWS !== '0') {
+                                indexError.push(index);
+                                return r;
+                            }
+                        });
+                        if (errors.length === 2) {
+                            this._alertService.showAlert(
+                                'error',
+                                'Ninguno de los documentos ingresados son validos',
+                                500,
+                                null
+                            );
+                        } else {
+                            if (indexError[0] === 0) {
+                                this._alertService.showAlert(
+                                    'error',
+                                    'El Documento del solicitante es inválido',
+                                    500,
+                                    null
+                                );
+                            }
+
+                            if (indexError[0] === 1) {
+                                this._alertService.showAlert(
+                                    'error',
+                                    'El Documento del consultado es inválido',
+                                    500,
+                                    null
+                                );
+                            }
+                        }
                     }
                 });
             }

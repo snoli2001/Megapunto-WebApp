@@ -8,7 +8,9 @@ import { environment } from 'environments/environment';
 import {
     DigitalProduct,
     DigitalProductDetail,
+    EnterpriseService,
     Product,
+    ServiceCategory,
 } from './home.interfaces';
 import { UserInterface } from 'app/core/auth/User.interface';
 
@@ -93,6 +95,33 @@ export class HomeService {
                 nu_id_negocio,
                 nu_id_grupo_app,
                 nu_id_servicio_app,
+            }
+        );
+    }
+
+    getServiceCategories(): Observable<ServiceCategory[]> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const nu_id_seccion_app: string = '3';
+        return this._httpClient.post<ServiceCategory[]>(
+            `${environment.API_URL}/Rubro_Servicio_App/sel`,
+            {
+                nu_id_comercio_app,
+                nu_id_seccion_app,
+            }
+        );
+    }
+
+    getEnterprisesByService(
+        nu_id_rubro_servicio_app: string
+    ): Observable<EnterpriseService[]> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        return this._httpClient.post<EnterpriseService[]>(
+            `${environment.API_URL}/Empresa_Servicio_App/sel`,
+            {
+                nu_id_comercio_app,
+                nu_id_rubro_servicio_app,
             }
         );
     }

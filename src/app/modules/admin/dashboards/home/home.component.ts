@@ -33,7 +33,12 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { DepositInfo } from '../profile/profile.interfaces';
 import { ProfileService } from '../profile/profile.service';
 import moment from 'moment';
-import { Product, DigitalProduct } from './home.interfaces';
+import {
+    Product,
+    DigitalProduct,
+    ServiceCategory,
+    EnterpriseService,
+} from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 
 @Component({
@@ -44,14 +49,20 @@ import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone
 })
 export class HomeComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
+    balance: string;
     operationActive: string = 'charges';
     digitalProductActive: DigitalProduct;
+
     deposits$: Observable<DepositInfo[]>;
     products$: Observable<Product[]>;
-    commerceInfo$: Observable<ProfileInfo>;
-    balance: string;
-    topUpCellphoneBalanceForm: FormGroup;
     digitalProducts$: Observable<DigitalProduct[]>;
+    serviceCategories$: Observable<ServiceCategory[]>;
+    commerceInfo$: Observable<ProfileInfo>;
+
+    topUpCellphoneBalanceForm: FormGroup;
+    selectServiceForm: FormGroup;
+    // enterprise: string;
+    enterprisesService: EnterpriseService[];
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
@@ -80,6 +91,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
     }
 
+    get nu_id_rubro_servicio_appForm(): FormControl {
+        return this.selectServiceForm.get(
+            'nu_id_rubro_servicio_app'
+        ) as FormControl;
+    }
+
+    get nu_id_empresa_servicio_appForm(): FormControl {
+        return this.selectServiceForm.get(
+            'nu_id_empresa_servicio_app'
+        ) as FormControl;
+    }
+
     ngOnInit(): void {
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -93,6 +116,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getDeposits();
         this.getProducts();
         this.getDigitalProducts();
+        this.getServiceCategories();
+        this.initSelectServiceForm();
+        this.detectServiceCategoryChangeAndUpdateEnterprises();
     }
 
     ngOnDestroy(): void {
@@ -105,18 +131,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         return item.id || index;
     }
 
-    toggleNavigation(name: string): void {
-        // Get the navigation
-        const navigation =
-            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
-                name
-            );
-
-        if (navigation && this.isScreenSmall) {
-            // Toggle the opened status
-            navigation.toggle();
-        }
-    }
     initTopUpCellphoneBalanceForm(): void {
         this.topUpCellphoneBalanceForm = this.fb.group({
             product: [null, Validators.required],
@@ -131,15 +145,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
     }
 
-    toggleOperation(operation: string): void {
-        this.operationActive = operation;
-        this.digitalProductActive = null;
-        this.topUpCellphoneBalanceForm.get('product').setValue(null);
-    }
-
-    toggleDigitalProducts(digitalProduct: DigitalProduct): void {
-        this.digitalProductActive = digitalProduct;
-        this.topUpCellphoneBalanceForm.get('product').setValue(null);
+    initSelectServiceForm(): void {
+        this.selectServiceForm = this.fb.group({
+            nu_id_rubro_servicio_app: [null, Validators.required],
+            nu_id_empresa_servicio_app: [null, [Validators.required]],
+        });
     }
 
     getName(): void {
@@ -168,8 +178,36 @@ export class HomeComponent implements OnInit, OnDestroy {
             .pipe(map((resp: any[]) => resp));
     }
 
+    getServiceCategories(): void {
+        this.serviceCategories$ = this.homeService.getServiceCategories();
+    }
+
     getDigitalProducts(): void {
         this.digitalProducts$ = this.homeService.getDigitalProducts();
+    }
+
+    toggleNavigation(name: string): void {
+        // Get the navigation
+        const navigation =
+            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
+                name
+            );
+
+        if (navigation && this.isScreenSmall) {
+            // Toggle the opened status
+            navigation.toggle();
+        }
+    }
+
+    toggleOperation(operation: string): void {
+        this.operationActive = operation;
+        this.digitalProductActive = null;
+        this.topUpCellphoneBalanceForm.get('product').setValue(null);
+    }
+
+    toggleDigitalProducts(digitalProduct: DigitalProduct): void {
+        this.digitalProductActive = digitalProduct;
+        this.topUpCellphoneBalanceForm.get('product').setValue(null);
     }
 
     nextStepOfHub(): void {
@@ -237,5 +275,19 @@ export class HomeComponent implements OnInit, OnDestroy {
                 });
             }
         }
+    }
+
+    detectServiceCategoryChangeAndUpdateEnterprises(): void {
+        this.nu_id_rubro_servicio_appForm.valueChanges.subscribe((value) => {
+            console.log(value);
+            if (value) {
+                this.homeService
+                    .getEnterprisesByService(value)
+                    .subscribe((resp) => {
+                        this.nu_id_empresa_servicio_appForm.setValue(null);
+                        this.enterprisesService = resp;
+                    });
+            }
+        });
     }
 }

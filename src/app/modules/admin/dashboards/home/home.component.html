@@ -309,31 +309,69 @@
                                 </div>
                             </div>
                             <div *ngIf="operationActive === 'services'">
-                                <div class="mb-2 font-semibold">
-                                    <span>Servicio a pagar</span>
-                                </div>
-                                <mat-form-field
-                                    class="w-full"
-                                    appereance="fill"
-                                >
-                                    <mat-select placeholder="Servicio">
-                                        <mat-option [value]="1"
-                                            >Servicio 1</mat-option
+                                <form [formGroup]="selectServiceForm">
+                                    <div class="mb-2 font-semibold">
+                                        <span>Servicio a pagar</span>
+                                    </div>
+                                    <mat-form-field
+                                        class="w-full"
+                                        appereance="fill"
+                                    >
+                                        <mat-label
+                                            >Rubro del servicio</mat-label
                                         >
-                                        <mat-option [value]="2"
-                                            >Servicio 2</mat-option
+                                        <mat-select
+                                            formControlName="nu_id_rubro_servicio_app"
                                         >
-                                        <mat-option [value]="3"
-                                            >Servicio 3</mat-option
+                                            <mat-option
+                                                *ngFor="
+                                                    let serviceCategory of serviceCategories$
+                                                        | async
+                                                "
+                                                [value]="
+                                                    serviceCategory.nu_id_rubro_servicio_app
+                                                "
+                                            >
+                                                {{
+                                                    serviceCategory.vc_desc_rubro
+                                                }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field
+                                        class="w-full"
+                                        appereance="fill"
+                                    >
+                                        <mat-label
+                                            >Empresa del servicio a
+                                            pagar</mat-label
                                         >
-                                    </mat-select>
-                                </mat-form-field>
-                                <mat-form-field
-                                    class="my-2 w-full"
-                                    appereance="fill"
-                                >
-                                    <input matInput placeholder="Código" />
-                                </mat-form-field>
+                                        <mat-select
+                                            [disabled]="
+                                                nu_id_rubro_servicio_appForm.value ===
+                                                null
+                                            "
+                                            formControlName="nu_id_empresa_servicio_app"
+                                            [placeholder]="
+                                                'Seleccione la empresa del servicio a pagar'
+                                            "
+                                        >
+                                            <mat-option
+                                                *ngFor="
+                                                    let enterpriseService of enterprisesService
+                                                "
+                                                [value]="
+                                                    enterpriseService.nu_id_empresa_servicio_app
+                                                "
+                                            >
+                                                {{
+                                                    enterpriseService.vc_desc_empresa
+                                                }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </form>
+
                                 <div class="flex justify-end mt-4 sm:mt-8">
                                     <button
                                         class="text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"

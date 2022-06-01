@@ -16,4 +16,29 @@ export class IncommService {
         private _authService: AuthService
     ) {}
 
+    insertTransaction(
+        vc_cod_producto: string,
+        vc_email_sol: string,
+        vc_telefono_sol: string
+    ): Observable<any> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio: string = user.nu_id_comercio;
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const vc_version_app: string = 'web';
+
+        // TODO obtener del store el numero del comercio
+        const vc_tran_usua_regi: string = 'numero del comercio';
+
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Transacciones_App/ins_incomm_transaccion_hub`,
+            {
+                nu_id_comercio,
+                nu_id_comercio_app,
+                vc_cod_producto,
+                vc_email_sol,
+                vc_telefono_sol,
+                vc_version_app,
+            }
+        );
+    }
 }
