@@ -100,9 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     get nu_id_empresa_servicio_appForm(): FormControl {
-        return this.selectServiceForm.get(
-            'nu_id_empresa_servicio_app'
-        ) as FormControl;
+        return this.selectServiceForm.get('enterprise') as FormControl;
     }
 
     ngOnInit(): void {
@@ -150,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     initSelectServiceForm(): void {
         this.selectServiceForm = this.fb.group({
             nu_id_rubro_servicio_app: [null, Validators.required],
-            nu_id_empresa_servicio_app: [null, [Validators.required]],
+            enterprise: [null, [Validators.required]],
         });
     }
 
@@ -199,6 +197,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     getServiceCategories(): void {
         this.serviceCategories$ = this.homeService.getServiceCategories();
+        this.serviceCategories$.subscribe((resp) =>
+            this.selectServiceForm
+                .get('nu_id_rubro_servicio_app')
+                .setValue(resp[0].nu_id_rubro_servicio_app)
+        );
     }
 
     getDigitalProducts(): void {
@@ -318,12 +321,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     nextStepPayServices(): void {
         this.selectServiceForm.markAllAsTouched();
         if (this.selectServiceForm.valid) {
+            console.log(this.nu_id_empresa_servicio_appForm.value);
             this.ngZone.run(() => {
                 this.matDialog.open(PayServicesComponent, {
                     disableClose: true,
                     data: {
-                        nu_id_empresa_servicio_app:
-                            this.nu_id_empresa_servicio_appForm.value,
+                        enterprise: this.nu_id_empresa_servicio_appForm.value,
                         size: 500,
                     },
                 });

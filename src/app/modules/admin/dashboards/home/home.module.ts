@@ -57,6 +57,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatDialogModule,
         MatStepperModule,
         MatAutocompleteModule,
+        MatRadioModule
     ],
 })
 export class HomeModule {}

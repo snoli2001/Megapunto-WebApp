@@ -1,1 +1,234 @@
-<p>pay-services works!</p>
+<mat-stepper linear #serviceStepper class="p-0">
+    <mat-step [stepControl]="enterpriseServiceDetailsForm">
+        <div class="w-full flex flex-col justify-between">
+            <div class="w-full text-center">
+                <h1 class="text-2xl font-bold">
+                    {{ data.enterprise.vc_desc_empresa }}
+                </h1>
+            </div>
+            <div class="flex flex-col items-center mt-5 w-full">
+                <form class="w-full" [formGroup]="enterpriseServiceDetailsForm">
+                    <div class="font-semibold uppercase tracking-wide w-full">
+                        Servicios:
+                        <div
+                            class="w-1/6 border-[#7c66f7] border-b-2 my-1"
+                        ></div>
+                    </div>
+                    <div
+                        class="w-full mt-2"
+                        *ngIf="
+                            enterpriseServices$ | async as enterpriseServices
+                        "
+                    >
+                        <mat-form-field class="w-full" appereance="fill">
+                            <mat-select
+                                formControlName="enterpriseServiceSelected"
+                                placeholder="Servicio"
+                                [compareWith]="compareFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let enterpriseService of enterpriseServices
+                                    "
+                                    [value]="enterpriseService"
+                                >
+                                    {{ enterpriseService.vc_desc_producto }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div
+                        class="font-semibold uppercase tracking-wide w-full"
+                        *ngIf="enterpriseServiceSelected"
+                    >
+                        {{
+                            enterpriseServiceSelected.vc_etiqueta_nro_referencia
+                        }}
+                        <div
+                            class="w-1/6 border-[#7c66f7] border-b-2 my-1"
+                        ></div>
+                    </div>
+                    <div class="w-full">
+                        <mat-form-field class="w-full" appereance="fill">
+                            <input
+                                formControlName="vc_numero_servicio"
+                                matInput
+                                placeholder="Ingrese aquí"
+                            />
+                            <mat-error *ngIf="false">
+                                Ingrese el número
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+            <div class="flex justify-center mt-3">
+                <button
+                    mat-raised-button
+                    color="warn"
+                    class="mr-2"
+                    (click)="close()"
+                >
+                    Cancelar
+                </button>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="nextStep(serviceStepper)"
+                >
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step>
+        <div class="w-full flex flex-col justify-between" *ngIf="debts">
+            <div class="w-full text-center">
+                <h1 class="text-2xl font-bold">
+                    {{ data.enterprise.vc_desc_empresa }}
+                </h1>
+                <h2 class="my-2 font-semibold">
+                    {{ debts[0].vc_nombre_cliente }}
+                </h2>
+                <h2 class="font-semibold">
+                    {{
+                        enterpriseServiceDetailsForm.get("vc_numero_servicio")
+                            .value
+                    }}
+                </h2>
+            </div>
+            <div class="flex flex-col">
+                <div *ngFor="let deb of debts" class="mt-5 flex">
+                    <div class="flex flex-col w-full">
+                        <div class="w-full">
+                            <div class="w-full">
+                                <h3 class="text-primary text-lg font-semibold">
+                                    N° Documento: {{ deb.vc_numero_documento }}
+                                </h3>
+                            </div>
+                            <div class="flex items-center w-full">
+                                <div class="w-2/4 flex flex-col">
+                                    <div class="font-semibold">
+                                        Fecha de vencimiento:
+                                    </div>
+                                    <div>
+                                        {{ deb.dt_fecha_vencimento }}
+                                    </div>
+                                </div>
+                                <div class="w-1/4 font-semibold">
+                                    S/{{ deb.nu_monto_documento }}
+                                </div>
+                                <div class="ml-5 w-1/4 flex justify-center">
+                                    <mat-radio-button
+                                        [disabled]="debts[0] !== deb"
+                                        [checked]="debts[0] === deb"
+                                        color="primary"
+                                    ></mat-radio-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="w-full border-[#7c66f7] border-b-2 my-1"
+                        ></div>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-5">
+                <button
+                    mat-raised-button
+                    color="warn"
+                    class="mr-2"
+                    (click)="close()"
+                >
+                    Cancelar
+                </button>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="nextStep(serviceStepper)"
+                >
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step>
+        <div class="font-semibold uppercase tracking-wide w-full">
+            Detalle del pago a realizar:
+            <div class="w-1/2 border-[#7c66f7] border-b-2 my-1"></div>
+        </div>
+        <div *ngIf="debToPay" class="flex flex-col font-semibold md:text-lg">
+            <div class="w-full flex justify-between mt-5">
+                <div>Empresa:</div>
+                <div>{{ data.enterprise.vc_desc_empresa }}</div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>Servicio:</div>
+                <div>
+                    {{
+                        this.enterpriseServiceDetailsForm.get(
+                            "enterpriseServiceSelected"
+                        ).value.vc_desc_producto
+                    }}
+                </div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>Número de suministro:</div>
+                <div>
+                    {{
+                        this.enterpriseServiceDetailsForm.get(
+                            "vc_numero_servicio"
+                        ).value
+                    }}
+                </div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>Titular:</div>
+                <div class="text-sm md:text-base">
+                    {{ debToPay.vc_nombre_cliente }}
+                </div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>N° Documento:</div>
+                <div>{{ debToPay.vc_numero_documento }}</div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>Monto de la deuda:</div>
+                <div>{{ debToPay.nu_monto_documento }}</div>
+            </div>
+            <div class="w-full flex justify-between mt-3">
+                <div>Comisión al usuario</div>
+                <div>{{ debToPay.nu_comision_cliente }}</div>
+            </div>
+            <div class="w-full flex justify-between mt-5">
+                <div>Total a pagar</div>
+                <div class="text-primary">{{ debToPay.nu_monto_deuda }}</div>
+            </div>
+            <div class="w-full flex flex-col mt-5">
+                <div class="text-lg">Envio constancia por SMS:</div>
+                <mat-form-field class="mt-2">
+                    <input
+                        [formControl]="consultantCellphone"
+                        matInput
+                        type="text"
+                        placeholder="Celular"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="flex justify-center mt-3">
+                <button
+                    mat-raised-button
+                    color="warn"
+                    class="mr-2"
+                    (click)="close()"
+                >
+                    Cancelar
+                </button>
+                <button (click)="payDebt()" mat-raised-button color="primary">
+                    Pagar
+                </button>
+            </div>
+        </div>
+    </mat-step>
+</mat-stepper>

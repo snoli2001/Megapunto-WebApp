@@ -351,40 +351,13 @@
                                                 nu_id_rubro_servicio_appForm.value ===
                                                 null
                                             "
-                                            formControlName="nu_id_empresa_servicio_app"
+                                            formControlName="enterprise"
                                             type="text"
                                             placeholder="Seleccione La empresa"
                                             aria-label="Seleccione La empresa"
                                             matInput
                                             [matAutocomplete]="auto"
                                         />
-                                        <!-- <mat-label
-                                            >Empresa del servicio a
-                                            pagar</mat-label
-                                        > -->
-                                        <!-- <mat-select
-                                            [disabled]="
-                                                nu_id_rubro_servicio_appForm.value ===
-                                                null
-                                            "
-                                            formControlName="nu_id_empresa_servicio_app"
-                                            [placeholder]="
-                                                'Seleccione la empresa del servicio a pagar'
-                                            "
-                                        >
-                                            <mat-option
-                                                *ngFor="
-                                                    let enterpriseService of enterprisesService
-                                                "
-                                                [value]="
-                                                    enterpriseService.nu_id_empresa_servicio_app
-                                                "
-                                            >
-                                                {{
-                                                    enterpriseService.vc_desc_empresa
-                                                }}
-                                            </mat-option>
-                                        </mat-select> -->
                                         <mat-autocomplete
                                             [displayWith]="displayFn"
                                             #auto="matAutocomplete"
