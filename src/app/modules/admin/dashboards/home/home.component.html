@@ -230,20 +230,7 @@
                                         >Hacer recargas</span
                                     >
                                 </button>
-                                <button
-                                    (click)="toggleOperation('services')"
-                                    [ngClass]="{
-                                        'bg-[#41ac9a] text-white':
-                                            operationActive === 'services',
-                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
-                                            operationActive !== 'services'
-                                    }"
-                                    class="block w-full py-2 px-4 rounded-xl border-[#41ac9a] border-2"
-                                >
-                                    <span class="text-lg font-semibold"
-                                        >Pagar servicios</span
-                                    >
-                                </button>
+
                                 <button
                                     (click)="toggleOperation('digitalProducts')"
                                     [ngClass]="{
@@ -254,10 +241,24 @@
                                             operationActive !==
                                             'digitalProducts'
                                     }"
-                                    class="block w-full py-2 mt-5 px-4 rounded-xl border-[#41ac9a] border-2"
+                                    class="block w-full py-2 px-4 rounded-xl border-[#41ac9a] border-2"
                                 >
                                     <span class="text-lg font-semibold"
                                         >Productos Digitales</span
+                                    >
+                                </button>
+                                <button
+                                    (click)="toggleOperation('services')"
+                                    [ngClass]="{
+                                        'bg-[#41ac9a] text-white':
+                                            operationActive === 'services',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
+                                            operationActive !== 'services'
+                                    }"
+                                    class="block w-full mt-5 py-2 px-4 rounded-xl border-[#41ac9a] border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Pagar servicios</span
                                     >
                                 </button>
                             </div>
