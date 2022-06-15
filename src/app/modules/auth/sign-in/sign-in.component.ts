@@ -6,6 +6,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AlertService } from 'app/utils/alert/alert.service';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { RecaptchaService } from './services/recaptcha.service';
 
 @Component({
     selector: 'auth-sign-in',
@@ -16,6 +18,8 @@ import { AlertService } from 'app/utils/alert/alert.service';
 })
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
+
+    captcha: string;
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
@@ -31,7 +35,8 @@ export class AuthSignInComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,
+        public captchaSerice: RecaptchaService
     ) {}
 
     ngOnInit(): void {
@@ -42,9 +47,13 @@ export class AuthSignInComponent implements OnInit {
         });
     }
 
+    resolved(captchaResponse: string): void {
+        this.captcha = captchaResponse;
+    }
+
     signIn(): void {
         // Return if the form is invalid
-        if (this.signInForm.invalid) {
+        if (this.signInForm.invalid || !this.captcha) {
             return;
         }
 

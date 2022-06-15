@@ -27,7 +27,8 @@
             <div class="block">
                 <!-- Logo -->
                 <div class="flex items-center justify-end">
-                    <img style="width: 32px; height: 33px"
+                    <img
+                        style="width: 32px; height: 33px"
                         src="assets/images/logo/mediopago_logo.png"
                     />
                     <span
@@ -116,6 +117,16 @@
                         </button>
                         <mat-error> Ingrese su contraseña </mat-error>
                     </mat-form-field>
+
+                    <div [hidden]="captcha">
+                        <re-captcha
+                            (resolved)="resolved($event)"
+                            siteKey="6LeIg3MgAAAAAHf-gLt_J0WR049xIUJJBNXwQnrC
+                        "
+                        ></re-captcha>
+                        <mat-error>Verificacion requerida</mat-error>
+                    </div>
+                    <div [hidden]="!captcha"></div>
 
                     <!-- Actions -->
                     <div

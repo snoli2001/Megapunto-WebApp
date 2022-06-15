@@ -11,12 +11,11 @@ import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignInComponent } from 'app/modules/auth/sign-in/sign-in.component';
 import { authSignInRoutes } from 'app/modules/auth/sign-in/sign-in.routing';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
-    declarations: [
-        AuthSignInComponent
-    ],
-    imports     : [
+    declarations: [AuthSignInComponent],
+    imports: [
         RouterModule.forChild(authSignInRoutes),
         MatButtonModule,
         MatCheckboxModule,
@@ -26,9 +25,14 @@ import { authSignInRoutes } from 'app/modules/auth/sign-in/sign-in.routing';
         MatProgressSpinnerModule,
         FuseCardModule,
         FuseAlertModule,
-        SharedModule
-    ]
+        SharedModule,
+        RecaptchaModule
+    ],
+    // providers: [
+    //     {
+    //         provide: RECAPTCHA_V3_SITE_KEY,
+    //         useValue: '6Lcjcl4gAAAAAADufVXQm6dME1r73Htm4KZzc3eh',
+    //     },
+    // ],
 })
-export class AuthSignInModule
-{
-}
+export class AuthSignInModule {}
