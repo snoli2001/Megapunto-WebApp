@@ -148,12 +148,13 @@ export class PersonalInformationComponent implements OnInit {
     }
 
     nextStep(): void {
-        this.personalInformationForm.markAllAsTouched();
+        this.personalInformationForm.get('personalInformation').markAllAsTouched();
         if (
             this.personalInformationForm.controls['personalInformation'].valid
         ) {
             this.personalInformationForm.get('step').setValue(2);
         }
+        console.log(this.personalInformationForm);
     }
 
     getNameByDNI(): void {

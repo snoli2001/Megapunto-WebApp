@@ -68,19 +68,21 @@ export class BusinessAddressComponent implements OnInit {
     }
 
     get agreementsError(): boolean {
-        return this.signUpForm.controls['businessAddress'].get(
-            'agreements'
-        ).invalid && this.signUpForm.controls['businessAddress'].get(
-            'agreements'
-        ).touched;
+        return (
+            this.signUpForm.controls['businessAddress'].get('agreements')
+                .invalid &&
+            this.signUpForm.controls['businessAddress'].get('agreements')
+                .touched
+        );
     }
 
     get secondAgreementsError(): boolean {
-        return this.signUpForm.controls['businessAddress'].get(
-            'secondAgreements'
-        ).invalid && this.signUpForm.controls['businessAddress'].get(
-            'secondAgreements'
-        ).touched;
+        return (
+            this.signUpForm.controls['businessAddress'].get('secondAgreements')
+                .invalid &&
+            this.signUpForm.controls['businessAddress'].get('secondAgreements')
+                .touched
+        );
     }
 
     ngOnInit(): void {
@@ -217,6 +219,7 @@ export class BusinessAddressComponent implements OnInit {
 
         if (this.signUpForm.valid && this.latitude && this.longitude) {
             const newUser: SignUpModel = {
+                nu_id_negocio: '7',
                 // Personal Information
                 nu_id_tipo_doc_identidad:
                     personalInformation.get('documentType').value,
@@ -225,19 +228,33 @@ export class BusinessAddressComponent implements OnInit {
                 vc_nombre_contacto: personalInformation.get('name').value,
                 vc_email: personalInformation.get('email').value,
                 vc_celular: personalInformation.get('cellphone').value,
-                nu_dia: new Date(personalInformation.get('birthDate').value).getDay().toString(),
-                nu_mes: new Date(personalInformation.get('birthDate').value).getMonth().toString(),
-                nu_anio: new Date(personalInformation.get('birthDate').value).getFullYear().toString(),
-                vc_cadena_imagen_dni_anverso: personalInformation.get('vc_cadena_imagen_dni_anverso').value,
-                vc_cadena_imagen_dni_reverso: personalInformation.get('vc_cadena_imagen_dni_reverso').value,
-                vc_cadena_imagen_dni_anverso_persona: personalInformation.get('vc_cadena_imagen_dni_anverso_persona').value,
+                nu_dia: new Date(personalInformation.get('birthDate').value)
+                    .getDay()
+                    .toString(),
+                nu_mes: new Date(personalInformation.get('birthDate').value)
+                    .getMonth()
+                    .toString(),
+                nu_anio: new Date(personalInformation.get('birthDate').value)
+                    .getFullYear()
+                    .toString(),
+                vc_cadena_imagen_dni_anverso: personalInformation.get(
+                    'vc_cadena_imagen_dni_anverso'
+                ).value,
+                vc_cadena_imagen_dni_reverso: personalInformation.get(
+                    'vc_cadena_imagen_dni_reverso'
+                ).value,
+                vc_cadena_imagen_dni_anverso_persona: personalInformation.get(
+                    'vc_cadena_imagen_dni_anverso_persona'
+                ).value,
 
                 // Business Data
                 vc_ruc_comercio: businessData.get('ruc').value,
                 vc_nombre_comercio: businessData.get('tradename').value,
                 vc_razon_social_comercio:
                     businessData.get('businessName').value,
-                vc_telefono: businessData.get('telephone').value,
+                vc_telefono: businessData.get('telephone').value
+                    ? businessData.get('telephone').value
+                    : '',
                 nu_id_grupo_giro_negocio:
                     businessData.get('businessLine').value,
                 ch_tipo_documento: businessData.get('billType').value,
@@ -246,11 +263,12 @@ export class BusinessAddressComponent implements OnInit {
                 nu_longitud: this.longitude.toString(),
                 nu_latitud: this.latitude.toString(),
                 vc_direccion: businessAddress.get('address').value,
-                vc_centro_poblado: businessAddress.get('village').value,
+                vc_centro_poblado: businessAddress.get('village').value
+                    ? businessAddress.get('village').value
+                    : '',
                 nu_id_departamento: businessAddress.get('region').value,
                 nu_id_provincia: businessAddress.get('city').value,
                 nu_id_distrito: businessAddress.get('district').value,
-
             };
             this._personalInformationService
                 .signUp(newUser)

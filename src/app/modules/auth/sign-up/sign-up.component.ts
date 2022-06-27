@@ -1,3 +1,4 @@
+import { AbstractControl, FormControl } from '@angular/forms';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -22,18 +23,31 @@ export class AuthSignUpComponent implements OnInit {
     signUpForm: FormGroup;
     showAlert: boolean = false;
 
+    emailRegex: RegExp = new RegExp(
+        '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
+    );
+
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router
     ) {}
 
+    get documentNumber(): FormControl {
+        return this.signUpForm
+            .get('personalInformation')
+            .get('documentNumber') as FormControl;
+    }
+
     ngOnInit(): void {
         // Create the form
         this.signUpForm = this._formBuilder.group({
             personalInformation: this._formBuilder.group({
                 name: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]],
+                email: [
+                    '',
+                    [Validators.required, Validators.pattern(this.emailRegex)],
+                ],
                 cellphone: [
                     '',
                     [
@@ -42,24 +56,38 @@ export class AuthSignUpComponent implements OnInit {
                         Validators.maxLength(9),
                     ],
                 ],
-                documentType: ['', Validators.required],
-                documentNumber: ['', Validators.required],
-                birthDate: ['', Validators.required],
+                documentType: ['2', Validators.required],
+                documentNumber: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.maxLength(8),
+                    ],
+                ],
+                birthDate: ['', [Validators.required, this.customValidator]],
                 vc_cadena_imagen_dni_anverso: ['', Validators.required],
                 vc_cadena_imagen_dni_reverso: ['', Validators.required],
                 vc_cadena_imagen_dni_anverso_persona: ['', Validators.required],
             }),
             businessData: this._formBuilder.group({
-                ruc: ['', Validators.required],
+                ruc: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(11),
+                        Validators.maxLength(11),
+                    ],
+                ],
                 tradename: ['', Validators.required],
                 businessName: ['', Validators.required],
-                telephone: ['', Validators.required],
+                telephone: ['', [Validators.maxLength(9)]],
                 businessLine: ['', Validators.required],
                 billType: ['', Validators.required],
             }),
             businessAddress: this._formBuilder.group({
                 address: ['', Validators.required],
-                village: ['', Validators.required],
+                village: [''],
                 region: ['', Validators.required],
                 city: ['', Validators.required],
                 district: ['', Validators.required],
@@ -68,6 +96,7 @@ export class AuthSignUpComponent implements OnInit {
             }),
             step: [1],
         });
+        this.changeValidatorsOfDocumentNumber();
     }
 
     signUp(): void {
@@ -109,5 +138,38 @@ export class AuthSignUpComponent implements OnInit {
 
     signIn(): void {
         this._router.navigate(['sign-in']);
+    }
+
+    customValidator(control: AbstractControl): boolean {
+        console.log(control.value);
+        return true;
+    }
+
+    changeValidatorsOfDocumentNumber(): void {
+        this.signUpForm
+            .get('personalInformation')
+            .get('documentType')
+            .valueChanges.subscribe((value) => {
+                if (value === '30') {
+                    this.documentNumber.setValue('');
+                    this.documentNumber.clearValidators();
+                    this.documentNumber.addValidators([
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.maxLength(12),
+                    ]);
+                    this.documentNumber.updateValueAndValidity();
+                }
+                if (value === '2') {
+                    this.documentNumber.setValue('');
+                    this.documentNumber.clearValidators();
+                    this.documentNumber.addValidators([
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.maxLength(8),
+                    ]);
+                    this.documentNumber.updateValueAndValidity();
+                }
+            });
     }
 }

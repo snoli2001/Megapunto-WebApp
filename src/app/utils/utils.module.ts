@@ -6,21 +6,17 @@ import { AlertService } from './alert/alert.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
-
+import { StrictNumberOnlyDirective } from './directives/StrictNumberOnlyDirective';
+import { MaxLengthDirective } from './directives/MaxLenghtDirective';
 
 @NgModule({
-  declarations: [
-    AlertComponent,
-  ],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  providers: [
-    AlertService,
-  ]
+    declarations: [
+        AlertComponent,
+        StrictNumberOnlyDirective,
+        MaxLengthDirective,
+    ],
+    imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+    exports: [AlertComponent, StrictNumberOnlyDirective, MaxLengthDirective],
+    providers: [AlertService],
 })
-export class UtilsModule { }
+export class UtilsModule {}

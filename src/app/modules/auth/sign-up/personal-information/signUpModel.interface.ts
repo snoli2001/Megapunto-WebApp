@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface SignUpModel {
+    nu_id_negocio: string;
     nu_id_tipo_doc_identidad: string;
     vc_nro_doc_identidad: string;
     vc_nombre_contacto: string;

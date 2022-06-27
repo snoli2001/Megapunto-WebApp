@@ -1,3 +1,5 @@
+import { StrictNumberOnlyDirective } from './../../../utils/directives/StrictNumberOnlyDirective';
+import { UtilsModule } from './../../../utils/utils.module';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,6 +42,7 @@ export const MY_FORMATS = {
     ],
     imports: [
         RouterModule.forChild(authSignupRoutes),
+        UtilsModule,
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,

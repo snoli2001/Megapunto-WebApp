@@ -21,7 +21,7 @@ export class BusinessDataComponent implements OnInit {
     businessDataForm: FormGroup;
     showAlert: boolean = false;
     lineOfBusinesses$: Observable<LineOfBusiness[]>;
-    withRUC: FormControl = new FormControl(true, Validators.required);
+    withoutRUC: FormControl = new FormControl(false, Validators.required);
 
     constructor(
         private rootFormGroup: FormGroupDirective,
@@ -52,8 +52,8 @@ export class BusinessDataComponent implements OnInit {
         ) as FormControl;
     }
 
-    get isWithRUC(): boolean {
-        return this.withRUC.value === true;
+    get isWithoutRUC(): boolean {
+        return this.withoutRUC.value === false;
     }
 
     ngOnInit(): void {
@@ -77,7 +77,7 @@ export class BusinessDataComponent implements OnInit {
         this.businessDataForm.get('step').setValue(1);
     }
     nextStep(): void {
-        this.businessDataForm.markAllAsTouched();
+        this.businessDataForm.get('businessData').markAllAsTouched();
         if (this.businessDataForm.controls['businessData'].valid) {
             this.businessDataForm.get('step').setValue(3);
         }
@@ -90,8 +90,8 @@ export class BusinessDataComponent implements OnInit {
     }
 
     detectWithRUCChanges(): void {
-        this.withRUC.valueChanges.subscribe((value) => {
-            if (value === true) {
+        this.withoutRUC.valueChanges.subscribe((value) => {
+            if (value === false) {
                 this.ruc.clearValidators();
                 this.billType.clearValidators();
                 this.businessName.clearValidators();

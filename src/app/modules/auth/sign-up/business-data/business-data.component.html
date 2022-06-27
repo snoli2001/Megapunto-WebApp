@@ -3,7 +3,13 @@
     Datos para el negocio
 </div>
 
-<mat-slide-toggle color="primary" [formControl]="withRUC"> </mat-slide-toggle>
+<mat-slide-toggle class="mt-2" color="primary" [formControl]="withoutRUC"
+    >
+    <span class="font-semibold">
+        Negocio sin RUC
+    </span>
+    </mat-slide-toggle
+>
 
 <!-- Alert -->
 <fuse-alert
@@ -22,20 +28,22 @@
     <div formGroupName="businessData">
         <div class="grid grid-cols-1 md:grid-cols-3">
             <!-- Document type field -->
-            <mat-form-field class="md:mr-1 w-full" *ngIf="isWithRUC">
+            <mat-form-field class="md:mr-1 w-full" *ngIf="isWithoutRUC">
                 <mat-select id="documentType" [disabled]="true" value="ruc">
                     <mat-option [value]="'ruc'"> RUC </mat-option>
                 </mat-select>
             </mat-form-field>
 
             <!-- Document number field -->
-            <div class="md:ml-2 flex w-full col-span-2" *ngIf="isWithRUC">
+            <div class="md:ml-2 flex w-full col-span-2" *ngIf="isWithoutRUC">
                 <mat-form-field class="w-3/4">
                     <input
                         id="ruc"
                         matInput
                         placeholder="Nro de documento"
                         [formControlName]="'ruc'"
+                        NumberOnly
+                        [maxLength]="11"
                     />
                     <mat-error
                         *ngIf="
@@ -60,7 +68,7 @@
             </div>
         </div>
         <!-- Name field -->
-        <mat-form-field class="w-full" *ngIf="isWithRUC">
+        <mat-form-field class="w-full" *ngIf="isWithoutRUC">
             <input
                 id="name"
                 matInput
@@ -106,6 +114,8 @@
                 matInput
                 placeholder="Teléfono"
                 [formControlName]="'telephone'"
+                NumberOnly
+                [maxLength]="9"
             />
         </mat-form-field>
 
@@ -135,7 +145,7 @@
         </mat-form-field>
 
         <!-- Bill type field -->
-        <mat-form-field class="w-full" *ngIf="isWithRUC">
+        <mat-form-field class="w-full" *ngIf="isWithoutRUC">
             <mat-select
                 id="billType"
                 placeholder="Tipo de comprobante"
