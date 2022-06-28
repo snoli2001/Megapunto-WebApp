@@ -15,6 +15,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     nu_precio = 0;
     disable: boolean;
+    invalidAmount: boolean;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TopUpCellphoneBallanceComponent>,
@@ -28,6 +29,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
 
     updateNuPrecio(event): void {
         this.nu_precio = event.target.value;
+        this.invalidAmount = Number(event.target.value) < 3 || Number(event.target.value) > 100 ? true : false;
     }
 
     topUpCellphoneBalance(): void {
