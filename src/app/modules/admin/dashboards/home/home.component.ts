@@ -153,7 +153,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     initEnterprisesFilteredOptions(): void {
-        console.log('holi');
         this.filteredEnterprisesService =
             this.nu_id_empresa_servicio_appForm.valueChanges.pipe(
                 filter((value) => !!value),
@@ -321,7 +320,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     nextStepPayServices(): void {
         this.selectServiceForm.markAllAsTouched();
         if (this.selectServiceForm.valid) {
-            console.log(this.nu_id_empresa_servicio_appForm.value);
             this.ngZone.run(() => {
                 this.matDialog.open(PayServicesComponent, {
                     disableClose: true,

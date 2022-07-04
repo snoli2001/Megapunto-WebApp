@@ -15,7 +15,6 @@ export class AlertService {
         info: any,
         showBalance: boolean = false
     ): MatDialogRef<AlertComponent, any> {
-        console.log(info);
         return this.dialog.open(AlertComponent, {
             data: {
                 type: type,

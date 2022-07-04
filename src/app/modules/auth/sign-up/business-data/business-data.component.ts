@@ -81,7 +81,6 @@ export class BusinessDataComponent implements OnInit {
         if (this.businessDataForm.controls['businessData'].valid) {
             this.businessDataForm.get('step').setValue(3);
         }
-        console.log(this.businessDataForm.value);
     }
 
     getLineOfBusinessSelection(): void {

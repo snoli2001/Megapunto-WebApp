@@ -14,7 +14,6 @@ export class BankGuidePdfPopUpComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: string,
         public matDialogRef: MatDialogRef<BankGuidePdfPopUpComponent>,
     ) {
-        console.log(data);
         this.iframeSrc = data;
     }
 

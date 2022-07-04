@@ -141,7 +141,6 @@ export class AuthSignUpComponent implements OnInit {
     }
 
     customValidator(control: AbstractControl): boolean {
-        console.log(control.value);
         return true;
     }
 

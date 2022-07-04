@@ -154,7 +154,6 @@ export class PersonalInformationComponent implements OnInit {
         ) {
             this.personalInformationForm.get('step').setValue(2);
         }
-        console.log(this.personalInformationForm);
     }
 
     getNameByDNI(): void {

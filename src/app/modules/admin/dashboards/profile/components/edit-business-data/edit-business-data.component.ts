@@ -267,10 +267,7 @@ export class EditBusinessDataComponent implements OnInit {
             .geocode(request)
             .then((result) => {
                 const { results } = result;
-                console.log(results);
                 const address: string = `${results[0].address_components[1].long_name} ${results[0].address_components[0].long_name}, ${results[0].address_components[3].long_name}`;
-                console.log(results[0].geometry.location.lat());
-                console.log(results[0].geometry.location.lng());
                 this.latitude = results[0].geometry.location.lat();
                 this.longitude = results[0].geometry.location.lng();
                 this.map.setCenter(results[0].geometry.location);

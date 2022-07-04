@@ -70,7 +70,6 @@ export class IncommComponent implements OnInit {
 
     toggleDigitalDetails(detail: DigitalProductDetail): void {
         this.detailActive = detail;
-        console.log(detail);
     }
 
     nextStep(stepper: MatStepper): void {
