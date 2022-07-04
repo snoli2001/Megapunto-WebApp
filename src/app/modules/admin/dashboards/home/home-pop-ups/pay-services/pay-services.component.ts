@@ -82,6 +82,10 @@ export class PayServicesComponent implements OnInit {
         return optionOne.nu_id_producto_app === optionTwo.nu_id_producto_app;
     }
 
+    prevStep(stepper: MatStepper): void {
+        stepper.previous();
+    }
+
     nextStep(stepper: MatStepper): void {
         this.nextClicked = true;
         if (stepper.selectedIndex === 0) {

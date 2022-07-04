@@ -153,7 +153,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     initEnterprisesFilteredOptions(): void {
-        console.log('holi');
         this.filteredEnterprisesService =
             this.nu_id_empresa_servicio_appForm.valueChanges.pipe(
                 filter((value) => !!value),

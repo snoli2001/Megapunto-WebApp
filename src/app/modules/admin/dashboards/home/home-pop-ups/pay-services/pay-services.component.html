@@ -97,25 +97,38 @@
                     }}
                 </h2>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col max-h-80 overflow-y-auto">
                 <div *ngFor="let deb of debts" class="mt-5 flex">
                     <div class="flex flex-col w-full">
                         <div class="w-full">
                             <div class="w-full">
-                                <h3 class="text-primary text-lg font-semibold">
+                                <h3
+                                    [ngClass]="{
+                                        'text-slate-400 text-lg font-semibold' : debts[0] !== deb,
+                                        'text-primary text-lg font-semibold' : debts[0] === deb
+                                    }">
                                     N° Documento: {{ deb.vc_numero_documento }}
                                 </h3>
                             </div>
                             <div class="flex items-center w-full">
                                 <div class="w-2/4 flex flex-col">
-                                    <div class="font-semibold">
+                                    <div [ngClass]="{
+                                            'text-slate-400 font-semibold' : debts[0] !== deb,
+                                            'font-semibold' : debts[0] === deb
+                                        }">
                                         Fecha de vencimiento:
                                     </div>
-                                    <div>
+                                    <div [ngClass]="{
+                                            'text-slate-400 font-semibold' : debts[0] !== deb,
+                                            'font-semibold' : debts[0] === deb
+                                        }">
                                         {{ deb.dt_fecha_vencimento }}
                                     </div>
                                 </div>
-                                <div class="w-1/4 font-semibold">
+                                <div [ngClass]="{
+                                        'text-slate-400 font-semibold' : debts[0] !== deb,
+                                        'font-semibold' : debts[0] === deb
+                                    }" class="w-1/4">
                                     S/{{ deb.nu_monto_documento }}
                                 </div>
                                 <div class="ml-5 w-1/4 flex justify-center">
@@ -136,12 +149,22 @@
             </div>
             <div class="flex justify-center mt-5">
                 <button
+                    *ngIf="serviceStepper.selectedIndex === 0"
                     mat-raised-button
                     color="warn"
                     class="mr-2"
                     (click)="close()"
                 >
                     Cancelar
+                </button>
+                <button
+                    *ngIf="serviceStepper.selectedIndex === 1 || serviceStepper.selectedIndex === 2"
+                    mat-raised-button
+                    color="warn"
+                    class="mr-2"
+                    (click)="prevStep(serviceStepper)"
+                >
+                    Atrás
                 </button>
                 <button
                     mat-raised-button
@@ -221,9 +244,9 @@
                     mat-raised-button
                     color="warn"
                     class="mr-2"
-                    (click)="close()"
+                    (click)="prevStep(serviceStepper)"
                 >
-                    Cancelar
+                    Atrás
                 </button>
                 <button (click)="payDebt()" mat-raised-button color="primary">
                     Pagar

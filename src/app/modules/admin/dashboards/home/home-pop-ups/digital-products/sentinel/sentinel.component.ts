@@ -187,6 +187,10 @@ export class SentinelComponent implements OnInit {
         this.detailSelectedForm.setValue(detail);
     }
 
+    prevStep(stepper: MatStepper): void {
+        stepper.previous();
+    }
+
     nextStep(stepper: MatStepper): void {
         this.nextClicked = true;
         if (stepper.selectedIndex === 0) {
