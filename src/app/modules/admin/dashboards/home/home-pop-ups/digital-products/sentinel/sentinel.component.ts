@@ -50,7 +50,6 @@ export class SentinelComponent implements OnInit {
         private fb: FormBuilder,
         private _balanceService: BalanceService
     ) {
-        console.log(data);
     }
 
     get consultantDocumentNumber(): string {

@@ -106,7 +106,6 @@ export class PayServicesComponent implements OnInit {
                     )
                     .subscribe((resp) => {
                         this.debts = resp;
-                        console.log(this.debts);
                         if (resp.length === 1 && resp[0].nu_tran_stdo === '0') {
                             this._alertService.showAlert(
                                 'error',
@@ -157,7 +156,6 @@ export class PayServicesComponent implements OnInit {
                         this._balanceService
                             .getBalance()
                             .subscribe((balanceResp) => {
-                                console.log(balanceResp);
                                 this._alertService
                                     .showAlert(
                                         'success',

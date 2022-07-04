@@ -176,7 +176,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('result: ', result);
         });
     }
 }

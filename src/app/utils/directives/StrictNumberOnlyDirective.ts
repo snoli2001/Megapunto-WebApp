@@ -17,7 +17,6 @@ export class StrictNumberOnlyDirective {
         if (this.specialKeys.indexOf(event.key) !== -1) {
             return;
         }
-        console.log(event.key);
         const inputValue: string = this.elementRef.nativeElement.value.concat(
             event.key
         );
