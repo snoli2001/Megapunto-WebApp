@@ -1,5 +1,5 @@
 <div class="w-full flex flex-col">
-    <mat-stepper linear #stepper>
+    <mat-stepper linear #stepper class="max-h-120 overflow-y-auto">
         <mat-step>
             <div class="mb-4">
                 <h1 class="text-xl font-semibold">Detalles de Grupos</h1>
@@ -77,6 +77,8 @@
                             matInput
                             placeholder="Celular"
                             formControlName="cellphone"
+                            NumberOnly
+                            [maxLength]="9"
                         />
                         <!-- <mat-error *ngIf="InvalidCellphone">
                             Ingrese un número de celular válido

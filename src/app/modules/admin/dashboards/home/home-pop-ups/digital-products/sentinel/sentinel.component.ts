@@ -34,6 +34,9 @@ export class SentinelComponent implements OnInit {
         Validators.required,
         Validators.requiredTrue,
     ]);
+    emailRegex: RegExp = new RegExp(
+        '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
+    );
     disable: boolean = false;
     detailSelectedForm = new FormControl(null, [Validators.required]);
     consultantInformationForm: FormGroup;
@@ -49,8 +52,7 @@ export class SentinelComponent implements OnInit {
         private _alertService: AlertService,
         private fb: FormBuilder,
         private _balanceService: BalanceService
-    ) {
-    }
+    ) {}
 
     get consultantDocumentNumber(): string {
         return this.documentsValidationForm.get('consultantDocumentNumber')
@@ -124,7 +126,10 @@ export class SentinelComponent implements OnInit {
 
     initConsultantInformationForm(): void {
         this.consultantInformationForm = this.fb.group({
-            email: ['', [Validators.required, Validators.email]],
+            email: [
+                '',
+                [Validators.required, Validators.pattern(this.emailRegex)],
+            ],
             cellphone: [
                 '',
                 [
@@ -201,7 +206,6 @@ export class SentinelComponent implements OnInit {
         }
 
         if (stepper.selectedIndex === 1) {
-            this.documentsValidationForm.markAllAsTouched();
             if (this.documentsValidationForm.valid) {
                 this.disable = true;
                 this.validateDocumentsInForm().subscribe((resp) => {
@@ -254,7 +258,6 @@ export class SentinelComponent implements OnInit {
     }
 
     sellDigitalProduct(): void {
-        this.consultantInformationForm.markAllAsTouched();
         if (this.consultantInformationForm.valid) {
             this.disable = true;
             this.sentinelService

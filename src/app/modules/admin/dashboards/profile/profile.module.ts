@@ -22,6 +22,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { EditBusinessDataComponent } from './components/edit-business-data/edit-business-data.component';
 import { FuseAlertModule } from '@fuse/components/alert';
+import { UtilsModule } from 'app/utils/utils.module';
 
 export const MY_FORMATS = {
     parse: {
@@ -56,6 +57,7 @@ export const MY_FORMATS = {
         MatDatepickerModule,
         MatMomentDateModule,
         FuseAlertModule,
+        UtilsModule,
     ],
     providers: [
         { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

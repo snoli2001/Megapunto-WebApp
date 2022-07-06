@@ -1,3 +1,4 @@
+import { CurrencyDirective } from './directives/CurrencyDirective';
 import { SafePipe } from './pipes/safeUrl.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,9 +15,15 @@ import { MaxLengthDirective } from './directives/MaxLenghtDirective';
         AlertComponent,
         StrictNumberOnlyDirective,
         MaxLengthDirective,
+        CurrencyDirective,
     ],
     imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
-    exports: [AlertComponent, StrictNumberOnlyDirective, MaxLengthDirective],
+    exports: [
+        AlertComponent,
+        StrictNumberOnlyDirective,
+        MaxLengthDirective,
+        CurrencyDirective,
+    ],
     providers: [AlertService],
 })
 export class UtilsModule {}

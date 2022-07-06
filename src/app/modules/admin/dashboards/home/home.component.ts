@@ -224,6 +224,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.operationActive = operation;
         this.digitalProductActive = null;
         this.topUpCellphoneBalanceForm.get('product').setValue(null);
+        this.topUpCellphoneBalanceForm.get('vc_numero_servicio').setValue('');
+        this.topUpCellphoneBalanceForm.get('vc_numero_servicio').markAsUntouched();
     }
 
     toggleDigitalProducts(digitalProduct: DigitalProduct): void {
@@ -325,8 +327,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                     disableClose: true,
                     data: {
                         enterprise: this.nu_id_empresa_servicio_appForm.value,
-                        size: 500,
+                        size: 600,
                     },
+                    maxWidth: '100vw',
                 });
             });
         }

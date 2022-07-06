@@ -1,3 +1,4 @@
+import { UtilsModule } from './../../../../utils/utils.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -57,7 +58,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatDialogModule,
         MatStepperModule,
         MatAutocompleteModule,
-        MatRadioModule
+        MatRadioModule,
+        UtilsModule,
     ],
 })
 export class HomeModule {}

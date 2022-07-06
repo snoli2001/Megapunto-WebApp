@@ -13,27 +13,27 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class TopUpCellphoneBallanceComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    nu_precio = 0;
+    nu_precio: string = '000.00';
     disable: boolean;
-    invalidAmount: boolean;
+    // invalidAmount: boolean;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public matDialogRef: MatDialogRef<TopUpCellphoneBallanceComponent>,
         private homeService: HomeService,
         private _alertService: AlertService
     ) {}
+    get invalidAmount(): boolean {
+        return Number(this.nu_precio) < 3 || Number(this.nu_precio) > 100
+            ? true
+            : false;
+    }
 
     ngOnInit(): void {
         this.matDialogRef.updateSize(this.data.size);
     }
 
-    updateNuPrecio(event): void {
-        this.nu_precio = event.target.value;
-        this.invalidAmount = Number(event.target.value) < 3 || Number(event.target.value) > 100 ? true : false;
-    }
-
     topUpCellphoneBalance(): void {
-        if (this.nu_precio > 0) {
+        if (Number(this.nu_precio) > 0) {
             this.disable = true;
             this.homeService
                 .topUpCellphoneBalance(

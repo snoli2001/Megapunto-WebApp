@@ -26,7 +26,9 @@ export class IncommComponent implements OnInit {
     digitalProductDetails$: Observable<DigitalProductDetail[]>;
     disable: boolean = false;
     nextClicked: boolean = false;
-
+    emailRegex: RegExp = new RegExp(
+        '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
+    );
     constructor(
         @Inject(MAT_DIALOG_DATA)
         public data: { digitalProduct: DigitalProduct; size: any },
@@ -56,7 +58,7 @@ export class IncommComponent implements OnInit {
 
     initBuyerInformationForm(): void {
         this.buyerInformationForm = this.fb.group({
-            email: ['', [Validators.required, Validators.email]],
+            email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
             cellphone: [
                 '',
                 [

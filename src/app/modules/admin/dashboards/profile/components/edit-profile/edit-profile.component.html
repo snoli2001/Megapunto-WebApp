@@ -10,11 +10,11 @@
     <form class="mt-6 w-full" [formGroup]="editProfileForm">
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="vc_telefono" placeholder="Teléfono fijo">
+            <input NumberOnly matInput formControlName="vc_telefono" placeholder="Teléfono fijo">
         </mat-form-field>
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Celular</mat-label>
-            <input matInput formControlName="vc_celular" placeholder="Celular">
+            <input NumberOnly [maxLength]="9" matInput formControlName="vc_celular" placeholder="Celular">
         </mat-form-field>
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Correo</mat-label>

@@ -278,6 +278,8 @@
                                         [formControlName]="'vc_numero_servicio'"
                                         matInput
                                         placeholder="Número de celular"
+                                        NumberOnly
+                                        [maxLength]="9"
                                     />
                                     <mat-error
                                         *ngIf="vc_numero_servicioInvalid"

@@ -209,11 +209,11 @@
                     <div class="border-2 rounded-lg min-h-40 mt-4 p-2.5 sm:p-5">
                         <div class="flex flex-col justify-center items-center">
                             <span class="mb-2">Filtrar por fecha</span>
-                            <div class="mb-4 block">
+                            <div class="mb-4 grid grid-cols-3 gap-1 w-full">
                                 <button
                                     mat-raised-button
                                     color="primary"
-                                    class="w-full m-1 sm:w-40"
+                                    class="w-full text-base md:text-sm xl:text-base"
                                     (click)="resetDates(7)"
                                 >
                                     Última semana
@@ -221,7 +221,7 @@
                                 <button
                                     mat-raised-button
                                     color="primary"
-                                    class="w-full m-1 sm:w-40"
+                                    class="w-full text-base md:text-sm xl:text-base"
                                     (click)="resetDates(3)"
                                 >
                                     Últimos 3 días
@@ -229,7 +229,7 @@
                                 <button
                                     mat-raised-button
                                     color="primary"
-                                    class="w-full m-1 sm:w-40"
+                                    class="w-full text-base md:text-sm xl:text-base"
                                     (click)="resetDates(0)"
                                 >
                                     Hoy

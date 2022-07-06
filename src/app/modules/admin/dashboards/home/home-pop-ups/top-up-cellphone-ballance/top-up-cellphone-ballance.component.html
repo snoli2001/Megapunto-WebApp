@@ -1,23 +1,20 @@
-<div class="w-full  flex flex-col justify-between">
+<div class="w-full flex flex-col justify-between">
     <div>
         <h1 class="text-2xl font-bold">Monto a recargar</h1>
         <mat-form-field class="mt-4 w-full">
+            <span matPrefix>S/ &nbsp;</span>
             <input
+                NumberOnly
                 class="w-full"
                 autocomplete="off"
                 matInput
                 [disabled]="disable"
                 type="text"
-                mvndrMatCurrencyFormat
-                [allowNegative]="false"
-                [currencyCode]="'S/ '"
-                [value]="nu_precio"
-                (blur)="updateNuPrecio($event)"
+                Currency
+                [(ngModel)]="nu_precio"
             />
         </mat-form-field>
-        <span
-            class="mx-0.5 text-red-500"
-            *ngIf="invalidAmount">
+        <span class="mx-0.5 text-red-500" *ngIf="invalidAmount">
             Importe mínimo de recarga S/ 3.00 y máximo S/ 100.00
         </span>
         <hr class="m-0" />

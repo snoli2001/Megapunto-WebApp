@@ -1,5 +1,5 @@
-<div class="w-full flex flex-col max-h-120 overflow-y-auto">
-    <mat-stepper linear #stepper>
+<div class="w-full flex flex-col ">
+    <mat-stepper linear #stepper class="max-h-120 overflow-y-auto">
         <mat-step [stepControl]="detailSelectedForm">
             <div class="mb-4">
                 <h1 class="text-xl font-semibold">Detalles de Grupos</h1>
@@ -98,6 +98,8 @@
                                 matInput
                                 placeholder="Número de Documento"
                                 formControlName="consultantDocumentNumber"
+                                NumberOnly
+                                [maxLength]="8"
                             />
                             <mat-error *ngIf="false">
                                 Ingrese el número de documento
@@ -143,6 +145,8 @@
                                 matInput
                                 placeholder="Número de Documento"
                                 formControlName="consultedDocumentNumber"
+                                NumberOnly
+                                [maxLength]="8"
                             />
                             <mat-error *ngIf="false">
                                 Ingrese el número de documento
@@ -193,6 +197,8 @@
                             matInput
                             placeholder="Celular del solicitante"
                             formControlName="cellphone"
+                            NumberOnly
+                            [maxLength]="9"
                         />
                         <mat-error *ngIf="InvalidCellphone">
                             Ingrese un número de celular válido
@@ -244,7 +250,7 @@
             Cancelar
         </button>
         <button
-            *ngIf="stepper.selectedIndex === 1"
+            *ngIf="stepper.selectedIndex === 1 || stepper.selectedIndex === 2"
             class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
             (click)="prevStep(stepper)"
         >

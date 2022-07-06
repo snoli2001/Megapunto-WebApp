@@ -104,39 +104,54 @@
                             <div class="w-full">
                                 <h3
                                     [ngClass]="{
-                                        'text-slate-400 text-lg font-semibold' : debts[0] !== deb,
-                                        'text-primary text-lg font-semibold' : debts[0] === deb
-                                    }">
+                                        'text-slate-400 text-lg font-semibold':
+                                            debts[0] !== deb,
+                                        'text-primary text-lg font-semibold':
+                                            debts[0] === deb
+                                    }"
+                                >
                                     N° Documento: {{ deb.vc_numero_documento }}
                                 </h3>
                             </div>
                             <div class="flex items-center w-full">
                                 <div class="w-2/4 flex flex-col">
-                                    <div [ngClass]="{
-                                            'text-slate-400 font-semibold' : debts[0] !== deb,
-                                            'font-semibold' : debts[0] === deb
-                                        }">
+                                    <div
+                                        [ngClass]="{
+                                            'text-slate-400 font-semibold':
+                                                debts[0] !== deb,
+                                            'font-semibold': debts[0] === deb
+                                        }"
+                                    >
                                         Fecha de vencimiento:
                                     </div>
-                                    <div [ngClass]="{
-                                            'text-slate-400 font-semibold' : debts[0] !== deb,
-                                            'font-semibold' : debts[0] === deb
-                                        }">
+                                    <div
+                                        [ngClass]="{
+                                            'text-slate-400 font-semibold':
+                                                debts[0] !== deb,
+                                            'font-semibold': debts[0] === deb
+                                        }"
+                                    >
                                         {{ deb.dt_fecha_vencimento }}
                                     </div>
                                 </div>
-                                <div [ngClass]="{
-                                        'text-slate-400 font-semibold' : debts[0] !== deb,
-                                        'font-semibold' : debts[0] === deb
-                                    }" class="w-1/4">
-                                    S/{{ deb.nu_monto_documento }}
-                                </div>
+
                                 <div class="ml-5 w-1/4 flex justify-center">
-                                    <mat-radio-button
-                                        [disabled]="debts[0] !== deb"
-                                        [checked]="debts[0] === deb"
-                                        color="primary"
-                                    ></mat-radio-button>
+                                    <div
+                                        [ngClass]="{
+                                            'text-slate-400 font-semibold':
+                                                debts[0] !== deb,
+                                            'font-semibold': debts[0] === deb
+                                        }"
+                                        class="w-1/4 flex"
+                                    >
+                                        S/{{ deb.nu_monto_documento }}
+                                        <mat-radio-button
+                                            class="ml-2"
+                                            [disabled]="debts[0] !== deb"
+                                            [checked]="debts[0] === deb"
+                                            color="primary"
+                                        ></mat-radio-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +173,10 @@
                     Cancelar
                 </button>
                 <button
-                    *ngIf="serviceStepper.selectedIndex === 1 || serviceStepper.selectedIndex === 2"
+                    *ngIf="
+                        serviceStepper.selectedIndex === 1 ||
+                        serviceStepper.selectedIndex === 2
+                    "
                     mat-raised-button
                     color="warn"
                     class="mr-2"
