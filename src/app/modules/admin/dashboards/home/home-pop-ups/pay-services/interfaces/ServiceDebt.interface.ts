@@ -8,5 +8,6 @@ export interface ServiceDebt {
     vc_simbolo_moneda: string;
     nu_monto_documento: string;
     nu_comision_cliente: string;
+    nu_comision_comercio: string;
     nu_monto_deuda: string;
 }

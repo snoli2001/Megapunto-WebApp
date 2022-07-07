@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import { BalanceService } from 'app/modules/admin/dashboards/balance/balance.service';
 import { AlertService } from './../../../../../../../utils/alert/alert.service';
 import { IncommService } from './../services/incomm.service';
@@ -26,6 +27,7 @@ export class IncommComponent implements OnInit {
     digitalProductDetails$: Observable<DigitalProductDetail[]>;
     disable: boolean = false;
     nextClicked: boolean = false;
+    amountOfFree: number;
     emailRegex: RegExp = new RegExp(
         '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
     );
@@ -58,7 +60,10 @@ export class IncommComponent implements OnInit {
 
     initBuyerInformationForm(): void {
         this.buyerInformationForm = this.fb.group({
-            email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
+            email: [
+                '',
+                [Validators.required, Validators.pattern(this.emailRegex)],
+            ],
             cellphone: [
                 '',
                 [
@@ -70,6 +75,14 @@ export class IncommComponent implements OnInit {
         });
     }
 
+    getAmountOfFree(): void {
+        this.incommService
+            .getFree(Number(this.detailActive.vc_cod_producto))
+            .subscribe((value) => {
+                this.amountOfFree = value[0].nu_saldo;
+            });
+    }
+
     toggleDigitalDetails(detail: DigitalProductDetail): void {
         this.detailActive = detail;
     }
@@ -78,9 +91,14 @@ export class IncommComponent implements OnInit {
         this.nextClicked = true;
         if (stepper.selectedIndex === 0) {
             if (this.detailActive) {
+                this.getAmountOfFree();
                 stepper.next();
             }
         }
+    }
+
+    prevStep(stepper: MatStepper): void {
+        stepper.previous();
     }
 
     sellDigitalProduct(): void {

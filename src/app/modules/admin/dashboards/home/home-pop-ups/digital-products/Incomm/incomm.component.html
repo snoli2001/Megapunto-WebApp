@@ -44,7 +44,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                         <div class="font-semibold"># Gratuitos:</div>
-                        <div class="text-primary">0</div>
+                        <div class="text-primary">{{amountOfFree}}</div>
                     </div>
                 </div>
             </div>
@@ -90,11 +90,20 @@
     </mat-stepper>
     <div class="flex justify-center mt-4 sm:mt-8">
         <button
+            *ngIf="stepper.selectedIndex === 0"
             [disabled]="disable"
             class="text-red-500 font-bold border-2 border-red-500 px-6 py-1 rounded-xl hover:text-white hover:bg-red-500"
             (click)="close()"
         >
             Cancelar
+        </button>
+        <button
+            *ngIf="stepper.selectedIndex === 1"
+            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            (click)="prevStep(stepper)"
+            type="button"
+        >
+            Volver
         </button>
         <button
             *ngIf="stepper.selectedIndex === 0"

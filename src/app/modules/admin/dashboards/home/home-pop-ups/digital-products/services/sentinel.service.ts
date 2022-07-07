@@ -10,7 +10,6 @@ import { DocumentInterface } from '../interfaces/Document.interface';
 import { SentinelTransactionResponseInterface } from '../interfaces/SentinelTransactionResponse.interface';
 import { ValidateDocumentIDResponse } from '../interfaces/ValidateDocumentIDResponse.interface';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -24,6 +23,19 @@ export class SentinelService {
         return this._httpClient.post<DocumentInterface[]>(
             `${environment.API_URL}/Tipo_Doc_Identidad/sel_sentinel_hub`,
             {}
+        );
+    }
+
+    getFree(nu_id_producto_app: number): Observable<any> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Producto/sel_producto_gratuito_cantidad`,
+            {
+                nu_id_comercio_app,
+                nu_id_producto_app,
+            }
         );
     }
 
@@ -52,7 +64,7 @@ export class SentinelService {
         vc_cod_tipo_doc_cpt: string,
         vc_nro_doc_cpt: string,
         nu_id_tipo_documento: string,
-        vc_ruc: string = '',
+        vc_ruc,
         vc_version_app: string = 'web'
     ): Observable<SentinelTransactionResponseInterface> {
         const user: UserInterface = jwt_decode(this._authService.user);

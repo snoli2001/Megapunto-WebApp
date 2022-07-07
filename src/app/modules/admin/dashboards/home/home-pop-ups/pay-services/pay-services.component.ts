@@ -66,7 +66,6 @@ export class PayServicesComponent implements OnInit {
     }
 
     getServicesOfEnterprise(): void {
-        this.loading = true;
         this.enterpriseServices$ = this.payServices.getEnterpriseServices(
             this.data.enterprise.nu_id_empresa_servicio_app
         );
@@ -75,7 +74,6 @@ export class PayServicesComponent implements OnInit {
                 .get('enterpriseServiceSelected')
                 .setValue(resp[0]);
         });
-        this.loading = false;
     }
 
     compareFn(optionOne, optionTwo): boolean {
@@ -98,6 +96,7 @@ export class PayServicesComponent implements OnInit {
                     'vc_numero_servicio'
                 ).value;
             if (this.enterpriseServiceDetailsForm.valid) {
+                this.loading = true;
                 this.payServices
                     .getDebts(
                         enterpriseServiceDetails.nu_id_producto_app,
@@ -113,8 +112,10 @@ export class PayServicesComponent implements OnInit {
                                 500,
                                 null
                             );
+                            this.loading = false;
                         } else {
                             this.debToPay = this.debts[0];
+                            this.loading = false;
                             stepper.next();
                             this.nextClicked = false;
                         }
@@ -140,6 +141,7 @@ export class PayServicesComponent implements OnInit {
             this.debToPay &&
             this.enterpriseServiceDetailsForm.valid
         ) {
+            this.loading = true;
             this.payServices
                 .payDebt(
                     enterpriseServiceDetails.nu_id_producto_app,
@@ -156,6 +158,7 @@ export class PayServicesComponent implements OnInit {
                         this._balanceService
                             .getBalance()
                             .subscribe((balanceResp) => {
+                                this.loading = false;
                                 this._alertService
                                     .showAlert(
                                         'success',
@@ -168,6 +171,7 @@ export class PayServicesComponent implements OnInit {
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {
+                        this.loading = false;
                         this._alertService.showAlert(
                             'error',
                             resp.tx_tran_mnsg,

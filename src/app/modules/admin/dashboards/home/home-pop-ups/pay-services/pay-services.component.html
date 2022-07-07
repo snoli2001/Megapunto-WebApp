@@ -22,6 +22,7 @@
                     >
                         <mat-form-field class="w-full" appereance="fill">
                             <mat-select
+                                [disabled]="loading"
                                 formControlName="enterpriseServiceSelected"
                                 placeholder="Servicio"
                                 [compareWith]="compareFn"
@@ -51,9 +52,10 @@
                     <div class="w-full">
                         <mat-form-field class="w-full" appereance="fill">
                             <input
+                                [disabled]="loading"
                                 formControlName="vc_numero_servicio"
                                 matInput
-                                placeholder="Ingrese aquí"
+                                placeholder="Ingrese el número"
                             />
                             <mat-error *ngIf="false">
                                 Ingrese el número
@@ -64,6 +66,7 @@
             </div>
             <div class="flex justify-center mt-3">
                 <button
+                    [disabled]="loading"
                     mat-raised-button
                     color="warn"
                     class="mr-2"
@@ -72,6 +75,7 @@
                     Cancelar
                 </button>
                 <button
+                    [disabled]="loading"
                     mat-raised-button
                     color="primary"
                     (click)="nextStep(serviceStepper)"
@@ -166,6 +170,7 @@
                 <button
                     *ngIf="serviceStepper.selectedIndex === 0"
                     mat-raised-button
+                    [disabled]="loading"
                     color="warn"
                     class="mr-2"
                     (click)="close()"
@@ -178,6 +183,7 @@
                         serviceStepper.selectedIndex === 2
                     "
                     mat-raised-button
+                    [disabled]="loading"
                     color="warn"
                     class="mr-2"
                     (click)="prevStep(serviceStepper)"
@@ -185,6 +191,7 @@
                     Atrás
                 </button>
                 <button
+                    [disabled]="loading"
                     mat-raised-button
                     color="primary"
                     (click)="nextStep(serviceStepper)"
@@ -238,9 +245,19 @@
                 <div>Monto de la deuda:</div>
                 <div>{{ debToPay.nu_monto_documento }}</div>
             </div>
-            <div class="w-full flex justify-between mt-3">
-                <div>Comisión al usuario</div>
+            <div
+                class="w-full flex justify-between mt-3"
+                *ngIf="debToPay.nu_comision_cliente > 0"
+            >
+                <div>Comisión al usuario final:</div>
                 <div>{{ debToPay.nu_comision_cliente }}</div>
+            </div>
+            <div
+                class="w-full flex justify-between mt-3"
+                *ngIf="debToPay.nu_comision_comercio > 0"
+            >
+                <div>Comisión del comercio:</div>
+                <div>{{ debToPay.nu_comision_comercio }}</div>
             </div>
             <div class="w-full flex justify-between mt-5">
                 <div>Total a pagar</div>
@@ -250,6 +267,7 @@
                 <div class="text-lg">Envio constancia por SMS:</div>
                 <mat-form-field class="mt-2">
                     <input
+                        [disabled]="loading"
                         [formControl]="consultantCellphone"
                         matInput
                         type="text"
@@ -262,11 +280,17 @@
                     mat-raised-button
                     color="warn"
                     class="mr-2"
+                    [disabled]="loading"
                     (click)="prevStep(serviceStepper)"
                 >
                     Atrás
                 </button>
-                <button (click)="payDebt()" mat-raised-button color="primary">
+                <button
+                    [disabled]="loading"
+                    (click)="payDebt()"
+                    mat-raised-button
+                    color="primary"
+                >
                     Pagar
                 </button>
             </div>

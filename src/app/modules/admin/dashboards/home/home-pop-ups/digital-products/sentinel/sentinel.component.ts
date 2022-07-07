@@ -30,10 +30,12 @@ export class SentinelComponent implements OnInit {
     nextClicked: boolean = false;
     documentTypes$: Observable<DocumentInterface[]>;
     documentsValidationForm: FormGroup;
+    withRUC: boolean = false;
     validDocuments = new FormControl(false, [
         Validators.required,
         Validators.requiredTrue,
     ]);
+    amountOfFree: number;
     emailRegex: RegExp = new RegExp(
         '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'
     );
@@ -71,6 +73,13 @@ export class SentinelComponent implements OnInit {
         );
     }
 
+    get InvalidRUC(): boolean {
+        return (
+            this.consultantInformationForm.get('ruc').invalid &&
+            this.consultantInformationForm.get('ruc').touched
+        );
+    }
+
     get InvalidCellphone(): boolean {
         return (
             this.consultantInformationForm.get('cellphone').invalid &&
@@ -93,34 +102,15 @@ export class SentinelComponent implements OnInit {
         this.matDialogRef.updateSize(this.data.size);
         this.initDocumentsValidationForm();
         this.initConsultantInformationForm();
+        this.detectWithRuc();
     }
 
     initDocumentsValidationForm(): void {
         this.documentsValidationForm = this.fb.group({
-            consultedDocumentType: [
-                { value: '1', disabled: true },
-                Validators.required,
-            ],
-            consultedDocumentNumber: [
-                '',
-                [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(8),
-                ],
-            ],
-            consultantDocumentType: [
-                { value: '1', disabled: true },
-                Validators.required,
-            ],
-            consultantDocumentNumber: [
-                '',
-                [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(8),
-                ],
-            ],
+            consultedDocumentType: ['', Validators.required],
+            consultedDocumentNumber: ['', [Validators.required]],
+            consultantDocumentType: ['', Validators.required],
+            consultantDocumentNumber: ['', [Validators.required]],
         });
     }
 
@@ -139,11 +129,18 @@ export class SentinelComponent implements OnInit {
                 ],
             ],
             billType: ['2', Validators.required],
+            ruc: ['', [Validators.maxLength(11), Validators.minLength(11)]],
         });
     }
 
     initDocumentTypes(): void {
         this.documentTypes$ = this.sentinelService.getDocumentTypes();
+    }
+
+    getAmountOfFree(): void {
+        this.sentinelService
+            .getFree(Number(this.detailActive.nu_id_producto_app))
+            .subscribe((value) => (this.amountOfFree = value[0].nu_saldo));
     }
 
     isSentinel(): boolean {
@@ -197,15 +194,19 @@ export class SentinelComponent implements OnInit {
 
     nextStep(stepper: MatStepper): void {
         this.nextClicked = true;
-        if (stepper.selectedIndex === 0) {
+        if (stepper.selectedIndex === 0 && this.nextClicked) {
             if (this.detailSelectedForm.valid) {
                 this.initDocumentTypes();
+                this.documentsValidationForm.markAsUntouched();
+                this.getAmountOfFree();
                 stepper.next();
                 this.nextClicked = false;
             }
         }
 
-        if (stepper.selectedIndex === 1) {
+        if (stepper.selectedIndex === 1 && this.nextClicked) {
+            this.documentsValidationForm.markAllAsTouched();
+            console.log(stepper.selectedIndex);
             if (this.documentsValidationForm.valid) {
                 this.disable = true;
                 this.validateDocumentsInForm().subscribe((resp) => {
@@ -258,6 +259,7 @@ export class SentinelComponent implements OnInit {
     }
 
     sellDigitalProduct(): void {
+        this.consultantInformationForm.markAllAsTouched();
         if (this.consultantInformationForm.valid) {
             this.disable = true;
             this.sentinelService
@@ -278,7 +280,8 @@ export class SentinelComponent implements OnInit {
                         .value,
                     this.documentsValidationForm.get('consultedDocumentType')
                         .value,
-                    this.consultantInformationForm.get('billType').value
+                    this.consultantInformationForm.get('billType').value,
+                    this.consultantInformationForm.get('ruc').value
                 )
                 .subscribe((resp) => {
                     if (resp.nu_tran_stdo === '1') {
@@ -312,6 +315,30 @@ export class SentinelComponent implements OnInit {
                     this.disable = false;
                 });
         }
+    }
+
+    detectWithRuc(): void {
+        this.consultantInformationForm
+            .get('billType')
+            .valueChanges.subscribe((value) => {
+                if (value === '1') {
+                    this.withRUC = true;
+                    this.consultantInformationForm
+                        .get('ruc')
+                        .addValidators([Validators.required]);
+                    this.consultantInformationForm
+                        .get('ruc')
+                        .updateValueAndValidity();
+                } else if (value === '2') {
+                    this.withRUC = false;
+                    this.consultantInformationForm
+                        .get('ruc')
+                        .removeValidators(Validators.required);
+                    this.consultantInformationForm
+                        .get('ruc')
+                        .updateValueAndValidity();
+                }
+            });
     }
 
     close(): void {
