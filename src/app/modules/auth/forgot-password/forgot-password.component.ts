@@ -50,7 +50,7 @@ export class AuthForgotPasswordComponent implements OnInit {
         this.showAlert = false;
 
         this._forgotPasswordService
-            .resetPassword(
+            .getNewPassword(
                 this.forgotPasswordForm.get('cellphone').value,
                 this.forgotPasswordForm.get('businessCode').value
             )

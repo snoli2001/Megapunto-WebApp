@@ -8,6 +8,16 @@ import { UserService } from 'app/core/user/user.service';
 import { environment } from '../../../environments/environment';
 import * as encode from 'jwt-encode';
 
+export interface SignInResponse {
+    nu_id_negocio: string;
+    nu_tran_stdo: string;
+    nu_id_comercio: string;
+    nu_id_comercio_app: string;
+    tx_tran_mnsg: string;
+    vc_nombre_comercio: string;
+    bi_cambio_contrasena: string;
+}
+
 @Injectable()
 export class AuthService {
     private _authenticated: boolean = false;
@@ -59,15 +69,14 @@ export class AuthService {
         vc_nro_dispositivo: string;
         vc_contraseña: string;
         nu_id_negocio: string;
-    }): any {
-
+    }): Observable<SignInResponse> {
         return this._httpClient
             .post(
                 `${environment.API_URL}/Comercio_Bancario/sel_acceso`,
                 credentials
             )
             .pipe(
-                switchMap((response: any) => {
+                switchMap((response: SignInResponse) => {
                     // Store the access token in the local storage
                     if (response.nu_tran_stdo === '1') {
                         this.user = encode(response, 'secret');

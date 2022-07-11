@@ -17,11 +17,11 @@ export const appRoutes: Route[] = [
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {
-        path: 'signed-in-redirect',
-        pathMatch: 'full',
-        redirectTo: 'dashboards/project',
-    },
+    // {
+    //     path: 'signed-in-redirect',
+    //     pathMatch: 'full',
+    //     redirectTo: 'dashboards/project',
+    // },
 
     // Auth routes for guests
     {
@@ -46,13 +46,6 @@ export const appRoutes: Route[] = [
                     import(
                         'app/modules/auth/forgot-password/forgot-password.module'
                     ).then((m) => m.AuthForgotPasswordModule),
-            },
-            {
-                path: 'reset-password',
-                loadChildren: () =>
-                    import(
-                        'app/modules/auth/reset-password/reset-password.module'
-                    ).then((m) => m.AuthResetPasswordModule),
             },
             {
                 path: 'sign-in',
@@ -96,6 +89,20 @@ export const appRoutes: Route[] = [
                     ).then((m) => m.AuthUnlockSessionModule),
             },
         ],
+    },
+
+    {
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: LayoutComponent,
+        data: {
+            layout: 'empty',
+        },
+        path: 'reset-password',
+        loadChildren: () =>
+            import(
+                'app/modules/auth/reset-password/reset-password.module'
+            ).then((m) => m.AuthResetPasswordModule),
     },
 
     // Landing routes
@@ -166,6 +173,13 @@ export const appRoutes: Route[] = [
         ],
     },
     // 404 & Catch all
-    {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error.module').then(m => m.ErrorModule)},
-    {path: '**', redirectTo: '404-not-found'}
+    {
+        path: '404-not-found',
+        pathMatch: 'full',
+        loadChildren: () =>
+            import('app/modules/admin/pages/error/error.module').then(
+                (m) => m.ErrorModule
+            ),
+    },
+    { path: '**', redirectTo: '404-not-found' },
 ];

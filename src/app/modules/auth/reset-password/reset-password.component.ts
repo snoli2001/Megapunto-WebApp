@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -5,22 +6,22 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { UpdatePasswordService } from './reset-password.service';
 
 @Component({
-    selector     : 'auth-reset-password',
-    templateUrl  : './reset-password.component.html',
+    selector: 'auth-reset-password',
+    templateUrl: './reset-password.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations,
 })
-export class AuthResetPasswordComponent implements OnInit
-{
+export class AuthResetPasswordComponent implements OnInit {
     @ViewChild('resetPasswordNgForm') resetPasswordNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: ''
+        type: 'success',
+        message: '',
     };
-    resetPasswordForm: FormGroup;
+    updatePasswordForm: FormGroup;
     showAlert: boolean = false;
 
     /**
@@ -28,10 +29,9 @@ export class AuthResetPasswordComponent implements OnInit
      */
     constructor(
         private _authService: AuthService,
-        private _formBuilder: FormBuilder
-    )
-    {
-    }
+        private _formBuilder: FormBuilder,
+        private _updatePasswordService: UpdatePasswordService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -40,15 +40,27 @@ export class AuthResetPasswordComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Create the form
-        this.resetPasswordForm = this._formBuilder.group({
-                password       : ['', Validators.required],
-                passwordConfirm: ['', Validators.required]
+        this.updatePasswordForm = this._formBuilder.group(
+            {
+                vc_contrasena_anterior: ['', Validators.required],
+                passwordConfirm: ['', [Validators.required]],
+                vc_contrasena_nueva: ['', Validators.required],
+                vc_nro_dispositivo: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(9),
+                        Validators.maxLength(9),
+                    ],
+                ],
             },
             {
-                validators: FuseValidators.mustMatch('password', 'passwordConfirm')
+                validators: FuseValidators.mustMatch(
+                    'vc_contrasena_anterior',
+                    'passwordConfirm'
+                ),
             }
         );
     }
@@ -60,27 +72,29 @@ export class AuthResetPasswordComponent implements OnInit
     /**
      * Reset password
      */
-    resetPassword(): void
-    {
+    resetPassword(): void {
         // Return if the form is invalid
-        if ( this.resetPasswordForm.invalid )
-        {
+        if (this.updatePasswordForm.invalid) {
             return;
         }
 
         // Disable the form
-        this.resetPasswordForm.disable();
+        this.updatePasswordForm.disable();
 
         // Hide the alert
         this.showAlert = false;
 
         // Send the request to the server
-        this._authService.resetPassword(this.resetPasswordForm.get('password').value)
+        this._updatePasswordService
+            .updatePassword(
+                this.updatePasswordForm.get('vc_nro_dispositivo').value,
+                this.updatePasswordForm.get('vc_contrasena_anterior').value,
+                this.updatePasswordForm.get('vc_contrasena_nueva').value
+            )
             .pipe(
                 finalize(() => {
-
                     // Re-enable the form
-                    this.resetPasswordForm.enable();
+                    this.updatePasswordForm.enable();
 
                     // Reset the form
                     this.resetPasswordNgForm.resetForm();
@@ -91,19 +105,17 @@ export class AuthResetPasswordComponent implements OnInit
             )
             .subscribe(
                 (response) => {
-
                     // Set the alert
                     this.alert = {
-                        type   : 'success',
-                        message: 'Your password has been reset.'
+                        type: 'success',
+                        message: response.tx_tran_mnsg,
                     };
                 },
                 (response) => {
-
                     // Set the alert
                     this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        type: 'error',
+                        message: response.tx_tran_mnsg,
                     };
                 }
             );
