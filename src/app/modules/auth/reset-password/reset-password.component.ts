@@ -7,6 +7,7 @@ import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { UpdatePasswordService } from './reset-password.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'auth-reset-password',
@@ -30,7 +31,8 @@ export class AuthResetPasswordComponent implements OnInit {
     constructor(
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _updatePasswordService: UpdatePasswordService
+        private _updatePasswordService: UpdatePasswordService,
+        private router: Router,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -119,5 +121,9 @@ export class AuthResetPasswordComponent implements OnInit {
                     };
                 }
             );
+    }
+
+    goToHome(): void {
+        this.router.navigate(['dashboards/home']);
     }
 }

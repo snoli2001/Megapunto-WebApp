@@ -104,4 +104,8 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
         this._authService.signOut();
         this._router.navigateByUrl('/sign-in');
     }
+
+    terms(): void {
+        window.open('https://megapunto.pe/terminosycondiciones/');
+    }
 }

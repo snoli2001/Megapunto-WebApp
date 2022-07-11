@@ -32,6 +32,20 @@
     </ng-container>
 
     <ng-container fuseVerticalNavigationFooter>
+        <div class="flex items-center p-3 pb-0">
+            <button mat-button (click)="terms()">
+                <!-- Icon -->
+                <mat-icon
+                    class="text-white mr-3"
+                    svgIcon="heroicons_outline:newspaper"
+                ></mat-icon>
+
+                <!-- Title & Subtitle -->
+                <span class="text-white">
+                    <span> Términos y condiciones </span>
+                </span>
+            </button>
+        </div>
         <div class="flex items-center h-20 p-3 pb-0 mb-20">
             <button mat-button (click)="signOut()">
                 <!-- Icon -->

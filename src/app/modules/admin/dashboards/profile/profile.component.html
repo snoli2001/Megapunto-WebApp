@@ -36,11 +36,18 @@
                             <span class="text-lg font-bold"
                                 >Datos personales</span
                             >
-                            <span
-                                (click)="openEditProfileDialog()"
-                                class="text-[#7c66f7] font-bold cursor-pointer"
-                                >Editar</span
-                            >
+                            <div>
+                                <span
+                                    (click)="updatePassword()"
+                                    class="text-[#7c66f7] font-bold cursor-pointer mr-3"
+                                    >Actualizar contraseña</span
+                                >
+                                <span
+                                    (click)="openEditProfileDialog()"
+                                    class="text-[#7c66f7] font-bold cursor-pointer"
+                                    >Editar</span
+                                >
+                            </div>
                         </div>
                         <div class="border-2 rounded-lg p-2.5 sm:p-5">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">

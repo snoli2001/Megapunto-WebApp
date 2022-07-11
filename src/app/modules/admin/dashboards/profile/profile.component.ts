@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import {
     FuseNavigationService,
@@ -51,7 +52,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         public dialog: MatDialog,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
@@ -177,6 +179,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe(result => {
         });
+    }
+
+    updatePassword(): void {
+        this.router.navigate(['reset-password']);
     }
 }
 
