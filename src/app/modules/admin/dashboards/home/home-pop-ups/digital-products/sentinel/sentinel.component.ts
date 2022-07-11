@@ -1,3 +1,4 @@
+import { filter, map } from 'rxjs';
 /* eslint-disable arrow-parens */
 import {
     FormGroup,
@@ -134,7 +135,15 @@ export class SentinelComponent implements OnInit {
     }
 
     initDocumentTypes(): void {
-        this.documentTypes$ = this.sentinelService.getDocumentTypes();
+        this.documentTypes$ = this.sentinelService
+            .getDocumentTypes()
+            .pipe(
+                map((documents) =>
+                    documents.filter(
+                        (document) => document.nu_id_tipo_doc_identidad !== '2'
+                    )
+                )
+            );
     }
 
     getAmountOfFree(): void {

@@ -131,6 +131,10 @@ export class AuthResetPasswordComponent implements OnInit {
             );
     }
 
+    signIn(): void {
+        this.router.navigate(['sign-in']);
+    }
+
     goToHome(): void {
         this.router.navigate(['dashboards/home']);
     }

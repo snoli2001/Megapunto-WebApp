@@ -13,7 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class TopUpCellphoneBallanceComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    nu_precio: string = '000.00';
+    nu_precio: number = null;
     disable: boolean;
     // invalidAmount: boolean;
     constructor(
@@ -23,7 +23,8 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
         private _alertService: AlertService
     ) {}
     get invalidAmount(): boolean {
-        return Number(this.nu_precio) < 3 || Number(this.nu_precio) > 100
+        return Number(this.nu_precio) < this.data.value.product.nu_imp_minimo ||
+            Number(this.nu_precio) > this.data.value.product.nu_imp_maximo
             ? true
             : false;
     }

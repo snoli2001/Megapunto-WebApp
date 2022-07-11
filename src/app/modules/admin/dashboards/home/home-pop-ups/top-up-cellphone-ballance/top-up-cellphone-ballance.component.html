@@ -10,12 +10,14 @@
                 matInput
                 [disabled]="disable"
                 type="text"
-                Currency
+                [maxLength]="3"
                 [(ngModel)]="nu_precio"
             />
         </mat-form-field>
         <span class="mx-0.5 text-red-500" *ngIf="invalidAmount">
-            Importe mínimo de recarga S/ 3.00 y máximo S/ 100.00
+            Importe mínimo de recarga S/
+            {{ data.value.product.nu_imp_minimo }} y máximo S/
+            {{ data.value.product.nu_imp_maximo }}
         </span>
         <hr class="m-0" />
         <h2 class="text-xl font-bold mt-3">Persona Titular</h2>

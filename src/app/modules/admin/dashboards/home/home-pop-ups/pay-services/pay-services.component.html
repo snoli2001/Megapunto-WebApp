@@ -261,7 +261,13 @@
             </div>
             <div class="w-full flex justify-between mt-5">
                 <div>Total a pagar</div>
-                <div class="text-primary">{{ debToPay.nu_monto_deuda }}</div>
+                <div class="text-primary">
+                    {{
+                        debToPay.nu_monto_deuda +
+                            debToPay.nu_comision_cliente +
+                            debToPay.tonu_comision_comercio
+                    }}
+                </div>
             </div>
             <div class="w-full flex flex-col mt-5">
                 <div class="text-lg">Envio constancia por SMS:</div>
