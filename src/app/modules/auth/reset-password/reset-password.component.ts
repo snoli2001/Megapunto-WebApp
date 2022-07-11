@@ -58,7 +58,7 @@ export class AuthResetPasswordComponent implements OnInit {
             },
             {
                 validators: FuseValidators.mustMatch(
-                    'vc_contrasena_anterior',
+                    'vc_contrasena_nueva',
                     'passwordConfirm'
                 ),
             }
