@@ -263,9 +263,9 @@
                 <div>Total a pagar</div>
                 <div class="text-primary">
                     {{
-                        debToPay.nu_monto_deuda +
-                            debToPay.nu_comision_cliente +
-                            debToPay.tonu_comision_comercio
+                        Number(debToPay.nu_monto_deuda) +
+                            Number(debToPay.nu_comision_cliente) +
+                            Number(debToPay.nu_comision_comercio)
                     }}
                 </div>
             </div>
