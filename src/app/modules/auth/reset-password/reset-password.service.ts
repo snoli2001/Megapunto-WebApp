@@ -42,7 +42,6 @@ export class UpdatePasswordService {
                     vc_contrasena_nueva,
                     vc_tran_usua_modi,
                 }
-            )
-            .pipe(map((resp) => resp));
+            );
     }
 }

@@ -32,7 +32,7 @@ export class AuthResetPasswordComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _updatePasswordService: UpdatePasswordService,
-        private router: Router,
+        private router: Router
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -44,6 +44,10 @@ export class AuthResetPasswordComponent implements OnInit {
      */
     ngOnInit(): void {
         // Create the form
+        this.initUpdatePasswordForm();
+    }
+
+    initUpdatePasswordForm(): void {
         this.updatePasswordForm = this._formBuilder.group(
             {
                 vc_contrasena_anterior: ['', Validators.required],
@@ -93,18 +97,6 @@ export class AuthResetPasswordComponent implements OnInit {
                 this.updatePasswordForm.get('vc_contrasena_anterior').value,
                 this.updatePasswordForm.get('vc_contrasena_nueva').value
             )
-            .pipe(
-                finalize(() => {
-                    // Re-enable the form
-                    this.updatePasswordForm.enable();
-
-                    // Reset the form
-                    this.resetPasswordNgForm.resetForm();
-
-                    // Show the alert
-                    this.showAlert = true;
-                })
-            )
             .subscribe(
                 (response) => {
                     // Set the alert
@@ -112,6 +104,14 @@ export class AuthResetPasswordComponent implements OnInit {
                         type: 'success',
                         message: response.tx_tran_mnsg,
                     };
+                    // Re-enable the form
+                    this.updatePasswordForm.enable();
+
+                    // Reset the form
+                    this.initUpdatePasswordForm();
+
+                    // Show the alert
+                    this.showAlert = true;
                 },
                 (response) => {
                     // Set the alert
@@ -119,6 +119,14 @@ export class AuthResetPasswordComponent implements OnInit {
                         type: 'error',
                         message: response.tx_tran_mnsg,
                     };
+                    // Re-enable the form
+                    this.updatePasswordForm.enable();
+
+                    // Reset the form
+                    this.initUpdatePasswordForm();
+
+                    // Show the alert
+                    this.showAlert = true;
                 }
             );
     }
