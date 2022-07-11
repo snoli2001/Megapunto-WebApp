@@ -99,7 +99,6 @@ export class BusinessAddressComponent implements OnInit {
 
     nextStep(): void {
         if (this.signUpForm.controls['businessAddress'].valid) {
-            console.log('afilarme');
         }
     }
 
@@ -268,9 +267,7 @@ export class BusinessAddressComponent implements OnInit {
                 nu_id_provincia: businessAddress.get('city').value,
                 nu_id_distrito: businessAddress.get('district').value,
             };
-            this._personalInformationService
-                .signUp(newUser)
-                .subscribe();
+            this._personalInformationService.signUp(newUser).subscribe();
         }
     }
 }

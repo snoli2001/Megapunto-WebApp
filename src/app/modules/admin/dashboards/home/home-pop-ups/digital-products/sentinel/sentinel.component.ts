@@ -215,7 +215,6 @@ export class SentinelComponent implements OnInit {
 
         if (stepper.selectedIndex === 1 && this.nextClicked) {
             this.documentsValidationForm.markAllAsTouched();
-            console.log(stepper.selectedIndex);
             if (this.documentsValidationForm.valid) {
                 this.disable = true;
                 this.validateDocumentsInForm().subscribe((resp) => {
