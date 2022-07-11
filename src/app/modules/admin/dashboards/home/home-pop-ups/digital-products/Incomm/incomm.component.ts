@@ -56,6 +56,7 @@ export class IncommComponent implements OnInit {
             this.homeService.getDigitalProductsDetails(
                 this.data.digitalProduct.nu_id_grupo_app
             );
+        this.matDialogRef.updateSize(this.data.size);
     }
 
     initBuyerInformationForm(): void {

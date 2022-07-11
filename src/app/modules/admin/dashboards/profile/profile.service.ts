@@ -43,7 +43,7 @@ export class ProfileService {
                 nu_id_comercio,
                 vc_telefono,
                 vc_celular,
-                vc_email
+                vc_email,
             }
         );
     }
@@ -54,11 +54,13 @@ export class ProfileService {
     ): Observable<DepositInfo[]> {
         const user: any = jwt_decode(this._authService.user);
         const nu_id_negocio: string = user.nu_id_negocio;
+        const nu_id_comercio: string = user.nu_id_comercio;
         const ch_destino: string = 'MX';
 
         return this._httpClient.post<DepositInfo[]>(
             `${environment.API_URL}/Solicitud_Deposito/sel`,
             {
+                nu_id_comercio,
                 nu_id_negocio,
                 ch_destino,
                 dt_fec_inicio,

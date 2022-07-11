@@ -155,10 +155,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     initEnterprisesFilteredOptions(): void {
         this.filteredEnterprisesService =
             this.nu_id_empresa_servicio_appForm.valueChanges.pipe(
-                filter((value) => !!value),
                 startWith(''),
                 map((value) =>
-                    typeof value === 'string' ? value : value.vc_desc_empresa
+                    typeof value === 'string' ? value : value?.vc_desc_empresa
                 ),
                 map((vc_desc_empresa) =>
                     vc_desc_empresa
@@ -225,7 +224,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.digitalProductActive = null;
         this.topUpCellphoneBalanceForm.get('product').setValue(null);
         this.topUpCellphoneBalanceForm.get('vc_numero_servicio').setValue('');
-        this.topUpCellphoneBalanceForm.get('vc_numero_servicio').markAsUntouched();
+        this.topUpCellphoneBalanceForm
+            .get('vc_numero_servicio')
+            .markAsUntouched();
     }
 
     toggleDigitalProducts(digitalProduct: DigitalProduct): void {
@@ -254,6 +255,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                         value: this.topUpCellphoneBalanceForm.value,
                         size: 500,
                     },
+                    maxWidth: '100vw',
                 }
             );
 
@@ -286,8 +288,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                         disableClose: true,
                         data: {
                             digitalProduct: this.digitalProductActive,
-                            size: 500,
+                            size: 600,
                         },
+                        maxWidth: '100vw',
                     });
                 });
             }
@@ -299,6 +302,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                             digitalProduct: this.digitalProductActive,
                             size: 500,
                         },
+                        maxWidth: '100vw',
                     });
                 });
             }
