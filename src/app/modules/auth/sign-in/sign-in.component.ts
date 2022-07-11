@@ -73,7 +73,7 @@ export class AuthSignInComponent implements OnInit {
             .subscribe(
                 (response) => {
                     if (response.nu_tran_stdo === '1') {
-                        if (response.bi_cambio_contrasena === 'True') {
+                        if (response.bi_cambio_contrasena === 'False') {
                             this._router.navigateByUrl('reset-password');
                         } else {
                             this._router.navigateByUrl('/dashboards/home');
