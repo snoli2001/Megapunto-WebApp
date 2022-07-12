@@ -84,6 +84,10 @@ export class PayServicesComponent implements OnInit {
         stepper.previous();
     }
 
+    convertToNumber(value: string): number {
+        return parseFloat(value);
+    }
+
     nextStep(stepper: MatStepper): void {
         this.nextClicked = true;
         if (stepper.selectedIndex === 0) {

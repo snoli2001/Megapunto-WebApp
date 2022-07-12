@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AlertService } from 'app/utils/alert/alert.service';
 /* eslint-disable arrow-parens */
 import { SignUpModel } from './../personal-information/signUpModel.interface';
 import { PersonalInformationService } from './../personal-information/personal-information.service';
@@ -36,11 +38,14 @@ export class BusinessAddressComponent implements OnInit {
     geocoder: google.maps.Geocoder;
     map: google.maps.Map;
     marker: google.maps.Marker;
+    disable: boolean = false;
 
     constructor(
         private rootFormGroup: FormGroupDirective,
         private _businessAddressService: BusinessAddressService,
-        private _personalInformationService: PersonalInformationService
+        private _personalInformationService: PersonalInformationService,
+        private _alertService: AlertService,
+        private router: Router
     ) {}
 
     get region(): FormControl {
@@ -213,10 +218,11 @@ export class BusinessAddressComponent implements OnInit {
         const businessAddress = this.signUpForm.controls[
             'businessAddress'
         ] as FormControl;
-
+        console.log(this.signUpForm);
         if (this.signUpForm.valid && this.latitude && this.longitude) {
             const newUser: SignUpModel = {
                 nu_id_negocio: '7',
+
                 // Personal Information
                 nu_id_tipo_doc_identidad:
                     personalInformation.get('documentType').value,
@@ -255,6 +261,7 @@ export class BusinessAddressComponent implements OnInit {
                 nu_id_grupo_giro_negocio:
                     businessData.get('businessLine').value,
                 ch_tipo_documento: businessData.get('billType').value,
+                bi_persona_sn: businessData.get('bi_persona_sn').value,
 
                 // Business Address
                 nu_longitud: this.longitude.toString(),
@@ -267,7 +274,46 @@ export class BusinessAddressComponent implements OnInit {
                 nu_id_provincia: businessAddress.get('city').value,
                 nu_id_distrito: businessAddress.get('district').value,
             };
-            this._personalInformationService.signUp(newUser).subscribe();
+            console.log(newUser);
+            this.disable = true;
+            this._personalInformationService.signUp(newUser).subscribe(
+                (response) => {
+                    if (response.nu_tran_stdo === '1') {
+                        this._alertService
+                            .showAlert(
+                                'success',
+                                response.tx_tran_mnsg,
+                                600,
+                                null,
+                                false
+                            )
+                            .afterClosed()
+                            .subscribe(() => this.signIn());
+                    }
+
+                    if (response.nu_tran_stdo === '0') {
+                        this._alertService
+                            .showAlert(
+                                'error',
+                                response.tx_tran_mnsg,
+                                600,
+                                null,
+                                false
+                            )
+                            .afterClosed()
+                            .subscribe(() => (this.disable = false));
+                    }
+                },
+                (err) => {
+                    this._alertService
+                        .showAlert('error', err.tx_tran_mnsg, 600, null, false)
+                        .afterClosed()
+                        .subscribe(() => (this.disable = false));
+                }
+            );
         }
+    }
+    signIn(): void {
+        this.router.navigate(['sign-in']);
     }
 }

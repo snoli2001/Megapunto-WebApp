@@ -52,7 +52,10 @@
             Entendido
         </button>
     </div>
-    <div class="flex justify-center text-center text-gray-400">
+    <div
+        class="flex justify-center text-center text-gray-400"
+        *ngIf="data.showBalance"
+    >
         <span>
             El saldo actual de tu negocio es de&nbsp;
             <strong>S/ {{ data.info.balance | number: "1.2-2" }}</strong>

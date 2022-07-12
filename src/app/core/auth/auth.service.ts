@@ -69,17 +69,21 @@ export class AuthService {
         vc_nro_dispositivo: string;
         vc_contraseña: string;
         nu_id_negocio: string;
-    }): Observable<SignInResponse> {
+    }): Observable<any> {
+        const vc_nro_dispositivo = credentials.vc_nro_dispositivo;
         return this._httpClient
             .post(
                 `${environment.API_URL}/Comercio_Bancario/sel_acceso`,
                 credentials
             )
             .pipe(
-                switchMap((response: SignInResponse) => {
+                switchMap((response: any) => {
                     // Store the access token in the local storage
                     if (response.nu_tran_stdo === '1') {
-                        this.user = encode(response, 'secret');
+                        this.user = encode(
+                            { ...response, vc_nro_dispositivo },
+                            'secret'
+                        );
                         this._authenticated = true;
                         return of(response);
                     } else {

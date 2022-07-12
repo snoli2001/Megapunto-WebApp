@@ -5,6 +5,7 @@ export interface UserInterface {
     vc_nombre_comercio: string;
     bi_cambio_contrasena: string;
     nu_id_comercio_app: string;
+    vc_nro_dispositivo: string;
     nu_tran_stdo: string;
     tx_tran_mnsg: string;
 }

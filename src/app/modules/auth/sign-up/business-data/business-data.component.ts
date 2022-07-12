@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable arrow-parens */
 import { Component, OnInit } from '@angular/core';
 import {
@@ -52,6 +53,12 @@ export class BusinessDataComponent implements OnInit {
         ) as FormControl;
     }
 
+    get bi_persona_sn(): FormControl {
+        return this.businessDataForm.controls['businessData'].get(
+            'bi_persona_sn'
+        ) as FormControl;
+    }
+
     get isWithoutRUC(): boolean {
         return this.withoutRUC.value === false;
     }
@@ -78,6 +85,8 @@ export class BusinessDataComponent implements OnInit {
     }
     nextStep(): void {
         this.businessDataForm.get('businessData').markAllAsTouched();
+        console.log(this.businessDataForm.get('businessData'));
+        console.log();
         if (this.businessDataForm.controls['businessData'].valid) {
             this.businessDataForm.get('step').setValue(3);
         }
@@ -92,30 +101,33 @@ export class BusinessDataComponent implements OnInit {
         this.withoutRUC.valueChanges.subscribe((value) => {
             if (value === false) {
                 this.ruc.clearValidators();
-                this.billType.clearValidators();
-                this.businessName.clearValidators();
 
+                this.billType.clearValidators();
+                console.log('false');
+                this.ruc.setValue('');
+                this.businessName.setValue('');
+                this.businessName.clearValidators();
+                this.bi_persona_sn.setValue('0');
                 this.ruc.updateValueAndValidity();
                 this.billType.updateValueAndValidity();
                 this.businessName.updateValueAndValidity();
             } else {
+                console.log('true');
                 this.ruc.setValidators([Validators.required]);
                 this.billType.setValidators([Validators.required]);
                 this.businessName.setValidators([Validators.required]);
+                this.bi_persona_sn.setValue('1');
 
                 this.ruc.setValue(
-                    this.businessDataForm.controls['personalInformation'].get(
-                        'documentNumber'
-                    ).value
+                    this.businessDataForm
+                        .get('personalInformation')
+                        .get('documentNumber').value
+                );
+                this.businessName.setValue(
+                    this.businessDataForm.get('personalInformation').get('name')
+                        .value
                 );
                 this.billType.setValue('BV');
-
-                this.businessName.setValue(
-                    this.businessDataForm.controls['personalInformation'].get(
-                        'name'
-                    ).value
-                );
-
                 this.ruc.updateValueAndValidity();
                 this.billType.updateValueAndValidity();
                 this.businessName.updateValueAndValidity();

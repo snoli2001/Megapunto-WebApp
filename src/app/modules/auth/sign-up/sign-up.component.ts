@@ -84,6 +84,7 @@ export class AuthSignUpComponent implements OnInit {
                 telephone: ['', [Validators.maxLength(9)]],
                 businessLine: ['', Validators.required],
                 billType: ['', Validators.required],
+                bi_persona_sn: ['0', Validators.required],
             }),
             businessAddress: this._formBuilder.group({
                 address: ['', Validators.required],

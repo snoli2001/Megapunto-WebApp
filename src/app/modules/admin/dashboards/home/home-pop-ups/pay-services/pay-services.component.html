@@ -263,10 +263,10 @@
                 <div>Total a pagar</div>
                 <div class="text-primary">
                     {{
-                        Number(debToPay.nu_monto_deuda) +
-                            Number(debToPay.nu_comision_cliente) +
-                            Number(debToPay.nu_comision_comercio)
-                    }}
+                        convertToNumber(debToPay.nu_monto_documento) +
+                            convertToNumber(debToPay.nu_comision_cliente) +
+                            convertToNumber(debToPay.nu_comision_comercio)
+                    }}.00
                 </div>
             </div>
             <div class="w-full flex flex-col mt-5">

@@ -8,6 +8,8 @@ import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { UpdatePasswordService } from './reset-password.service';
 import { Router } from '@angular/router';
+import { UserInterface } from 'app/core/auth/User.interface';
+import jwt_decode from 'jwt-decode';
 
 @Component({
     selector: 'auth-reset-password',
@@ -48,13 +50,15 @@ export class AuthResetPasswordComponent implements OnInit {
     }
 
     initUpdatePasswordForm(): void {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        console.log(user);
         this.updatePasswordForm = this._formBuilder.group(
             {
                 vc_contrasena_anterior: ['', Validators.required],
                 passwordConfirm: ['', [Validators.required]],
                 vc_contrasena_nueva: ['', Validators.required],
                 vc_nro_dispositivo: [
-                    '',
+                    user.vc_nro_dispositivo,
                     [
                         Validators.required,
                         Validators.minLength(9),
@@ -81,6 +85,7 @@ export class AuthResetPasswordComponent implements OnInit {
     resetPassword(): void {
         // Return if the form is invalid
         if (this.updatePasswordForm.invalid) {
+            console.log(this.updatePasswordForm);
             return;
         }
 
@@ -112,6 +117,8 @@ export class AuthResetPasswordComponent implements OnInit {
 
                     // Show the alert
                     this.showAlert = true;
+
+                    this.signIn();
                 },
                 (response) => {
                     // Set the alert
