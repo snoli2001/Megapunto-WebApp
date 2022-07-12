@@ -92,7 +92,7 @@ export class IncommComponent implements OnInit {
 
     getAmountOfFree(): void {
         this.incommService
-            .getFree(Number(this.detailActive.vc_cod_producto))
+            .getFree(Number(this.detailActive.nu_id_producto_app))
             .subscribe((value) => {
                 this.amountOfFree = value[0].nu_saldo;
             });
