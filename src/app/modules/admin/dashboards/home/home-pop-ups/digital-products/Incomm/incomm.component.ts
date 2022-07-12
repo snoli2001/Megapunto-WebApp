@@ -50,6 +50,20 @@ export class IncommComponent implements OnInit {
         return this.buyerInformationForm.get('cellphone').value;
     }
 
+    get invalidEmail(): boolean {
+        return (
+            this.buyerInformationForm.get('email').invalid &&
+            this.buyerInformationForm.get('email').touched
+        );
+    }
+
+    get invalidCellphone(): boolean {
+        return (
+            this.buyerInformationForm.get('cellphone').invalid &&
+            this.buyerInformationForm.get('cellphone').touched
+        );
+    }
+
     ngOnInit(): void {
         this.initBuyerInformationForm();
         this.digitalProductDetails$ =
@@ -104,6 +118,7 @@ export class IncommComponent implements OnInit {
 
     sellDigitalProduct(): void {
         this.buyerInformationForm.markAllAsTouched();
+        this.disable = true;
         if (this.buyerInformationForm.valid) {
             this.incommService
                 .insertTransaction(
@@ -136,6 +151,7 @@ export class IncommComponent implements OnInit {
                             null
                         );
                     }
+                    this.disable = false;
                 });
         }
     }

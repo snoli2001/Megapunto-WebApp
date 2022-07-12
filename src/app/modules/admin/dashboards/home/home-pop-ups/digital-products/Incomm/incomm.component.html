@@ -1,4 +1,4 @@
-<div class="flex flex-col " >
+<div class="flex flex-col">
     <mat-stepper linear #stepper class="max-h-120 overflow-y-auto">
         <mat-step>
             <div class="mb-4">
@@ -64,9 +64,9 @@
                             placeholder="Correo"
                             formControlName="email"
                         />
-                        <!-- <mat-error *ngIf="InvalidEmail">
+                        <mat-error *ngIf="invalidEmail">
                             Ingrese un correo válido
-                        </mat-error> -->
+                        </mat-error>
                     </mat-form-field>
                 </div>
 
@@ -80,9 +80,9 @@
                             NumberOnly
                             [maxLength]="9"
                         />
-                        <!-- <mat-error *ngIf="InvalidCellphone">
+                        <mat-error *ngIf="invalidCellphone">
                             Ingrese un número de celular válido
-                        </mat-error> -->
+                        </mat-error>
                     </mat-form-field>
                 </div>
             </form>
@@ -92,31 +92,37 @@
         <button
             *ngIf="stepper.selectedIndex === 0"
             [disabled]="disable"
-            class="text-red-500 font-bold border-2 border-red-500 px-6 py-1 rounded-xl hover:text-white hover:bg-red-500"
+            mat-raised-button
+            color="warn"
             (click)="close()"
+            class="mr-2"
         >
             Cancelar
         </button>
         <button
             *ngIf="stepper.selectedIndex === 1"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            mat-raised-button
+            color="warn"
             (click)="prevStep(stepper)"
             type="button"
+            class="mr-2"
         >
             Volver
         </button>
         <button
+            mat-raised-button
+            color="primary"
             *ngIf="stepper.selectedIndex === 0"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
             (click)="nextStep(stepper)"
         >
             Siguiente
         </button>
         <button
             [disabled]="disable"
+            mat-raised-button
             *ngIf="stepper.selectedIndex === 1"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
             (click)="sellDigitalProduct()"
+            color="primary"
         >
             Vender
         </button>
