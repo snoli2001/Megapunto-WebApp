@@ -115,10 +115,9 @@
     </div>
     <div class="text-center mb-3">Comunícate con nuestro call center</div>
     <div class="flex justify-center text-center mb-3">
-        <span
-            class="font-semibold underline cursor-pointer text-primary text-center"
-        >
-            924820688
-        </span>
+        <div class="flex items-center font-semibold underline text-primary text-center">
+            <mat-icon class="text-primary" svgIcon="heroicons_outline:phone"></mat-icon>
+            <span class="ml-1">{{ data.info }}</span>
+        </div>
     </div>
 </div>

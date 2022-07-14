@@ -6,6 +6,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../../utils/alert/alert.service';
 
 @Component({
     selector: 'auth-forgot-password',
@@ -26,7 +27,8 @@ export class AuthForgotPasswordComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _forgotPasswordService: ForgotPasswordService
+        private _forgotPasswordService: ForgotPasswordService,
+        private alertService: AlertService
     ) {}
 
     ngOnInit(): void {
@@ -83,5 +85,14 @@ export class AuthForgotPasswordComponent implements OnInit {
 
     signIn(): void {
         this._router.navigate(['sign-in']);
+    }
+
+    noBusinessCode(): void {
+        this._forgotPasswordService
+            .getInfoNumContacto()
+            .subscribe((resp) => {
+                this.alertService
+                    .showAlert('business-code', '', 350, resp.vc_texto_seteo);
+            });
     }
 }

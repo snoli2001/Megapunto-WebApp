@@ -12,6 +12,10 @@ export interface ForgotPasswordResponse {
     tx_tran_mnsg: string;
 }
 
+export interface InfoNumContactoResponse {
+    vc_texto_seteo: string;
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -32,6 +36,18 @@ export class ForgotPasswordService {
                 {
                     vc_cod_comercio,
                     vc_nro_dispositivo,
+                    nu_id_negocio,
+                }
+            )
+            .pipe(map((resp) => resp));
+    }
+
+    getInfoNumContacto(): Observable<InfoNumContactoResponse> {
+        const nu_id_negocio: string = '7';
+        return this._httpClient
+            .post<InfoNumContactoResponse>(
+                `${environment.API_URL}/Seteo/get_info_num_contacto`,
+                {
                     nu_id_negocio,
                 }
             )
