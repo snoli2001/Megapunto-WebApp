@@ -104,27 +104,44 @@ export class AuthResetPasswordComponent implements OnInit {
             )
             .subscribe(
                 (response) => {
-                    // Set the alert
-                    this.alert = {
-                        type: 'success',
-                        message: response.tx_tran_mnsg,
-                    };
-                    // Re-enable the form
-                    this.updatePasswordForm.enable();
+                    if (response.nu_tran_stdo === '1') {
+                        // Set the alert
+                        this.alert = {
+                            type: 'success',
+                            message: response.tx_tran_mnsg,
+                        };
+                        // Re-enable the form
+                        this.updatePasswordForm.enable();
 
-                    // Reset the form
-                    this.initUpdatePasswordForm();
+                        // Reset the form
+                        this.initUpdatePasswordForm();
 
-                    // Show the alert
-                    this.showAlert = true;
+                        // Show the alert
+                        this.showAlert = true;
 
-                    this.signIn();
+                        this.signIn();
+                    }
+                    if (response.nu_tran_stdo === '0') {
+                        // Set the alert
+                        this.alert = {
+                            type: 'error',
+                            message: response.tx_tran_mnsg,
+                        };
+                        // Re-enable the form
+                        this.updatePasswordForm.enable();
+
+                        // Reset the form
+                        this.initUpdatePasswordForm();
+
+                        // Show the alert
+                        this.showAlert = true;
+                    }
                 },
-                (response) => {
+                (error) => {
                     // Set the alert
                     this.alert = {
                         type: 'error',
-                        message: response.tx_tran_mnsg,
+                        message: error.tx_tran_mnsg,
                     };
                     // Re-enable the form
                     this.updatePasswordForm.enable();

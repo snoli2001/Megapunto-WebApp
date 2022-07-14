@@ -66,8 +66,7 @@
                         *ngIf="
                             personalInformationForm
                                 .get('personalInformation')
-                                .get('documentNumber')
-                                .invalid
+                                .get('documentNumber').invalid
                         "
                     >
                         Ingrese un número de documento válido
@@ -174,7 +173,7 @@
                     >Parte delantera de su documento de identidad</span
                 >
             </label>
-            <!-- <span class="ml-1" id="file-chosen">{{ documentFrontName }}</span> -->
+            <span class="ml-1" id="file-chosen">{{ documentFrontName }}</span>
             <input
                 class="inputfile"
                 (change)="onFrontDocumentFileSelected($event)"
@@ -199,7 +198,7 @@
                     >Parte trasera de su documento de identidad</span
                 >
             </label>
-            <!-- <span class="ml-1" id="file-chosen-2">{{ documentBackName }}</span> -->
+            <span class="ml-1" id="file-chosen-2">{{ documentBackName }}</span>
             <input
                 class="inputfile"
                 (change)="onBackDocumentFileSelected($event)"
@@ -222,7 +221,7 @@
                 <mat-icon svgIcon="heroicons_outline:identification"></mat-icon>
                 <span class="ml-2">Foto con tu DNI</span>
             </label>
-            <!-- <span class="ml-1" id="file-chosen-2">{{ documentWithPhoto }}</span> -->
+            <span class="ml-1" id="file-chosen-2">{{ documentWithPhoto }}</span>
             <input
                 class="inputfile"
                 (change)="onBackDocumentWithPhotoFileSelected($event)"
