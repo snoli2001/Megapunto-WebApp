@@ -38,7 +38,6 @@
             <div class="md:ml-2 flex w-full col-span-2" *ngIf="isWithoutRUC">
                 <mat-form-field class="w-3/4">
                     <input
-                        id="ruc"
                         matInput
                         placeholder="Nro de documento"
                         [formControlName]="'ruc'"
@@ -70,7 +69,6 @@
         <!-- Name field -->
         <mat-form-field class="w-full" *ngIf="isWithoutRUC">
             <input
-                id="name"
                 matInput
                 placeholder="Razón Social"
                 [formControlName]="'businessName'"

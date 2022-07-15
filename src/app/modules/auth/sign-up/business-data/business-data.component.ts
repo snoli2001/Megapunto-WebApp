@@ -109,9 +109,8 @@ export class BusinessDataComponent implements OnInit {
                 this.ruc.clearValidators();
 
                 this.billType.clearValidators();
-                console.log('false');
-                this.ruc.setValue('');
-                this.businessName.setValue('');
+                // this.ruc.setValue('');
+                // this.businessName.setValue('');
                 this.businessName.clearValidators();
                 this.bi_persona_sn.setValue('0');
                 this.ruc.updateValueAndValidity();
