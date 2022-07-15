@@ -69,6 +69,9 @@ export class AuthSignUpComponent implements OnInit {
                 vc_cadena_imagen_dni_anverso: ['', Validators.required],
                 vc_cadena_imagen_dni_reverso: ['', Validators.required],
                 vc_cadena_imagen_dni_anverso_persona: ['', Validators.required],
+                dni_anverso_nombre: ['Ningún archivo seleccionado'],
+                dni_reverso_nombre: ['Ningún archivo seleccionado'],
+                dni_anverso_persona_nombre: ['Ningún archivo seleccionado'],
             }),
             businessData: this._formBuilder.group({
                 ruc: [

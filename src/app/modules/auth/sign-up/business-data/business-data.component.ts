@@ -67,6 +67,12 @@ export class BusinessDataComponent implements OnInit {
         this.businessDataForm = this.rootFormGroup.control;
         this.getLineOfBusinessSelection();
         this.detectWithRUCChanges();
+        if (this.bi_persona_sn.value === '0') {
+            this.withoutRUC.setValue(false);
+        }
+        if (this.bi_persona_sn.value === '1') {
+            this.withoutRUC.setValue(true);
+        }
     }
 
     getNameByRUC(): void {
@@ -112,7 +118,6 @@ export class BusinessDataComponent implements OnInit {
                 this.billType.updateValueAndValidity();
                 this.businessName.updateValueAndValidity();
             } else {
-                console.log('true');
                 this.ruc.setValidators([Validators.required]);
                 this.billType.setValidators([Validators.required]);
                 this.businessName.setValidators([Validators.required]);

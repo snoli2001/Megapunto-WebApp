@@ -84,6 +84,24 @@ export class PersonalInformationComponent implements OnInit {
         );
     }
 
+    get dni_anverso_nombre(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'dni_anverso_nombre'
+        ) as FormControl;
+    }
+
+    get dni_reverso_nombre(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'dni_reverso_nombre'
+        ) as FormControl;
+    }
+
+    get dni_anverso_persona_nombre(): FormControl {
+        return this.personalInformationForm.controls['personalInformation'].get(
+            'dni_anverso_persona_nombre'
+        ) as FormControl;
+    }
+
     get vc_cadena_imagen_dni_reversoError(): boolean {
         return (
             this.personalInformationForm.controls['personalInformation'].get(
@@ -109,6 +127,7 @@ export class PersonalInformationComponent implements OnInit {
     onFrontDocumentFileSelected(event): void {
         if (event.target.files.length > 0) {
             this.documentFrontName = event.target.files[0].name;
+            this.dni_anverso_nombre.setValue(this.documentFrontName);
             this.convertFile(event.target.files[0]).subscribe((base64) => {
                 this.vc_cadena_imagen_dni_anverso.setValue(base64);
             });
@@ -118,6 +137,7 @@ export class PersonalInformationComponent implements OnInit {
     onBackDocumentFileSelected(event): void {
         if (event.target.files.length > 0) {
             this.documentBackName = event.target.files[0].name;
+            this.dni_reverso_nombre.setValue(this.documentBackName);
             this.convertFile(event.target.files[0]).subscribe((base64) => {
                 this.vc_cadena_imagen_dni_reverso.setValue(base64);
             });
@@ -127,6 +147,7 @@ export class PersonalInformationComponent implements OnInit {
     onBackDocumentWithPhotoFileSelected(event): void {
         if (event.target.files.length > 0) {
             this.documentWithPhoto = event.target.files[0].name;
+            this.dni_anverso_persona_nombre.setValue(this.documentWithPhoto);
             this.convertFile(event.target.files[0]).subscribe((base64) => {
                 this.vc_cadena_imagen_dni_anverso_persona.setValue(base64);
             });
@@ -145,6 +166,9 @@ export class PersonalInformationComponent implements OnInit {
     ngOnInit(): void {
         this.personalInformationForm = this.rootFormGroup.control;
         this.getDocumentIdSelection();
+        this.documentFrontName = this.dni_anverso_nombre.value;
+        this.documentBackName = this.dni_reverso_nombre.value;
+        this.documentWithPhoto = this.dni_anverso_persona_nombre.value;
     }
 
     nextStep(): void {
