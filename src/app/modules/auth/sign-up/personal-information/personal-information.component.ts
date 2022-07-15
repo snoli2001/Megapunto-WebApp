@@ -23,9 +23,9 @@ export class PersonalInformationComponent implements OnInit {
         type: 'success',
         message: '',
     };
-    documentFrontName = 'No file chosen';
-    documentBackName = 'No file chosen';
-    documentWithPhoto = 'No file chosen';
+    documentFrontName = 'Ningún archivo seleccionado';
+    documentBackName = 'Ningún archivo seleccionado';
+    documentWithPhoto = 'Ningún archivo seleccionado';
 
     personalInformationForm: FormGroup;
     showAlert: boolean = false;
@@ -148,7 +148,9 @@ export class PersonalInformationComponent implements OnInit {
     }
 
     nextStep(): void {
-        this.personalInformationForm.get('personalInformation').markAllAsTouched();
+        this.personalInformationForm
+            .get('personalInformation')
+            .markAllAsTouched();
         if (
             this.personalInformationForm.controls['personalInformation'].valid
         ) {
