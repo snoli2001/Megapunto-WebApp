@@ -118,8 +118,8 @@ export class IncommComponent implements OnInit {
 
     sellDigitalProduct(): void {
         this.buyerInformationForm.markAllAsTouched();
-        this.disable = true;
         if (this.buyerInformationForm.valid) {
+            this.disable = true;
             this.incommService
                 .insertTransaction(
                     this.detailActive.vc_cod_producto,

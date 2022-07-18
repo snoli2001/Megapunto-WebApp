@@ -38,7 +38,9 @@
                             <span class="block font-semibold"
                                 >Última fecha de tu recarga:</span
                             >
-                            <span>30 de abril de 2020</span>
+                            <span>{{
+                                lastDepositDate$ | async | date: "dd/MM/yyyy"
+                            }}</span>
                         </div>
                     </div>
                 </div>

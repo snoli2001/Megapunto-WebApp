@@ -109,6 +109,7 @@ export class BusinessAddressComponent implements OnInit {
 
     getRegions(): void {
         this.regions$ = this._businessAddressService.getRegions();
+        this.region.setValue('');
     }
 
     getCities(nu_id_departamento: string): void {

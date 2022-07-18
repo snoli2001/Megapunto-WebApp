@@ -106,22 +106,20 @@ export class BusinessDataComponent implements OnInit {
     detectWithRUCChanges(): void {
         this.withoutRUC.valueChanges.subscribe((value) => {
             if (value === false) {
-                this.ruc.clearValidators();
-
-                this.billType.clearValidators();
-                // this.ruc.setValue('');
-                // this.businessName.setValue('');
-                this.businessName.clearValidators();
+                this.ruc.setValue('');
+                this.businessName.setValue('');
                 this.bi_persona_sn.setValue('0');
+                this.ruc.setValidators([
+                    Validators.required,
+                    Validators.minLength(11),
+                    Validators.maxLength(11),
+                ]);
                 this.ruc.updateValueAndValidity();
                 this.billType.updateValueAndValidity();
                 this.businessName.updateValueAndValidity();
             } else {
-                this.ruc.setValidators([Validators.required]);
-                this.billType.setValidators([Validators.required]);
-                this.businessName.setValidators([Validators.required]);
+                this.ruc.clearValidators();
                 this.bi_persona_sn.setValue('1');
-
                 this.ruc.setValue(
                     this.businessDataForm
                         .get('personalInformation')

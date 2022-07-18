@@ -102,6 +102,7 @@
         <button
             *ngIf="stepper.selectedIndex === 1"
             mat-raised-button
+            [disabled]="disable"
             color="warn"
             (click)="prevStep(stepper)"
             type="button"

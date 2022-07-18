@@ -262,11 +262,7 @@
             <div class="w-full flex justify-between mt-5">
                 <div>Total a pagar</div>
                 <div class="text-primary">
-                    {{
-                        convertToNumber(debToPay.nu_monto_documento) +
-                            convertToNumber(debToPay.nu_comision_cliente) +
-                            convertToNumber(debToPay.nu_comision_comercio)
-                    }}.00
+                    {{ debToPay.nu_total_a_pagar }}
                 </div>
             </div>
             <div class="w-full flex flex-col mt-5">
@@ -277,6 +273,8 @@
                         [formControl]="consultantCellphone"
                         matInput
                         type="text"
+                        NumberOnly
+                        [maxlength]="9"
                         placeholder="Celular"
                     />
                 </mat-form-field>

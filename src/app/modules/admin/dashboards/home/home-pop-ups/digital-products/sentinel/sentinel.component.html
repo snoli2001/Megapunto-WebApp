@@ -279,15 +279,19 @@
         <button
             *ngIf="stepper.selectedIndex === 0"
             [disabled]="disable"
-            class="text-red-500 font-bold border-2 border-red-500 px-6 py-1 rounded-xl hover:text-white hover:bg-red-500"
+            mat-raised-button
+            color="warn"
             (click)="close()"
+            class="mr-2"
             type="button"
         >
             Cancelar
         </button>
         <button
             *ngIf="stepper.selectedIndex === 1 || stepper.selectedIndex === 2"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            mat-raised-button
+            color="warn"
+            class="mr-2"
             (click)="prevStep(stepper)"
             type="button"
         >
@@ -295,7 +299,8 @@
         </button>
         <button
             *ngIf="stepper.selectedIndex === 0 || stepper.selectedIndex === 1"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            mat-raised-button
+            color="primary"
             (click)="nextStep(stepper)"
             type="button"
         >
@@ -304,7 +309,8 @@
         <button
             [disabled]="disable"
             *ngIf="stepper.selectedIndex === 2"
-            class="ml-3 text-[#7c66f7] font-bold border-2 border-[#7c66f7] px-6 py-1 rounded-xl hover:text-white hover:bg-[#7c66f7]"
+            mat-raised-button
+            color="primary"
             (click)="sellDigitalProduct()"
             type="button"
         >

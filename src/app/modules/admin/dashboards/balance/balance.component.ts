@@ -31,6 +31,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
     balance$: Observable<string>;
     isScreenSmall: boolean;
     banks$: Observable<BankInformationInterface[]>;
+    lastDepositDate$: Observable<string>;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -51,6 +52,7 @@ export class BalanceComponent implements OnInit, OnDestroy {
             });
         this.getBanks();
         this.initData();
+        this.getLastDepositDate();
         this.initBalanceForm();
     }
 
@@ -68,6 +70,12 @@ export class BalanceComponent implements OnInit, OnDestroy {
 
     getBanks(): void {
         this.banks$ = this._balanceService.getBanks();
+    }
+
+    getLastDepositDate(): void {
+        this.lastDepositDate$ = this._balanceService
+            .getLastDepositDate()
+            .pipe(map((response) => response.dt_fec_operacion));
     }
 
     trackByFn(index: number, item: any): any {

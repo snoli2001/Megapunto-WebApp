@@ -81,6 +81,7 @@ export class PayServicesComponent implements OnInit {
     }
 
     prevStep(stepper: MatStepper): void {
+        this.getServicesOfEnterprise();
         stepper.previous();
     }
 
