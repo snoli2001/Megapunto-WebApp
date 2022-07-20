@@ -51,7 +51,6 @@ export class AuthResetPasswordComponent implements OnInit {
 
     initUpdatePasswordForm(): void {
         const user: UserInterface = jwt_decode(this._authService.user);
-        console.log(user);
         this.updatePasswordForm = this._formBuilder.group(
             {
                 vc_contrasena_anterior: ['', Validators.required],
@@ -85,7 +84,6 @@ export class AuthResetPasswordComponent implements OnInit {
     resetPassword(): void {
         // Return if the form is invalid
         if (this.updatePasswordForm.invalid) {
-            console.log(this.updatePasswordForm);
             return;
         }
 

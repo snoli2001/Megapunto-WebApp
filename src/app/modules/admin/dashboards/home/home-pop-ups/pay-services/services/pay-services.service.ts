@@ -82,4 +82,20 @@ export class PayServicesService {
             }
         );
     }
+
+    sendEmailInvoice(
+        nu_id_trx_app: string,
+        vc_email_sol: string,
+    ): Observable<any> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Transacciones_App/proc_envio_email_constancia`,
+            {
+                nu_id_trx_app,
+                nu_id_comercio_app,
+                vc_email_sol,
+            }
+        );
+    }
 }

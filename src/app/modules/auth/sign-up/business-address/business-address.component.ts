@@ -219,7 +219,6 @@ export class BusinessAddressComponent implements OnInit {
         const businessAddress = this.signUpForm.controls[
             'businessAddress'
         ] as FormControl;
-        console.log(this.signUpForm);
         if (this.signUpForm.valid && this.latitude && this.longitude) {
             const newUser: SignUpModel = {
                 nu_id_negocio: '7',
@@ -275,7 +274,6 @@ export class BusinessAddressComponent implements OnInit {
                 nu_id_provincia: businessAddress.get('city').value,
                 nu_id_distrito: businessAddress.get('district').value,
             };
-            console.log(newUser);
             this.disable = true;
             this._personalInformationService.signUp(newUser).subscribe(
                 (response) => {

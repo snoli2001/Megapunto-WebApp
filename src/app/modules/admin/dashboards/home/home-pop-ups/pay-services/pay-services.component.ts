@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { GetServicesResponse } from './interfaces/GetServicesResponse';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AlertService } from 'app/utils/alert/alert.service';
 import { BalanceService } from '../../../balance/balance.service';
 import { PayServicesService } from './services/pay-services.service';
@@ -17,6 +17,7 @@ import { EnterpriseService } from '../../home.interfaces';
 import { MatStepper } from '@angular/material/stepper';
 import { ServiceDebt } from './interfaces/ServiceDebt.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { SendEmailComponent } from './components/send-email/send-email.component';
 
 @Component({
     selector: 'app-pay-services',
@@ -43,7 +44,8 @@ export class PayServicesComponent implements OnInit {
         private fb: FormBuilder,
         private _balanceService: BalanceService,
         private payServices: PayServicesService,
-        public matDialogRef: MatDialogRef<PayServicesComponent>
+        public matDialogRef: MatDialogRef<PayServicesComponent>,
+        private dialog: MatDialog
     ) {}
 
     get enterpriseServiceSelected(): GetServicesResponse {
@@ -164,15 +166,29 @@ export class PayServicesComponent implements OnInit {
                             .getBalance()
                             .subscribe((balanceResp) => {
                                 this.loading = false;
-                                this._alertService
-                                    .showAlert(
-                                        'success',
-                                        resp.tx_tran_mnsg,
-                                        500,
-                                        { balance: balanceResp.nu_saldo }
-                                    )
-                                    .afterClosed()
-                                    .subscribe(() => this.close());
+                                const dialog = this.dialog.open(SendEmailComponent, {
+                                    data: {
+                                        message: resp.tx_tran_mnsg,
+                                    },
+                                    width: '40%'
+                                });
+
+                                dialog.afterClosed().subscribe((vc_email_sol) => {
+                                    this.payServices.sendEmailInvoice(
+                                        resp.nu_tran_pkey,
+                                        vc_email_sol
+                                    ).subscribe((resp2) => {
+                                        this._alertService
+                                            .showAlert(
+                                                'success',
+                                                resp.tx_tran_mnsg,
+                                                500,
+                                                { balance: balanceResp.nu_saldo }
+                                            )
+                                            .afterClosed()
+                                            .subscribe(() => this.close());
+                                    });
+                                });
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {

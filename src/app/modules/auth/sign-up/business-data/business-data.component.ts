@@ -91,8 +91,6 @@ export class BusinessDataComponent implements OnInit {
     }
     nextStep(): void {
         this.businessDataForm.get('businessData').markAllAsTouched();
-        console.log(this.businessDataForm.get('businessData'));
-        console.log();
         if (this.businessDataForm.controls['businessData'].valid) {
             this.businessDataForm.get('step').setValue(3);
         }

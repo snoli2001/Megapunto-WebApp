@@ -27,6 +27,7 @@ import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sent
 import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
 import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SendEmailComponent } from './home-pop-ups/pay-services/components/send-email/send-email.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         SentinelComponent,
         IncommComponent,
         PayServicesComponent,
+        SendEmailComponent,
     ],
     imports: [
         RouterModule.forChild(homeRoutes),

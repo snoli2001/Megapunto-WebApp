@@ -1,0 +1,33 @@
+<!-- Success service payment message -->
+<div>
+    <div class="flex items-center justify-center">
+        <img class="w-auto" src="assets/images/draw/icon_payment_success.png" />
+    </div>
+    <div class="text-center font-extrabold text-2xl my-2">
+        Operación exitosa
+    </div>
+    <div
+        class="text-center"
+        [innerHtml]="
+            data.message ||
+            'Recuerda que puedes aumentar el saldo de tu cuenta en cualquier momento'
+        "
+    ></div>
+    <div class="my-3" [formGroup]="sendEmailForm">
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label class="font-bold">Envío de constancia por correo (opcional):</mat-label>
+            <input matInput formControlName="email" placeholder="Ingrese su correo electrónico">
+            <mat-error *ngIf="showError">
+                Correo electrónico inválido
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="flex justify-center items-center my-4 sm:my-6">
+        <button mat-flat-button [color]="'primary'" class="mx-2" (click)="onClose('send')">
+            Enviar
+        </button>
+        <button mat-flat-button [color]="'primary'" (click)="onClose()">
+            Cerrar
+        </button>
+    </div>
+</div>
