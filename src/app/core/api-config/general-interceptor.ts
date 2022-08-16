@@ -9,13 +9,21 @@ import {
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { environment } from 'environments/environment';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import {
+    BehaviorSubject,
+    catchError,
+    Observable,
+    switchMap,
+    throwError,
+} from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GeneralInterceptor implements HttpInterceptor {
     authApi: any;
+    private refreshTokenSubject: BehaviorSubject<any> =
+        new BehaviorSubject<any>(null);
     constructor(injector: Injector, private authService: AuthService) {
         setTimeout(() => {
             this.authApi = injector.get(AuthApiService);
@@ -38,19 +46,10 @@ export class GeneralInterceptor implements HttpInterceptor {
                 return next.handle(this.getHeader(this.authApi, req));
             } else {
                 this.authService.signOut();
-                // return this.authApi.refreshApiToken().pipe(
-                //     switchMap((newData: ITokenApi) => {
-                //         this.authApi.refreshLocalStorageApitoken(newData);
-                //         const newTokenApi = this.authApi.getTokenApi();
-
-                //         return next
-                //             .handle(this.getHeader(this.authApi, req));
-                //     })
-                // );
+                this.authApi.generateApiToken().subscribe((newToken) => {});
+                return next.handle(this.getHeader(this.authApi, req));
             }
         }
-
-        return next.handle(req);
     }
 
     getHeader(authService: any, request: HttpRequest<any>): HttpRequest<any> {

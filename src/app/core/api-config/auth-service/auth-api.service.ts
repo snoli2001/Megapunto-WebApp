@@ -6,7 +6,6 @@ import moment from 'moment';
 import { map, Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
-
 export interface ITokenApi {
     access_token: string;
     expires_in: number;
@@ -25,10 +24,12 @@ export class AuthApiService {
         if (!localStorage.getItem('apiToken')) {
             this.generateApiToken().subscribe((data) => {});
         }
+        if (!this.authenticatedApiToken()) {
+            this.generateApiToken().subscribe((data) => {});
+        }
     }
 
     generateApiToken(): Observable<any> {
-
         return this.http
             .post(`${environment.URL_API_TOKEN_ACCESS}`, {
                 // headers: head,

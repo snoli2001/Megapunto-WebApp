@@ -59,7 +59,7 @@ export class PayServicesService {
         vc_numero_servicio: string,
         vc_numero_documento: string,
         nu_precio: string,
-        nu_valor_comision: string,
+        nu_comision_comercio: string,
         vc_telefono_sol: string,
         nu_comision_cliente: string
     ): Observable<any> {
@@ -75,7 +75,7 @@ export class PayServicesService {
                 vc_numero_servicio,
                 vc_numero_documento,
                 nu_precio,
-                nu_valor_comision,
+                nu_comision_comercio,
                 vc_telefono_sol,
                 vc_version_app,
                 nu_comision_cliente,

@@ -15,19 +15,30 @@
     ></div>
     <div class="my-3" [formGroup]="sendEmailForm">
         <mat-form-field class="w-full" appearance="fill">
-            <mat-label class="font-bold">Envío de constancia por correo (opcional):</mat-label>
-            <input matInput formControlName="email" placeholder="Ingrese su correo electrónico">
+            <mat-label class="font-bold"
+                >Envío de constancia por correo (opcional):</mat-label
+            >
+            <input
+                matInput
+                formControlName="email"
+                placeholder="Ingrese su correo electrónico"
+            />
             <mat-error *ngIf="showError">
                 Correo electrónico inválido
             </mat-error>
         </mat-form-field>
     </div>
     <div class="flex justify-center items-center my-4 sm:my-6">
-        <button mat-flat-button [color]="'primary'" class="mx-2" (click)="onClose('send')">
-            Enviar
-        </button>
-        <button mat-flat-button [color]="'primary'" (click)="onClose()">
+        <button mat-flat-button [color]="'warn'" (click)="onClose()">
             Cerrar
+        </button>
+        <button
+            mat-flat-button
+            [color]="'primary'"
+            class="mx-2"
+            (click)="onClose('send')"
+        >
+            Enviar
         </button>
     </div>
 </div>

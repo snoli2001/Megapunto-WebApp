@@ -9,7 +9,11 @@ import { Observable } from 'rxjs';
 import { GetServicesResponse } from './interfaces/GetServicesResponse';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+    MatDialog,
+    MatDialogRef,
+    MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { AlertService } from 'app/utils/alert/alert.service';
 import { BalanceService } from '../../../balance/balance.service';
 import { PayServicesService } from './services/pay-services.service';
@@ -83,8 +87,39 @@ export class PayServicesComponent implements OnInit {
     }
 
     prevStep(stepper: MatStepper): void {
-        this.getServicesOfEnterprise();
-        stepper.previous();
+        if (stepper.selectedIndex === 2) {
+            const enterpriseServiceDetails: GetServicesResponse =
+                this.enterpriseServiceDetailsForm.get(
+                    'enterpriseServiceSelected'
+                ).value;
+            const vc_numero_servicio: string =
+                this.enterpriseServiceDetailsForm.get(
+                    'vc_numero_servicio'
+                ).value;
+            this.payServices
+                .getDebts(
+                    enterpriseServiceDetails.nu_id_producto_app,
+                    enterpriseServiceDetails.vc_cod_producto,
+                    vc_numero_servicio
+                )
+                .subscribe((resp) => {
+                    this.debts = resp;
+                    if (resp.length === 1 && resp[0].nu_tran_stdo === '0') {
+                        this._alertService.showAlert(
+                            'error',
+                            resp.tx_tran_mnsg,
+                            500,
+                            null
+                        );
+                        this.loading = false;
+                    } else {
+                        this.debToPay = this.debts[0];
+                        this.loading = false;
+                        stepper.previous();
+                        this.nextClicked = false;
+                    }
+                });
+        }
     }
 
     convertToNumber(value: string): number {
@@ -156,7 +191,7 @@ export class PayServicesComponent implements OnInit {
                     vc_numero_servicio,
                     this.debToPay.vc_numero_documento,
                     this.debToPay.nu_monto_deuda,
-                    this.debToPay.nu_comision_cliente,
+                    this.debToPay.nu_comision_comercio,
                     this.consultantCellphone.value,
                     this.debToPay.nu_comision_cliente
                 )
@@ -166,29 +201,41 @@ export class PayServicesComponent implements OnInit {
                             .getBalance()
                             .subscribe((balanceResp) => {
                                 this.loading = false;
-                                const dialog = this.dialog.open(SendEmailComponent, {
-                                    data: {
-                                        message: resp.tx_tran_mnsg,
-                                    },
-                                    width: '40%'
-                                });
+                                const dialog = this.dialog.open(
+                                    SendEmailComponent,
+                                    {
+                                        data: {
+                                            message: resp.tx_tran_mnsg,
+                                        },
+                                        width: '40%',
+                                    }
+                                );
 
-                                dialog.afterClosed().subscribe((vc_email_sol) => {
-                                    this.payServices.sendEmailInvoice(
-                                        resp.nu_tran_pkey,
-                                        vc_email_sol
-                                    ).subscribe((resp2) => {
-                                        this._alertService
-                                            .showAlert(
-                                                'success',
-                                                resp.tx_tran_mnsg,
-                                                500,
-                                                { balance: balanceResp.nu_saldo }
+                                dialog
+                                    .afterClosed()
+                                    .subscribe((vc_email_sol) => {
+                                        this.payServices
+                                            .sendEmailInvoice(
+                                                resp.nu_tran_pkey,
+                                                vc_email_sol
                                             )
-                                            .afterClosed()
-                                            .subscribe(() => this.close());
+                                            .subscribe((resp2) => {
+                                                this._alertService
+                                                    .showAlert(
+                                                        'success',
+                                                        resp.tx_tran_mnsg,
+                                                        500,
+                                                        {
+                                                            balance:
+                                                                balanceResp.nu_saldo,
+                                                        }
+                                                    )
+                                                    .afterClosed()
+                                                    .subscribe(() =>
+                                                        this.close()
+                                                    );
+                                            });
                                     });
-                                });
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {
