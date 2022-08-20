@@ -28,6 +28,7 @@ import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.c
 import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SendEmailComponent } from './home-pop-ups/pay-services/components/send-email/send-email.component';
+import {IvyCarouselModule} from 'angular-responsive-carousel';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { SendEmailComponent } from './home-pop-ups/pay-services/components/send-
         MatStepperModule,
         MatAutocompleteModule,
         MatRadioModule,
+        IvyCarouselModule,
         UtilsModule,
     ],
 })

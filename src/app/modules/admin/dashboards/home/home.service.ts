@@ -125,4 +125,28 @@ export class HomeService {
             }
         );
     }
+
+    getPublicity(): Observable<any> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const nu_id_app: string = '1';
+
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Publicidad_App/sel`,
+            {
+                nu_id_app,
+                nu_id_comercio_app,
+            }
+        );
+    }
+
+    getBusinessInformation(cellphoneNumber: string): Observable<any> {
+        return this._httpClient.post<any>(
+            `${environment.API_URL}/Comercio_Bancario/get_comercio_dispositivo
+            `,
+            {
+                cellphoneNumber,
+            }
+        );
+    }
 }
