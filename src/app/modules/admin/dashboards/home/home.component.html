@@ -76,9 +76,9 @@
                 <div class="min-h-40 row-span-3 order-last md:order-2">
                     <!-- Notification -->
                     <ng-container *ngIf="publicity$ | async as publicity">
-                        <carousel *ngIf="publicity.length > 1">
+                        <carousel class="" *ngIf="publicity.length > 1">
                             <div
-                                class="carousel-cell"
+                                class="carousel-cell h-auto w-1/2"
                                 *ngFor="let element of publicity"
                             >
                                 <img [src]="element.vc_url_imagen" alt="" />
