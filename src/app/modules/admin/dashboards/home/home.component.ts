@@ -40,6 +40,7 @@ import {
     ServiceCategory,
     EnterpriseService,
     Publicity,
+    AppSection,
 } from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     serviceCategories$: Observable<ServiceCategory[]>;
     commerceInfo$: Observable<ProfileInfo>;
     publicity$: Observable<Publicity[]>;
+    appSections: AppSection[];
 
     topUpCellphoneBalanceForm: FormGroup;
     selectServiceForm: FormGroup;
@@ -122,6 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getProducts();
         this.getDigitalProducts();
         this.getServiceCategories();
+        this.getAppSections();
         this.detectServiceCategoryChangeAndUpdateEnterprises();
     }
 
@@ -206,6 +209,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
     }
 
+    getAppSections(): void {
+        this.homeService.getAppSections().subscribe({
+            next: (resp) => {
+                this.appSections = resp;
+                console.log(this.appSections);
+            },
+        });
+    }
+
     getDigitalProducts(): void {
         this.digitalProducts$ = this.homeService.getDigitalProducts();
     }
@@ -254,124 +266,158 @@ export class HomeComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (
-            this.topUpCellphoneBalanceForm.value.product
-                .bi_validacion_comercio === 'True'
-        ) {
-            this.homeService
-                .getBusinessInformation(
-                    this.topUpCellphoneBalanceForm.value.vc_numero_servicio
-                )
-                .subscribe((resp) => {
-                    if (resp.nu_tran_stdo === '1') {
-                        this.ngZone.run(() => {
-                            const dialogRef = this.matDialog.open(
-                                TopUpCellphoneBallanceComponent,
-                                {
-                                    disableClose: true,
-                                    data: {
-                                        value: this.topUpCellphoneBalanceForm
-                                            .value,
-                                        size: 500,
-                                    },
-                                    maxWidth: '100vw',
-                                }
-                            );
+        const appSection = this.appSections.find(
+            (section) => section.nu_id_seccion_app === '1'
+        );
 
-                            dialogRef.afterClosed().subscribe((transResp) => {
-                                if (transResp) {
-                                    this._balanceService
-                                        .getBalance()
-                                        .subscribe((resp) => {
-                                            this.balance = resp.nu_saldo;
-                                            if (
-                                                transResp.nu_tran_stdo === '1'
-                                            ) {
-                                                this._alertService.showAlert(
-                                                    'success',
-                                                    transResp.tx_tran_mnsg,
-                                                    500,
-                                                    {
-                                                        balance: this.balance,
-                                                    }
-                                                );
-                                            }
-                                        });
-                                }
-                                this.initTopUpCellphoneBalanceForm();
-                            });
-                        });
-                    } else {
-                        this._alertService.showAlert(
-                            'error',
-                            resp.tx_tran_mnsg,
-                            500,
-                            null
-                        );
-                    }
-                });
-        } else {
-            this.ngZone.run(() => {
-                const dialogRef = this.matDialog.open(
-                    TopUpCellphoneBallanceComponent,
-                    {
-                        disableClose: true,
-                        data: {
-                            value: this.topUpCellphoneBalanceForm.value,
-                            size: 500,
-                        },
-                        maxWidth: '100vw',
-                    }
-                );
-
-                dialogRef.afterClosed().subscribe((transResp) => {
-                    if (transResp) {
-                        this._balanceService.getBalance().subscribe((resp) => {
-                            this.balance = resp.nu_saldo;
-                            if (transResp.nu_tran_stdo === '1') {
-                                this._alertService.showAlert(
-                                    'success',
-                                    transResp.tx_tran_mnsg,
-                                    500,
+        if (appSection.bi_habilitado !== 'True') {
+            if (
+                this.topUpCellphoneBalanceForm.value.product
+                    .bi_validacion_comercio === 'True'
+            ) {
+                this.homeService
+                    .getBusinessInformation(
+                        this.topUpCellphoneBalanceForm.value.vc_numero_servicio
+                    )
+                    .subscribe((resp) => {
+                        if (resp.nu_tran_stdo === '1') {
+                            this.ngZone.run(() => {
+                                const dialogRef = this.matDialog.open(
+                                    TopUpCellphoneBallanceComponent,
                                     {
-                                        balance: this.balance,
+                                        disableClose: true,
+                                        data: {
+                                            value: this
+                                                .topUpCellphoneBalanceForm
+                                                .value,
+                                            size: 500,
+                                        },
+                                        maxWidth: '100vw',
                                     }
                                 );
-                            }
-                        });
-                    }
-                    this.initTopUpCellphoneBalanceForm();
+
+                                dialogRef
+                                    .afterClosed()
+                                    .subscribe((transResp) => {
+                                        if (transResp) {
+                                            this._balanceService
+                                                .getBalance()
+                                                .subscribe((resp) => {
+                                                    this.balance =
+                                                        resp.nu_saldo;
+                                                    if (
+                                                        transResp.nu_tran_stdo ===
+                                                        '1'
+                                                    ) {
+                                                        this._alertService.showAlert(
+                                                            'success',
+                                                            transResp.tx_tran_mnsg,
+                                                            500,
+                                                            {
+                                                                balance:
+                                                                    this
+                                                                        .balance,
+                                                            }
+                                                        );
+                                                    }
+                                                });
+                                        }
+                                        this.initTopUpCellphoneBalanceForm();
+                                    });
+                            });
+                        } else {
+                            this._alertService.showAlert(
+                                'error',
+                                resp.tx_tran_mnsg,
+                                500,
+                                null
+                            );
+                        }
+                    });
+            } else {
+                this.ngZone.run(() => {
+                    const dialogRef = this.matDialog.open(
+                        TopUpCellphoneBallanceComponent,
+                        {
+                            disableClose: true,
+                            data: {
+                                value: this.topUpCellphoneBalanceForm.value,
+                                size: 500,
+                            },
+                            maxWidth: '100vw',
+                        }
+                    );
+
+                    dialogRef.afterClosed().subscribe((transResp) => {
+                        if (transResp) {
+                            this._balanceService
+                                .getBalance()
+                                .subscribe((resp) => {
+                                    this.balance = resp.nu_saldo;
+                                    if (transResp.nu_tran_stdo === '1') {
+                                        this._alertService.showAlert(
+                                            'success',
+                                            transResp.tx_tran_mnsg,
+                                            500,
+                                            {
+                                                balance: this.balance,
+                                            }
+                                        );
+                                    }
+                                });
+                        }
+                        this.initTopUpCellphoneBalanceForm();
+                    });
                 });
-            });
+            }
+        } else {
+            this._alertService.showAlert(
+                'error',
+                appSection.vc_mensaje,
+                500,
+                null
+            );
         }
     }
 
     nextStepDigitalProduct(): void {
-        if (this.digitalProductActive) {
-            if (this.digitalProductActive.nu_id_grupo_app === '1') {
-                this.ngZone.run(() => {
-                    this.matDialog.open(SentinelComponent, {
-                        disableClose: true,
-                        data: {
-                            digitalProduct: this.digitalProductActive,
-                            size: 600,
-                        },
-                        maxWidth: '100vw',
+        const appSection = this.appSections.find(
+            (section) => section.nu_id_seccion_app === '2'
+        );
+        if (appSection.bi_habilitado !== 'True') {
+            if (this.digitalProductActive) {
+                if (this.digitalProductActive.nu_id_grupo_app === '1') {
+                    this.ngZone.run(() => {
+                        this.matDialog.open(SentinelComponent, {
+                            disableClose: true,
+                            data: {
+                                digitalProduct: this.digitalProductActive,
+                                size: 600,
+                            },
+                            maxWidth: '100vw',
+                        });
                     });
-                });
-            }
-            if (this.digitalProductActive.nu_id_grupo_app === '3') {
-                this.ngZone.run(() => {
-                    this.matDialog.open(IncommComponent, {
-                        disableClose: true,
-                        data: {
-                            digitalProduct: this.digitalProductActive,
-                            size: 500,
-                        },
-                        maxWidth: '100vw',
+                }
+                if (this.digitalProductActive.nu_id_grupo_app === '3' || this.digitalProductActive.nu_id_grupo_app === '2' ) {
+                    this.ngZone.run(() => {
+                        this.matDialog.open(IncommComponent, {
+                            disableClose: true,
+                            data: {
+                                digitalProduct: this.digitalProductActive,
+                                size: 500,
+                            },
+                            maxWidth: '100vw',
+                        });
                     });
-                });
+                }
             }
+        } else {
+            this._alertService.showAlert(
+                'error',
+                appSection.vc_mensaje,
+                500,
+                null
+            );
         }
     }
 
@@ -391,17 +437,30 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     nextStepPayServices(): void {
         this.selectServiceForm.markAllAsTouched();
-        if (this.selectServiceForm.valid) {
-            this.ngZone.run(() => {
-                this.matDialog.open(PayServicesComponent, {
-                    disableClose: true,
-                    data: {
-                        enterprise: this.nu_id_empresa_servicio_appForm.value,
-                        size: 600,
-                    },
-                    maxWidth: '100vw',
+        const appSection = this.appSections.find(
+            (section) => section.nu_id_seccion_app === '3'
+        );
+        if (appSection.bi_habilitado !== 'True') {
+            if (this.selectServiceForm.valid) {
+                this.ngZone.run(() => {
+                    this.matDialog.open(PayServicesComponent, {
+                        disableClose: true,
+                        data: {
+                            enterprise:
+                                this.nu_id_empresa_servicio_appForm.value,
+                            size: 600,
+                        },
+                        maxWidth: '100vw',
+                    });
                 });
-            });
+            }
+        } else {
+            this._alertService.showAlert(
+                'error',
+                appSection.vc_mensaje,
+                500,
+                null
+            );
         }
     }
 

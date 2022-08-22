@@ -49,3 +49,11 @@ export interface Publicity {
     vc_url_imagen: string;
     bi_estado: string;
 }
+
+export interface AppSection {
+    nu_id_seccion_app: string;
+    vc_desc_seccion:   string;
+    bi_proximamente:   string;
+    bi_habilitado:     string;
+    vc_mensaje:        string;
+}

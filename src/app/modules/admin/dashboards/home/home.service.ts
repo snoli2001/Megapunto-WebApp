@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { AuthService } from 'app/core/auth/auth.service';
 import { environment } from 'environments/environment';
 import {
+    AppSection,
     DigitalProduct,
     DigitalProductDetail,
     EnterpriseService,
@@ -22,6 +23,17 @@ export class HomeService {
         private _httpClient: HttpClient,
         private _authService: AuthService
     ) {}
+
+    getAppSections(): Observable<AppSection[]> {
+        const user: UserInterface = jwt_decode(this._authService.user);
+        const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        return this._httpClient.post<AppSection[]>(
+            `${environment.API_URL}/SeccionApp/sel`,
+            {
+                nu_id_comercio_app,
+            }
+        );
+    }
 
     getProducts(
         nu_id_grupo_app: string,

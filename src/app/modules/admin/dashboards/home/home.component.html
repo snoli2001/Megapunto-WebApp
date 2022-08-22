@@ -85,8 +85,11 @@
                             </div>
                         </carousel>
                         <div class="border-2 w-full flex justify-center h-full">
-
-                            <img class="h-auto w-1/2" [src]="publicity[0].vc_url_imagen" alt="" />
+                            <img
+                                class="h-auto w-1/2"
+                                [src]="publicity[0].vc_url_imagen"
+                                alt=""
+                            />
                         </div>
                     </ng-container>
 
@@ -227,7 +230,9 @@
                     <div class="flex items-center mb-4">
                         <span class="text-lg font-bold">Operaciones</span>
                     </div>
-                    <div class="border-2 rounded-lg p-2.5 sm:p-5">
+                    <div
+                        class="border-2 rounded-lg p-2.5 sm:p-5"
+                    >
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="mx-auto">
                                 <button
@@ -403,7 +408,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <div *ngIf="operationActive === 'digitalProducts'">
                                 <button
                                     *ngFor="
