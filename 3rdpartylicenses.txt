@@ -349,6 +349,9 @@ THE SOFTWARE.
 
 
 
+angular-responsive-carousel
+Apache License 2.0
+
 apexcharts
 MIT
 The MIT License (MIT)
