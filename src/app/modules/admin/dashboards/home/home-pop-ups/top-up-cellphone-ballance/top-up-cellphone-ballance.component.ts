@@ -15,6 +15,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     nu_precio: number = null;
     disable: boolean;
+    businessInformation$: any;
     // invalidAmount: boolean;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,6 +32,7 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
 
     ngOnInit(): void {
         this.matDialogRef.updateSize(this.data.size);
+        this.getBusinessInformation();
     }
 
     topUpCellphoneBalance(): void {
@@ -59,6 +61,12 @@ export class TopUpCellphoneBallanceComponent implements OnInit {
                     }
                 });
         }
+    }
+
+    getBusinessInformation(): void {
+        this.businessInformation$ = this.homeService.getBusinessInformation(
+            this.data.value.vc_numero_servicio
+        );
     }
 
     close(): void {

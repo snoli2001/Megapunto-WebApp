@@ -73,11 +73,24 @@
                     </div>
                 </div>
                 <!-- Notifications, general info and history -->
-                <div
-                    class="min-h-40 row-span-3 order-last md:order-2 invisible"
-                >
+                <div class="min-h-40 row-span-3 order-last md:order-2">
                     <!-- Notification -->
-                    <div class="flex justify-between items-center">
+                    <ng-container *ngIf="publicity$ | async as publicity">
+                        <carousel class="" *ngIf="publicity.length > 1">
+                            <div
+                                class="carousel-cell h-auto w-1/2"
+                                *ngFor="let element of publicity"
+                            >
+                                <img [src]="element.vc_url_imagen" alt="" />
+                            </div>
+                        </carousel>
+                        <div class="border-2 w-full flex justify-center h-full">
+
+                            <img class="h-auto w-1/2" [src]="publicity[0].vc_url_imagen" alt="" />
+                        </div>
+                    </ng-container>
+
+                    <!-- <div class="flex justify-between items-center">
                         <span class="text-lg font-bold">Notificación</span>
                         <span class="text-[#7c66f7] font-bold cursor-pointer">
                             Ver todas
@@ -103,9 +116,10 @@
                                 Válido hasta el 30 de marzo de 2021
                             </span>
                         </div>
-                    </div>
+                    </div> -->
+
                     <!-- General information -->
-                    <div class="flex justify-between items-center">
+                    <!-- <div class="flex justify-between items-center">
                         <span class="text-lg font-bold"
                             >Información general</span
                         >
@@ -161,9 +175,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- History -->
-                    <div class="flex justify-between items-center mb-4">
+                    <!-- <div class="flex justify-between items-center mb-4">
                         <span class="text-lg font-bold">Historial</span>
                     </div>
                     <div class="border-2 rounded-xl px-3 py-4">
@@ -206,7 +220,7 @@
                                 No hay operaciones recientes
                             </div>
                         </ng-template>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Operations -->
                 <div class="min-h-40 order-3 row-span-2">
@@ -407,7 +421,7 @@
                                             digitalProductActive !==
                                             digitalProduct
                                     }"
-                                    class="block w-full max-h-16 h-16 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2 flex justify-center items-center"
+                                    class="flex w-full max-h-16 h-16 sm:w-60 md:w-full py-2 px-4 mb-3 rounded-xl border-primary border-2 justify-center items-center"
                                 >
                                     <!-- <span class="text-lg font-semibold"
                                         >{{digitalProduct.vc_desc_grupo}}</span

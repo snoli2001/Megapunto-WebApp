@@ -41,3 +41,11 @@ export interface EnterpriseService {
     vc_url_imagen: string;
     nu_cant_prod: string;
 }
+
+export interface Publicity {
+    nu_id_app: string;
+    nu_id_publicidad_app: string;
+    vc_desc_publicidad: string;
+    vc_url_imagen: string;
+    bi_estado: string;
+}
