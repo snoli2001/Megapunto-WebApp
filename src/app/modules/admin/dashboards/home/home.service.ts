@@ -157,7 +157,7 @@ export class HomeService {
             `${environment.API_URL}/Comercio_Bancario/get_comercio_dispositivo
             `,
             {
-                cellphoneNumber,
+                vc_nro_dispositivo: cellphoneNumber,
             }
         );
     }
