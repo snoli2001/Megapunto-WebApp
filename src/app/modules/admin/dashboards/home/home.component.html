@@ -26,13 +26,47 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <div class="mb-8">
-                                    <span class="block text-2xl font-semibold">
-                                        Buenos días,
-                                        {{
-                                            (commerceInfo$ | async)
-                                                ?.vc_nombre_contacto | titlecase
-                                        }}
-                                    </span>
+                                    <div class="flex items-center">
+                                        <span
+                                            class="block text-2xl font-semibold"
+                                        >
+                                            Buenos días,
+                                            {{
+                                                (commerceInfo$ | async)
+                                                    ?.vc_nombre_contacto
+                                                    | titlecase
+                                            }}
+                                        </span>
+                                        <button
+                                            mat-icon-button=""
+                                            class="mat-focus-indicator mat-icon-button mat-button-base ml-2 block md:hidden"
+                                        >
+                                            <span
+                                            *ngIf="publicity$ | async as publicity"
+                                                ><span
+                                                    class="absolute top-0 right-0 left-0 flex items-center justify-center h-3 ng-star-inserted"
+                                                    ><span
+                                                        class="flex items-center justify-center shrink-0 min-w-4 h-4 px-1 ml-4 mt-2.5 rounded-full bg-indigo-600 text-indigo-50 text-xs font-medium"
+                                                    >
+                                                        {{publicity.length}}
+                                                    </span></span
+                                                ><!----><!----><mat-icon
+                                                    role="img"
+                                                    data-mat-icon-namespace="heroicons_outline"
+                                                    aria-hidden="true"
+                                                    svgIcon="heroicons_outline:bell"
+                                                    class="mat-icon mat-icon-no-color"
+                                                ></mat-icon></span
+                                            ><span
+                                                matripple=""
+                                                class="mat-ripple mat-button-ripple mat-button-ripple-round"
+                                            ></span
+                                            ><span
+                                                class="mat-button-focus-overlay"
+                                            ></span>
+                                        </button>
+                                    </div>
+
                                     <span class="text-base">
                                         Comercio
                                         {{
@@ -73,7 +107,9 @@
                     </div>
                 </div>
                 <!-- Notifications, general info and history -->
-                <div class="min-h-40 row-span-3 order-last md:order-2">
+                <div
+                    class="min-h-40 row-span-3 order-last md:order-2 hidden md:block"
+                >
                     <!-- Notification -->
                     <ng-container *ngIf="publicity$ | async as publicity">
                         <carousel class="" *ngIf="publicity.length > 1">
@@ -230,9 +266,7 @@
                     <div class="flex items-center mb-4">
                         <span class="text-lg font-bold">Operaciones</span>
                     </div>
-                    <div
-                        class="border-2 rounded-lg p-2.5 sm:p-5"
-                    >
+                    <div class="border-2 rounded-lg p-2.5 sm:p-5">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="mx-auto">
                                 <button

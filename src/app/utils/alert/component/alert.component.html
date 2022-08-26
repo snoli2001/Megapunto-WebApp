@@ -21,16 +21,22 @@
             'La operación no ha podido completarse por un problema de sistema'
         "
     ></div>
-    <div
+    <div class="flex justify-center items-center my-4 sm:my-6">
+        <button mat-flat-button [color]="'primary'" (click)="onClose()">
+            Entendido
+        </button>
+    </div>
+    <!-- <div
         class="grid grid-cols-1 justify-center gap-2 sm:flex sm:justify-between sm:gap-0 items-center mt-8"
     >
-        <button mat-flat-button [color]="'secondary'" (click)="onClose()">
-            Cancelar operación
+        <button mat-flat-button [color]="'primary'" (click)="onClose()">
+            Entendido
         </button>
+
         <button mat-flat-button [color]="'primary'" (click)="tryAgain()">
             Intentar de nuevo
         </button>
-    </div>
+    </div> -->
 </div>
 <!-- Success operation message -->
 <div *ngIf="data.type === 'success'">

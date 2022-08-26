@@ -270,7 +270,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             (section) => section.nu_id_seccion_app === '1'
         );
 
-        if (appSection.bi_habilitado !== 'True') {
+        if (appSection.bi_habilitado === 'True') {
             if (
                 this.topUpCellphoneBalanceForm.value.product
                     .bi_validacion_comercio === 'True'
@@ -384,7 +384,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         const appSection = this.appSections.find(
             (section) => section.nu_id_seccion_app === '2'
         );
-        if (appSection.bi_habilitado !== 'True') {
+        if (appSection.bi_habilitado === 'True') {
             if (this.digitalProductActive) {
                 if (this.digitalProductActive.nu_id_grupo_app === '1') {
                     this.ngZone.run(() => {
@@ -440,7 +440,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         const appSection = this.appSections.find(
             (section) => section.nu_id_seccion_app === '3'
         );
-        if (appSection.bi_habilitado !== 'True') {
+        if (appSection.bi_habilitado === 'True') {
             if (this.selectServiceForm.valid) {
                 this.ngZone.run(() => {
                     this.matDialog.open(PayServicesComponent, {
