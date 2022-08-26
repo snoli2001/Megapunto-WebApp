@@ -126,6 +126,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getServiceCategories();
         this.getAppSections();
         this.detectServiceCategoryChangeAndUpdateEnterprises();
+        this.matDialog.afterAllClosed.subscribe(() => {
+            this.getBalance();
+        });
     }
 
     ngOnDestroy(): void {
@@ -397,8 +400,12 @@ export class HomeComponent implements OnInit, OnDestroy {
                             maxWidth: '100vw',
                         });
                     });
+
                 }
-                if (this.digitalProductActive.nu_id_grupo_app === '3' || this.digitalProductActive.nu_id_grupo_app === '2' ) {
+                if (
+                    this.digitalProductActive.nu_id_grupo_app === '3' ||
+                    this.digitalProductActive.nu_id_grupo_app === '2'
+                ) {
                     this.ngZone.run(() => {
                         this.matDialog.open(IncommComponent, {
                             disableClose: true,

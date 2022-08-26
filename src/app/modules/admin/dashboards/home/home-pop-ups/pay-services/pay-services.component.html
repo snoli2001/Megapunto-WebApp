@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
 
-                                <div class="ml-5 w-1/4 flex justify-center">
+                                <div class="ml-5 w-1/4 flex justify-end">
                                     <div
                                         [ngClass]="{
                                             'text-slate-400 font-semibold':
@@ -183,7 +183,6 @@
                         serviceStepper.selectedIndex === 2
                     "
                     mat-raised-button
-                    [disabled]="loading"
                     color="warn"
                     class="mr-2"
                     (click)="prevStep(serviceStepper)"

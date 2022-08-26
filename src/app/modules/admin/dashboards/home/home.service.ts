@@ -74,6 +74,7 @@ export class HomeService {
                 vc_numero_servicio,
                 nu_precio,
                 vc_tran_usua_regi,
+                vc_version_app: 'web',
             }
         );
     }
