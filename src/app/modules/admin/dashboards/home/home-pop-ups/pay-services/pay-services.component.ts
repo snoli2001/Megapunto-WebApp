@@ -120,6 +120,9 @@ export class PayServicesComponent implements OnInit {
                     }
                 });
         }
+        if (stepper.selectedIndex === 1) {
+            stepper.previous();
+        }
     }
 
     convertToNumber(value: string): number {
