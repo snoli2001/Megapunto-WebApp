@@ -209,36 +209,24 @@ export class PayServicesComponent implements OnInit {
                                     {
                                         data: {
                                             message: resp.tx_tran_mnsg,
+                                            nu_tran_pkey: resp.nu_tran_pkey,
                                         },
                                         width: '40%',
                                     }
                                 );
 
-                                dialog
-                                    .afterClosed()
-                                    .subscribe((vc_email_sol) => {
-                                        this.payServices
-                                            .sendEmailInvoice(
-                                                resp.nu_tran_pkey,
-                                                vc_email_sol
-                                            )
-                                            .subscribe((resp2) => {
-                                                this._alertService
-                                                    .showAlert(
-                                                        'success',
-                                                        resp.tx_tran_mnsg,
-                                                        500,
-                                                        {
-                                                            balance:
-                                                                balanceResp.nu_saldo,
-                                                        }
-                                                    )
-                                                    .afterClosed()
-                                                    .subscribe(() =>
-                                                        this.close()
-                                                    );
-                                            });
-                                    });
+                                dialog.afterClosed().subscribe((resp2) => {
+                                    this._alertService.showAlert(
+                                        'success',
+                                        resp.tx_tran_mnsg,
+                                        500,
+                                        {
+                                            balance:
+                                                balanceResp.nu_saldo,
+                                        }
+                                    ).afterClosed()
+                                    .subscribe(() => this.close());
+                                });
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {
