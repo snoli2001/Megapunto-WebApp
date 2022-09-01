@@ -1,0 +1,12 @@
+<carousel class="" *ngIf="publicity.length > 1">
+    <div class="carousel-cell h-auto w-1/2" *ngFor="let element of publicity">
+        <img [src]="element.vc_url_imagen" alt="" />
+    </div>
+</carousel>
+
+<img
+    *ngIf="publicity.length === 1"
+    class="h-auto w-full"
+    [src]="publicity[0].vc_url_imagen"
+    alt=""
+/>

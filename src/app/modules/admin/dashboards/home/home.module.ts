@@ -29,6 +29,7 @@ import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.c
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SendEmailComponent } from './home-pop-ups/pay-services/components/send-email/send-email.component';
 import {IvyCarouselModule} from 'angular-responsive-carousel';
+import { PublicityComponent } from './home-pop-ups/publicity/publicity.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
         IncommComponent,
         PayServicesComponent,
         SendEmailComponent,
+        PublicityComponent,
     ],
     imports: [
         RouterModule.forChild(homeRoutes),

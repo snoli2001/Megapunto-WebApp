@@ -43,6 +43,7 @@ import {
     AppSection,
 } from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
+import { PublicityComponent } from './home-pop-ups/publicity/publicity.component';
 
 @Component({
     selector: 'home',
@@ -216,7 +217,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.homeService.getAppSections().subscribe({
             next: (resp) => {
                 this.appSections = resp;
-                console.log(this.appSections);
             },
         });
     }
@@ -400,7 +400,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                             maxWidth: '100vw',
                         });
                     });
-
                 }
                 if (
                     this.digitalProductActive.nu_id_grupo_app === '3' ||
@@ -469,6 +468,17 @@ export class HomeComponent implements OnInit, OnDestroy {
                 null
             );
         }
+    }
+
+    openPublicity(): void {
+        this.ngZone.run(() => {
+            this.publicity$.subscribe((publicity) => {
+                this.matDialog.open(PublicityComponent, {
+                    maxWidth: '100vw',
+                    data: publicity
+                });
+            });
+        });
     }
 
     private _filter(value: string): EnterpriseService[] {

@@ -43,6 +43,7 @@
                                         >
                                             <span
                                             *ngIf="publicity$ | async as publicity"
+                                            (click)="openPublicity()"
                                                 ><span
                                                     class="absolute top-0 right-0 left-0 flex items-center justify-center h-3 ng-star-inserted"
                                                     ><span
@@ -120,7 +121,7 @@
                                 <img [src]="element.vc_url_imagen" alt="" />
                             </div>
                         </carousel>
-                        <div class="border-2 w-full flex justify-center h-full">
+                        <div *ngIf="publicity.length === 1" class="border-2 w-full flex justify-center h-full">
                             <img
                                 class="h-auto w-1/2"
                                 [src]="publicity[0].vc_url_imagen"
