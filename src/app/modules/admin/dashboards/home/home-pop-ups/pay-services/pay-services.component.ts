@@ -20,7 +20,6 @@ import { PayServicesService } from './services/pay-services.service';
 import { EnterpriseService } from '../../home.interfaces';
 import { MatStepper } from '@angular/material/stepper';
 import { ServiceDebt } from './interfaces/ServiceDebt.interface';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { SendEmailComponent } from './components/send-email/send-email.component';
 
 @Component({
@@ -200,6 +199,7 @@ export class PayServicesComponent implements OnInit {
                 )
                 .subscribe((resp) => {
                     if (resp.nu_tran_stdo === '1') {
+                        this.close();
                         this._balanceService
                             .getBalance()
                             .subscribe((balanceResp) => {
@@ -214,19 +214,6 @@ export class PayServicesComponent implements OnInit {
                                         width: '40%',
                                     }
                                 );
-
-                                dialog.afterClosed().subscribe((resp2) => {
-                                    this._alertService.showAlert(
-                                        'success',
-                                        resp.tx_tran_mnsg,
-                                        500,
-                                        {
-                                            balance:
-                                                balanceResp.nu_saldo,
-                                        }
-                                    ).afterClosed()
-                                    .subscribe(() => this.close());
-                                });
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {

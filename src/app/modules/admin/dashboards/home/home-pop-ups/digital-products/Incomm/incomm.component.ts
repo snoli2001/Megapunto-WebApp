@@ -150,8 +150,8 @@ export class IncommComponent implements OnInit {
                             500,
                             null
                         );
+                        this.disable = false;
                     }
-                    this.disable = false;
                 });
         }
     }
