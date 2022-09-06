@@ -66,6 +66,8 @@ export class PayServicesService {
         const vc_version_app: string = 'web';
         const user: UserInterface = jwt_decode(this._authService.user);
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
+        const vc_tran_usua_regi: string = user.vc_nro_dispositivo;
+
         return this._httpClient.post<any>(
             `${environment.API_URL}/Transacciones_App/ins_servicio_pago_hub`,
             {
@@ -79,6 +81,7 @@ export class PayServicesService {
                 vc_telefono_sol,
                 vc_version_app,
                 nu_comision_cliente,
+                vc_tran_usua_regi
             }
         );
     }

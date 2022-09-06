@@ -1,12 +1,29 @@
-<carousel class="" *ngIf="publicity.length > 1">
-    <div class="carousel-cell h-auto w-1/2" *ngFor="let element of publicity">
-        <img [src]="element.vc_url_imagen" alt="" />
+<div >
+    <div class="flex justify-end p-0 m-0">
+        <button mat-icon-button (click)="close()">
+            <mat-icon
+                class="icon-size-5 text-current"
+                [svgIcon]="'heroicons_solid:x'"
+            ></mat-icon>
+        </button>
     </div>
-</carousel>
 
-<img
-    *ngIf="publicity.length === 1"
-    class="h-auto w-full"
-    [src]="publicity[0].vc_url_imagen"
-    alt=""
-/>
+    <carousel
+        [width]="300"
+        [height]="550"
+        [cellWidth]="'100%'"
+        [autoplay]="true"
+        *ngIf="publicity.length > 1"
+    >
+        <div class="carousel-cell" *ngFor="let element of publicity">
+            <img [src]="element.vc_url_imagen" alt="" />
+        </div>
+    </carousel>
+
+    <img
+        *ngIf="publicity.length === 1"
+        class="h-auto w-full"
+        [src]="publicity[0].vc_url_imagen"
+        alt=""
+    />
+</div>

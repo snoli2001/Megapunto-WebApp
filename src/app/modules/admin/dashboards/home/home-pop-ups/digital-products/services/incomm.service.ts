@@ -39,8 +39,8 @@ export class IncommService {
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
         const vc_version_app: string = 'web';
 
-        // TODO obtener del store el numero del comercio
-        const vc_tran_usua_regi: string = 'numero del comercio';
+        const vc_tran_usua_regi: string = user.vc_nro_dispositivo;
+
 
         return this._httpClient.post<any>(
             `${environment.API_URL}/Transacciones_App/ins_incomm_transaccion_hub`,
@@ -51,6 +51,7 @@ export class IncommService {
                 vc_email_sol,
                 vc_telefono_sol,
                 vc_version_app,
+                vc_tran_usua_regi
             }
         );
     }

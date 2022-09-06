@@ -60,10 +60,10 @@ export class HomeService {
         vc_numero_servicio: string,
         nu_precio: string
     ): Observable<any> {
-        const user: any = jwt_decode(this._authService.user);
+        const user: UserInterface = jwt_decode(this._authService.user);
         const nu_id_comercio: string = user.nu_id_comercio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
-        const vc_tran_usua_regi: string = '123142341';
+        const vc_tran_usua_regi: string = user.vc_nro_dispositivo;
         return this._httpClient.post<Product[]>(
             `${environment.API_URL}/Transacciones_App/ins_izipay_hub`,
             {

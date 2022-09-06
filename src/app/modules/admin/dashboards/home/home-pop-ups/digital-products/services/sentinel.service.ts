@@ -71,8 +71,8 @@ export class SentinelService {
         const nu_id_comercio: string = user.nu_id_comercio;
         const nu_id_comercio_app: string = user.nu_id_comercio_app;
 
-        // TODO obtener del store el numero del comercio
-        const vc_tran_usua_regi: string = 'numero del comercio';
+        const vc_tran_usua_regi: string = user.vc_nro_dispositivo;
+
 
         return this._httpClient.post<SentinelTransactionResponseInterface>(
             `${environment.API_URL}/Transacciones_App/ins_sentinel_hub`,
@@ -92,6 +92,7 @@ export class SentinelService {
                 nu_id_tipo_documento,
                 vc_ruc,
                 vc_version_app,
+                vc_tran_usua_regi
             }
         );
     }

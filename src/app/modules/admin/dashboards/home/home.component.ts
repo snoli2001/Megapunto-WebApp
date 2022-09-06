@@ -1,3 +1,4 @@
+import { AuthService } from 'app/core/auth/auth.service';
 import { PayServicesComponent } from './home-pop-ups/pay-services/pay-services.component';
 import { IncommComponent } from './home-pop-ups/digital-products/Incomm/incomm.component';
 import { SentinelComponent } from './home-pop-ups/digital-products/sentinel/sentinel.component';
@@ -22,9 +23,7 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { map, Observable, startWith, Subject, takeUntil, filter } from 'rxjs';
-import { ApexOptions } from 'ng-apexcharts';
 import { HomeService } from 'app/modules/admin/dashboards/home/home.service';
 import {
     FuseNavigationService,
@@ -82,8 +81,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private matDialog: MatDialog,
         private _alertService: AlertService,
-        private ngZone: NgZone
-    ) {}
+        private ngZone: NgZone,
+    ) {
+
+    }
 
     get vc_numero_servicioInvalid(): boolean {
         return (
