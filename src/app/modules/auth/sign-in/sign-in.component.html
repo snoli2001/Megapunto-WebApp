@@ -1,5 +1,5 @@
 <div
-    class="bg-card sm:bg-primary p-0 sm:py-18 sm:px-9 md:px-36 md:py-20 flex-auto min-w-0"
+    class="bg-card sm:bg-primary p-0 sm:py-18 sm:px-9 md:px-36 md:py-15 flex-auto min-w-0"
 >
     <div
         class="rounded-2xl bg-card rounded-l-2xl grid grid-cols-1 md:grid-cols-2 items-center md:items-start sm:justify-center md:justify-start px-14 pt-16 pb-16 lg:px-28"
@@ -134,7 +134,7 @@
                         class="inline-flex items-end justify-center w-full mt-1.5"
                     >
                         <a
-                            class="text-md font-medium text-primary-500 underline text-primary"
+                            class="text-md font-medium text-primary-500 underline"
                             [routerLink]="['/forgot-password']"
                             >Olvidé mi contraseña
                         </a>
@@ -157,14 +157,17 @@
                     </button>
 
                     <div
-                        class="flex items-center justify-center mt-4 font-medium"
+                        class="flex flex-col items-center justify-center mt-4 font-medium"
                     >
-                        <div>¿Aún no tienes una cuenta?</div>
-                        <a
+                        <div>¿Aún no tienes una cuenta? Para afiliarte descarga el APP: </div>
+                        <a type="button" href="https://play.google.com/store/apps/details?id=com.tisi.izipay.maximuz" target="_blank" class="border rounded p-2 mt-2  ">
+                            <img style="width: 125px; height: 40px;" src="assets/images/draw/google-play-logo.png" alt="">
+                        </a>
+                        <!-- <a
                             class="ml-1 text-primary hover:underline"
                             [routerLink]="['/sign-up']"
                             >Afíliate aquí
-                        </a>
+                        </a> -->
                     </div>
                 </form>
             </div>
