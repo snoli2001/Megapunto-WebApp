@@ -306,7 +306,8 @@ export class SentinelComponent implements OnInit {
                                                 respBalance.nu_saldo
                                             ),
                                         },
-                                        true
+                                        true,
+                                        resp.nu_tran_pkey
                                     )
                                     .afterClosed()
                                     .subscribe(() => this.close());

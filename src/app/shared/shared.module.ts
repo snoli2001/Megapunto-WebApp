@@ -14,6 +14,8 @@ import { UtilsModule } from '../utils/utils.module';
         CommonModule,
         FormsModule,
         ReactiveFormsModule
+    ],
+    declarations: [
     ]
 })
 export class SharedModule

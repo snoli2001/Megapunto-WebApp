@@ -55,7 +55,10 @@ export class AuthResetPasswordComponent implements OnInit {
             {
                 vc_contrasena_anterior: ['', Validators.required],
                 passwordConfirm: ['', [Validators.required]],
-                vc_contrasena_nueva: ['', Validators.required],
+                vc_contrasena_nueva: [
+                    '',
+                    [Validators.required, Validators.minLength(8)],
+                ],
                 vc_nro_dispositivo: [
                     user.vc_nro_dispositivo,
                     [

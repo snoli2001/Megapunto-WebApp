@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AlertComponent } from './component/alert.component';
@@ -13,7 +14,8 @@ export class AlertService {
         message: string,
         size: number,
         info: any,
-        showBalance: boolean = false
+        showBalance: boolean = false,
+        nu_id_trx_app = null
     ): MatDialogRef<AlertComponent, any> {
         return this.dialog.open(AlertComponent, {
             data: {
@@ -22,6 +24,7 @@ export class AlertService {
                 size: size,
                 info: info,
                 showBalance: showBalance,
+                nu_id_trx_app,
             },
         });
     }

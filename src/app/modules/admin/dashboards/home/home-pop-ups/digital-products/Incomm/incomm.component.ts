@@ -138,7 +138,9 @@ export class IncommComponent implements OnInit {
                                         500,
                                         {
                                             balance: respBalance.nu_saldo,
-                                        }
+                                        },
+                                        true,
+                                        resp.nu_tran_pkey
                                     )
                                     .afterClosed()
                                     .subscribe(() => this.close());

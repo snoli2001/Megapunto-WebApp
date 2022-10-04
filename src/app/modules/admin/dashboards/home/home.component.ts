@@ -81,10 +81,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private matDialog: MatDialog,
         private _alertService: AlertService,
-        private ngZone: NgZone,
-    ) {
-
-    }
+        private ngZone: NgZone
+    ) {}
 
     get vc_numero_servicioInvalid(): boolean {
         return (
@@ -307,6 +305,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                                             this._balanceService
                                                 .getBalance()
                                                 .subscribe((resp) => {
+                                                    console.log(
+                                                        transResp.nu_tran_pkey
+                                                    );
                                                     this.balance =
                                                         resp.nu_saldo;
                                                     if (
@@ -321,7 +322,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                                                                 balance:
                                                                     this
                                                                         .balance,
-                                                            }
+                                                            },
+                                                            true,
+                                                            transResp.nu_tran_pkey
                                                         );
                                                     }
                                                 });
@@ -357,6 +360,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                             this._balanceService
                                 .getBalance()
                                 .subscribe((resp) => {
+                                    console.log(transResp.nu_tran_pkey);
                                     this.balance = resp.nu_saldo;
                                     if (transResp.nu_tran_stdo === '1') {
                                         this._alertService.showAlert(
@@ -365,7 +369,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                                             500,
                                             {
                                                 balance: this.balance,
-                                            }
+                                            },
+                                            true,
+                                            transResp.nu_tran_pkey
                                         );
                                     }
                                 });
@@ -476,7 +482,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.publicity$.subscribe((publicity) => {
                 this.matDialog.open(PublicityComponent, {
                     maxWidth: '100vw',
-                    data: publicity
+                    data: publicity,
                 });
             });
         });

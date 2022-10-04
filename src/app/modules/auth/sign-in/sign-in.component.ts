@@ -1,3 +1,4 @@
+import { AuthApiService } from './../../../core/api-config/auth-service/auth-api.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -36,6 +37,7 @@ export class AuthSignInComponent implements OnInit {
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router,
+        private _authApiService: AuthApiService,
         public captchaSerice: RecaptchaService
     ) {}
 
@@ -76,7 +78,16 @@ export class AuthSignInComponent implements OnInit {
                         if (response.bi_cambio_contrasena === 'False') {
                             this._router.navigateByUrl('reset-password');
                         } else {
-                            this._router.navigateByUrl('/dashboards/home');
+                            this._authApiService
+                                .generateNewApiToken(
+                                    this.signInForm.get('username').value,
+                                    this.signInForm.get('password').value
+                                )
+                                .subscribe(() => {
+                                    this._router.navigateByUrl(
+                                        '/dashboards/home'
+                                    );
+                                });
                         }
                     }
 

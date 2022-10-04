@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CodificationService } from './codification.service';
+import { PrintInvoiceService } from './print-invoice.service';
 
-describe('CodificationService', () => {
-  let service: CodificationService;
+describe('PrintInvoiceService', () => {
+  let service: PrintInvoiceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CodificationService);
+    service = TestBed.inject(PrintInvoiceService);
   });
 
   it('should be created', () => {

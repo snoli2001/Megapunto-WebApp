@@ -1,12 +1,14 @@
+import { TokenService } from './../api-config/auth-service/token.service';
+import jwt_decode from 'jwt-decode';
+import { AuthApiService } from './../api-config/auth-service/auth-api.service';
 /* eslint-disable arrow-parens */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
+import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as encode from 'jwt-encode';
+import moment from 'moment';
 
 export interface SignInResponse {
     nu_id_negocio: string;
@@ -27,7 +29,8 @@ export class AuthService {
      */
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService
+        private _authApiService: AuthApiService,
+        private _tokenService: TokenService
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,38 +89,7 @@ export class AuthService {
                         );
                         this._authenticated = true;
                         return of(response);
-                    } else {
                     }
-                })
-            );
-    }
-
-    /**
-     * Sign in using the access token
-     */
-    signInUsingToken(): Observable<any> {
-        // Renew token
-        return this._httpClient
-            .post('api/auth/refresh-access-token', {
-                user: this.user,
-            })
-            .pipe(
-                catchError(() =>
-                    // Return false
-                    of(false)
-                ),
-                switchMap((response: any) => {
-                    // Store the access token in the local storage
-                    this.user = response.token;
-
-                    // Set the authenticated flag to true
-                    this._authenticated = true;
-
-                    // Store the user on the user service
-                    // this._userService.user = response.user;
-
-                    // Return true
-                    return of(true);
                 })
             );
     }
@@ -130,8 +102,21 @@ export class AuthService {
         localStorage.removeItem('user');
         localStorage.removeItem('apiToken');
         localStorage.removeItem('apiTokenExpired');
+        localStorage.removeItem('refreshToken');
         // Set the authenticated flag to false
         this._authenticated = false;
+        this._httpClient
+            .post(`${environment.URL_API_TOKEN_ACCESS}`, {
+                // headers: head,
+                Username: environment.API_TOKEN_KEY_PASS,
+                Password: environment.API_TOKEN_KEY_SECRET,
+            })
+            .pipe(
+                map((res: any) => {
+                    this.saveTokenApi(res.token);
+                })
+            )
+            .subscribe();
 
         // Return the observable
         return of(true);
@@ -185,5 +170,20 @@ export class AuthService {
         // If the access token exists and it didn't expire, sign in using it
         return of(true);
         // return this.signInUsingToken();
+    }
+
+    private saveTokenApi(apiToken: string): void {
+        localStorage.setItem('apiToken', apiToken);
+        const today = new Date();
+
+        const decodedToken: any = jwt_decode(apiToken);
+        const ApiFechaExpire = moment(today)
+            .add('second', decodedToken.exp)
+            .toDate();
+
+        localStorage.setItem(
+            'apiTokenExpired',
+            ApiFechaExpire.getTime().toString()
+        );
     }
 }

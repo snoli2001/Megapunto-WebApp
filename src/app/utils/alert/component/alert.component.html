@@ -54,8 +54,11 @@
         "
     ></div>
     <div class="flex justify-center items-center my-4 sm:my-6">
-        <button mat-flat-button [color]="'primary'" (click)="onClose()">
-            Entendido
+        <button mat-flat-button [color]="'warn'" (click)="onClose()">
+            Cerrar
+        </button>
+        <button mat-flat-button class="ml-2" [color]="'primary'" (click)="printInvoice()">
+            Imprimir
         </button>
     </div>
     <div
@@ -121,8 +124,13 @@
     </div>
     <div class="text-center mb-3">Comunícate con nuestro call center</div>
     <div class="flex justify-center text-center mb-3">
-        <div class="flex items-center font-semibold underline text-primary text-center">
-            <mat-icon class="text-primary" svgIcon="heroicons_outline:phone"></mat-icon>
+        <div
+            class="flex items-center font-semibold underline text-primary text-center"
+        >
+            <mat-icon
+                class="text-primary"
+                svgIcon="heroicons_outline:phone"
+            ></mat-icon>
             <span class="ml-1">{{ data.info }}</span>
         </div>
     </div>
