@@ -67,6 +67,16 @@ export class GeneralInterceptor implements HttpInterceptor {
                     console.log(this._router.url);
                     return this.handle401Error(req, next);
                 }
+
+                if (
+                    error instanceof HttpErrorResponse &&
+                    this._router.url.includes('/sign-in') &&
+                    error.status === 401
+                ) {
+                    console.log(this._router.url);
+                    return this.handle401ErrorInSignIn(req, next);
+                }
+
                 if (
                     error instanceof HttpErrorResponse &&
                     !this._router.url.includes('/sign-in') &&
@@ -123,6 +133,44 @@ export class GeneralInterceptor implements HttpInterceptor {
                     })
                 );
             }
+        }
+
+        return this.refreshTokenSubject.pipe(
+            filter((token) => token !== null),
+            take(1),
+            switchMap((token) =>
+                next.handle(this.addTokenHeader(request, token))
+            )
+        );
+    }
+
+    private handle401ErrorInSignIn(
+        request: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
+        if (!this.isRefreshing) {
+            this.isRefreshing = true;
+            this.refreshTokenSubject.next(null);
+
+            this.tokenService.signOut();
+            this.authApi.generateApiToken().pipe(
+                switchMap((response: any) => {
+                    this.isRefreshing = false;
+
+                    this.tokenService.saveToken(response.token);
+                    this.refreshTokenSubject.next(response.token);
+
+                    return next.handle(
+                        this.addTokenHeader(request, response.token)
+                    );
+                }),
+                catchError((err) => {
+                    this.isRefreshing = false;
+                    this.tokenService.signOut();
+                    this._router.navigateByUrl('/sign-in');
+                    return throwError(err);
+                })
+            );
         }
 
         return this.refreshTokenSubject.pipe(
