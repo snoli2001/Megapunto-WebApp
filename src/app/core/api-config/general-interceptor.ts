@@ -61,22 +61,15 @@ export class GeneralInterceptor implements HttpInterceptor {
             catchError((error, caught) => {
                 if (
                     error instanceof HttpErrorResponse &&
-                    !req.url.includes('/sign-in') &&
+                    !this._router.url.includes('/sign-in') &&
                     error.status === 401
                 ) {
+                    console.log(this._router.url);
                     return this.handle401Error(req, next);
                 }
                 if (
                     error instanceof HttpErrorResponse &&
-                    req.url.includes('/sign-in') &&
-                    error.status === 401
-                ) {
-                    this.tokenService.signOut();
-                    location.reload();
-                }
-                if (
-                    error instanceof HttpErrorResponse &&
-                    !req.url.includes('/sign-in') &&
+                    !this._router.url.includes('/sign-in') &&
                     error.status === 403
                 ) {
                     this.tokenService.signOut();
