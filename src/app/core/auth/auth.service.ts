@@ -100,9 +100,7 @@ export class AuthService {
     signOut(): Observable<any> {
         // Remove the access token from the local storage
         localStorage.removeItem('user');
-        localStorage.removeItem('apiToken');
-        localStorage.removeItem('apiTokenExpired');
-        localStorage.removeItem('refreshToken');
+        this._tokenService.signOut();
         // Set the authenticated flag to false
         this._authenticated = false;
         this._httpClient
