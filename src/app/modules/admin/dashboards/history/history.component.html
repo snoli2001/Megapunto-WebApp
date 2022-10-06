@@ -143,6 +143,18 @@
                                                     | number: ".2-2"
                                             }}
                                         </span>
+                                        <button
+                                            (click)="
+                                                printInvoice(
+                                                    transaction.nu_id_trx_app
+                                                )
+                                            "
+                                            class="ml-2"
+                                        >
+                                            <mat-icon
+                                                svgIcon="heroicons_outline:printer"
+                                            ></mat-icon>
+                                        </button>
                                     </div>
                                     <mat-divider></mat-divider>
                                 </div>

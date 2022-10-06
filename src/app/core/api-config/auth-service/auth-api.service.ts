@@ -88,7 +88,6 @@ export class AuthApiService {
     refreshsessionStorageApiToken(data: ITokenApi): void {
         sessionStorage.removeItem(TOKEN_KEY);
         sessionStorage.removeItem('apiTokenExpired');
-        this.saveTokenApi(data.access_token);
     }
 
     authenticatedApiToken(): boolean {

@@ -1,3 +1,5 @@
+import { PrintInvoiceService } from './../../../../utils/services/print-invoice.service';
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
     ChangeDetectionStrategy,
     Component,
@@ -16,6 +18,7 @@ import { HistoryService } from './history.service';
 import { Moment } from 'moment';
 import { FormControl, FormGroup } from '@angular/forms';
 import moment from 'moment';
+import printJS from 'print-js';
 
 @Component({
     selector: 'history',
@@ -37,7 +40,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
     constructor(
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private historyService: HistoryService
+        private historyService: HistoryService,
+        private _printInvoiceService: PrintInvoiceService
     ) {}
 
     ngOnInit(): void {
@@ -78,7 +82,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
             this.transactions = this.historyService
                 .getHistoryInfo(
                     this.formatDate(this.range.get('trxStartDate').value),
-                    this.formatDate(this.range.get('trxEndDate').value),
+                    this.formatDate(this.range.get('trxEndDate').value)
                 )
                 .pipe(takeUntil(this._unsubscribeAll));
         }
@@ -105,9 +109,21 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
 
     changeDates(days: number): void {
-        this.range.get('trxStartDate').setValue(moment().subtract(days, 'days'));
+        this.range
+            .get('trxStartDate')
+            .setValue(moment().subtract(days, 'days'));
         this.range.get('trxEndDate').setValue(moment());
         this.maxDate = moment(new Date());
         this.getTransactions();
+    }
+
+    printInvoice(nu_tran_pkey: string): void {
+        this._printInvoiceService.getInvoice(nu_tran_pkey).subscribe((resp) => {
+            printJS({
+                printable: resp.vc_ruta_archivo,
+                type: 'pdf',
+                showModal: true,
+            });
+        });
     }
 }

@@ -111,11 +111,6 @@ export class AuthService {
                 Username: environment.API_TOKEN_KEY_PASS,
                 Password: environment.API_TOKEN_KEY_SECRET,
             })
-            .pipe(
-                map((res: any) => {
-                    this.saveTokenApi(res.token);
-                })
-            )
             .subscribe();
 
         // Return the observable

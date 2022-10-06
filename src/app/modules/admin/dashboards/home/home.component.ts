@@ -360,7 +360,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                             this._balanceService
                                 .getBalance()
                                 .subscribe((resp) => {
-                                    console.log(transResp.nu_tran_pkey);
                                     this.balance = resp.nu_saldo;
                                     if (transResp.nu_tran_stdo === '1') {
                                         this._alertService.showAlert(

@@ -66,6 +66,14 @@ export class GeneralInterceptor implements HttpInterceptor {
                 ) {
                     return this.handle401Error(req, next);
                 }
+                if (
+                    error instanceof HttpErrorResponse &&
+                    !req.url.includes('/sign-in') &&
+                    error.status === 403
+                ) {
+                    this.tokenService.signOut();
+                    this._router.navigateByUrl('/sign-in');
+                }
                 return throwError(error);
             })
         ) as any;
@@ -108,9 +116,7 @@ export class GeneralInterceptor implements HttpInterceptor {
                     }),
                     catchError((err) => {
                         this.isRefreshing = false;
-                        this.tokenService.signOut();
-                        this._router.navigateByUrl('/sign-in');
-                        console.log('403');
+
                         return throwError(err);
                     })
                 );

@@ -296,6 +296,7 @@ export class SentinelComponent implements OnInit {
                         this._balanceService
                             .getBalance()
                             .subscribe((respBalance) => {
+                                console.log(resp);
                                 this._alertService
                                     .showAlert(
                                         'success',

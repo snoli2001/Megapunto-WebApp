@@ -214,6 +214,16 @@ export class PayServicesComponent implements OnInit {
                                         width: '40%',
                                     }
                                 );
+                                dialog.afterClosed().subscribe(() => {
+                                    this._alertService.showAlert(
+                                        'success',
+                                        resp.tx_tran_mnsg,
+                                        500,
+                                        null,
+                                        false,
+                                        resp.nu_tran_pkey
+                                    );
+                                });
                             });
                     }
                     if (resp.nu_tran_stdo === '0') {
