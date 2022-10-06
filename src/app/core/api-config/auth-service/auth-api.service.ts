@@ -40,13 +40,7 @@ export class AuthApiService {
                 // headers: head,
                 Username: environment.API_TOKEN_KEY_PASS,
                 Password: environment.API_TOKEN_KEY_SECRET,
-            })
-            .pipe(
-                map((res: any) => {
-                    this.tokenService.saveGlobalAccessToken(res.token);
-                    this.tokenService.saveToken(res.token);
-                })
-            );
+            });
     }
 
     generateNewApiToken(username: string, password: string): Observable<any> {

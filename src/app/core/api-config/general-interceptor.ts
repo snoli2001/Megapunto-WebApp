@@ -28,8 +28,13 @@ import {
 export class GeneralInterceptor implements HttpInterceptor {
     authApi: any;
     isRefreshing: boolean;
+    isRefreshingLogin: boolean;
     private refreshTokenSubject: BehaviorSubject<any> =
         new BehaviorSubject<any>(null);
+
+    private refreshTokenSubjectLogin: BehaviorSubject<any> =
+        new BehaviorSubject<any>(null);
+
     constructor(
         injector: Injector,
         private tokenService: TokenService,
@@ -73,7 +78,7 @@ export class GeneralInterceptor implements HttpInterceptor {
                     this._router.url.includes('/sign-in') &&
                     error.status === 401
                 ) {
-                    console.log(this._router.url);
+                    console.log('login error', this._router.url);
                     return this.handle401ErrorInSignIn(req, next);
                 }
 
@@ -148,24 +153,23 @@ export class GeneralInterceptor implements HttpInterceptor {
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        if (!this.isRefreshing) {
-            this.isRefreshing = true;
-            this.refreshTokenSubject.next(null);
+        if (!this.isRefreshingLogin) {
+            this.isRefreshingLogin = true;
+            this.refreshTokenSubjectLogin.next(null);
 
-            this.tokenService.signOut();
-            this.authApi.generateApiToken().pipe(
+            return this.authApi.generateApiToken().pipe(
                 switchMap((response: any) => {
-                    this.isRefreshing = false;
+                    this.isRefreshingLogin = false;
 
                     this.tokenService.saveToken(response.token);
-                    this.refreshTokenSubject.next(response.token);
+                    this.refreshTokenSubjectLogin.next(response.token);
 
                     return next.handle(
                         this.addTokenHeader(request, response.token)
                     );
                 }),
                 catchError((err) => {
-                    this.isRefreshing = false;
+                    this.isRefreshingLogin = false;
                     this.tokenService.signOut();
                     this._router.navigateByUrl('/sign-in');
                     return throwError(err);
@@ -173,7 +177,7 @@ export class GeneralInterceptor implements HttpInterceptor {
             );
         }
 
-        return this.refreshTokenSubject.pipe(
+        return this.refreshTokenSubjectLogin.pipe(
             filter((token) => token !== null),
             take(1),
             switchMap((token) =>
