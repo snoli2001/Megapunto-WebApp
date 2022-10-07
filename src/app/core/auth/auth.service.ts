@@ -155,6 +155,10 @@ export class AuthService {
             return of(false);
         }
 
+        if(!this._tokenService.getRefreshToken()){
+            return of(false);
+        }
+
         // Check the access token expire date
         // if (AuthUtils.isTokenExpired(this.user)) {
         //     return of(false);

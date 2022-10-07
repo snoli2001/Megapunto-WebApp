@@ -1,3 +1,4 @@
+import { Route, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Subscription } from 'rxjs';
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private tokenStorageService: TokenService,
-        private eventBusService: EventBusService
+        private eventBusService: EventBusService,
+        private _router: Router
     ) {}
 
     ngOnInit(): void {
@@ -33,7 +35,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
+        console.log('logout');
         this.tokenStorageService.signOut();
+        this._router.navigate(['sign-in']);
         this.isLoggedIn = false;
     }
 }

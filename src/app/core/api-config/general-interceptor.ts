@@ -1,3 +1,4 @@
+import { EventBusService } from './../../shared/services/event-bus.service';
 import { Router } from '@angular/router';
 /* eslint-disable arrow-parens */
 import { TokenService } from './auth-service/token.service';
@@ -15,12 +16,14 @@ import { environment } from 'environments/environment';
 import {
     BehaviorSubject,
     catchError,
+    EMPTY,
     filter,
     Observable,
     switchMap,
     take,
     throwError,
 } from 'rxjs';
+import { EventData } from 'app/shared/services/event.data';
 
 @Injectable({
     providedIn: 'root',
@@ -38,7 +41,8 @@ export class GeneralInterceptor implements HttpInterceptor {
     constructor(
         injector: Injector,
         private tokenService: TokenService,
-        private _router: Router
+        private _router: Router,
+        private eventBusService: EventBusService
     ) {
         setTimeout(() => {
             this.authApi = injector.get(AuthApiService);
@@ -69,7 +73,6 @@ export class GeneralInterceptor implements HttpInterceptor {
                     !this._router.url.includes('/sign-in') &&
                     error.status === 401
                 ) {
-                    console.log(this._router.url);
                     return this.handle401Error(req, next);
                 }
 
@@ -133,10 +136,13 @@ export class GeneralInterceptor implements HttpInterceptor {
                     catchError((err) => {
                         this.isRefreshing = false;
                         this.tokenService.signOut();
-                        this._router.navigateByUrl('/sign-in');
-                        return throwError(err);
+                        window.location.reload();
+                        return throwError(() => console.log(err));
                     })
                 );
+            } else {
+                this.tokenService.signOut();
+                window.location.reload();
             }
         }
 
@@ -171,7 +177,6 @@ export class GeneralInterceptor implements HttpInterceptor {
                 catchError((err) => {
                     this.isRefreshingLogin = false;
                     this.tokenService.signOut();
-                    this._router.navigateByUrl('/sign-in');
                     return throwError(err);
                 })
             );
