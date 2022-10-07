@@ -91,7 +91,7 @@ export class GeneralInterceptor implements HttpInterceptor {
                     error.status === 403
                 ) {
                     this.tokenService.signOut();
-                    this._router.navigateByUrl('/sign-in');
+                    window.location.reload();
                 }
                 return throwError(error);
             })
