@@ -1,3 +1,4 @@
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,10 +30,8 @@ export const MY_FORMATS = {
 };
 
 @NgModule({
-    declarations: [
-        HistoryComponent
-    ],
-    imports     : [
+    declarations: [HistoryComponent],
+    imports: [
         RouterModule.forChild(historyRoutes),
         SharedModule,
         MatButtonModule,
@@ -45,13 +44,12 @@ export const MY_FORMATS = {
         NgApexchartsModule,
         MatFormFieldModule,
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        MatTooltipModule,
     ],
     providers: [
         { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
         { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     ],
 })
-export class HistoryModule
-{
-}
+export class HistoryModule {}

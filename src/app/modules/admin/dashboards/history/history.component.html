@@ -87,7 +87,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="mb-4 flex justify-center">
+                    <div class="mb-4 flex justify-around items-center">
                         <button
                             mat-raised-button
                             color="primary"
@@ -95,6 +95,17 @@
                             (click)="changeDates(0)"
                         >
                             Reiniciar Fechas
+                        </button>
+                        <button
+                            mat-raised-button
+                            matTooltip="Exportar a Microsoft Excel"
+                            (click)="downloadExcel()"
+                            class="flex justify-center items-center mt-2 text-white bg-green-600 dark:bg-green-800 rounded-full cursor-pointer"
+                        >
+                            <mat-icon
+                                class="text-white"
+                                svgIcon="heroicons_outline:document-download"
+                            ></mat-icon>
                         </button>
                     </div>
                     <div class="border-2 rounded-lg p-2.5 sm:p-5">

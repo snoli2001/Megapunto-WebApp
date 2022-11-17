@@ -1,3 +1,5 @@
+/* eslint-disable arrow-parens */
+import { ExcelServiceService } from './../../../../utils/services/excel-service.service';
 import { PrintInvoiceService } from './../../../../utils/services/print-invoice.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -41,7 +43,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         private _fuseNavigationService: FuseNavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private historyService: HistoryService,
-        private _printInvoiceService: PrintInvoiceService
+        private _printInvoiceService: PrintInvoiceService,
+        private excelService: ExcelServiceService
     ) {}
 
     ngOnInit(): void {
@@ -124,6 +127,112 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 type: 'pdf',
                 showModal: true,
             });
+        });
+    }
+
+    downloadExcel(): void {
+        this.transactions.subscribe((trans) => {
+            console.log(trans);
+            const data = [];
+            const titleStyle: any = {
+                font: {
+                    name: 'Arial',
+                    sz: 15,
+                    bold: true,
+                    italic: true,
+                    // color: { rgb: '7C66F7' },
+                },
+                alignment: { horizontal: 'left', vertical: 'center' },
+            };
+            const headerStyle = {
+                font: {
+                    bold: true,
+                    color: { rgb: 'FFFFFF' },
+                },
+                fill: {
+                    // patternType: 'solid',
+                    fgColor: { rgb: '7C66F7' },
+                },
+            };
+            const today = new Date();
+            const date =
+                today.getDate() +
+                '/' +
+                (today.getMonth() + 1) +
+                '/' +
+                today.getFullYear();
+            const time = ' ' + today.getHours() + ':' + today.getMinutes();
+            const titulo = [
+                [
+                    {
+                        v: 'MEGAPUNTO - Reporte de Historial de operaciones',
+                        t: 's',
+                        s: titleStyle,
+                    },
+                    { v: '', t: 's' },
+                    { v: '', t: 's' },
+                    { v: '', t: 's' },
+                    {
+                        v: 'Fecha y Hora',
+                        t: 's',
+                        s: {
+                            font: {
+                                name: 'Arial',
+                                bold: true,
+                                italic: true,
+                            },
+                        },
+                    },
+                    {
+                        v: date + time,
+                        t: 's',
+                        s: {
+                            font: {
+                                name: 'Arial',
+                            },
+                        },
+                    },
+                ],
+                [{ v: '', t: 's' }],
+            ];
+            titulo.forEach((c) => data.push(c));
+            const headers = [
+                { t: 's', v: 'Fecha', s: headerStyle },
+                { t: 's', v: 'N° de Operación', s: headerStyle },
+                { t: 's', v: 'Producto', s: headerStyle },
+                { t: 's', v: 'Descripción', s: headerStyle },
+                { t: 's', v: 'Monto', s: headerStyle },
+                { t: 's', v: 'Comisión', s: headerStyle },
+            ];
+
+            data.push(headers);
+            for (const t of trans) {
+                const d = [
+                    { t: 's', v: t.dt_fecha },
+                    { t: 's', v: t.nu_id_trx_app },
+                    { t: 's', v: t.vc_desc_producto },
+                    { t: 's', v: t.vc_desc_grupo_producto },
+                    { t: 'n', v: t.nu_precio },
+                    { t: 'n', v: t.nu_valor_comision },
+                ];
+                data.push(d);
+            }
+            const colProps = [];
+            colProps.push({ wpx: 120 }); // A
+            colProps.push({ wpx: 120 }); // B
+            colProps.push({ wpx: 200 }); // C
+            colProps.push({ wpx: 220 }); // D
+            colProps.push({ wpx: 100 }); // E
+            colProps.push({ wpx: 100 }); // F
+
+            const merge = [{ s: { c: 0, r: 0 }, e: { c: 2, r: 0 } }];
+
+            this.excelService.exportDataToExcelArray(
+                data,
+                'reporte-transacciones-megapunto',
+                colProps,
+                merge
+            );
         });
     }
 }
