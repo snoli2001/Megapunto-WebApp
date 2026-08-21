@@ -43,6 +43,7 @@ import {
 } from './home.interfaces';
 import { TopUpCellphoneBallanceComponent } from './home-pop-ups/top-up-cellphone-ballance/top-up-cellphone-ballance.component';
 import { PublicityComponent } from './home-pop-ups/publicity/publicity.component';
+import { InternationalRechargeComponent } from './home-pop-ups/international-recharge/international-recharge.component';
 
 @Component({
     selector: 'home',
@@ -485,6 +486,52 @@ export class HomeComponent implements OnInit, OnDestroy {
                 });
             });
         });
+    }
+
+    nextStepInternationalRecharge(): void {
+        const appSection = this.appSections.find(
+            (section) => section.nu_id_seccion_app === '4'
+        );
+
+        if (appSection && appSection.bi_habilitado === 'True') {
+            this.ngZone.run(() => {
+                const dialogRef = this.matDialog.open(
+                    InternationalRechargeComponent,
+                    {
+                        disableClose: true,
+                        data: {
+                            size: 600,
+                        },
+                        maxWidth: '100vw',
+                    }
+                );
+
+                dialogRef.afterClosed().subscribe((transResp) => {
+                    if (transResp && transResp.nu_tran_stdo === '1') {
+                        this._balanceService.getBalance().subscribe((resp) => {
+                            this.balance = resp.nu_saldo;
+                            this._alertService.showAlert(
+                                'success',
+                                transResp.tx_tran_mnsg,
+                                500,
+                                {
+                                    balance: this.balance,
+                                },
+                                true,
+                                transResp.nu_tran_pkey
+                            );
+                        });
+                    }
+                });
+            });
+        } else {
+            this._alertService.showAlert(
+                'error',
+                appSection?.vc_mensaje || 'Servicio no disponible',
+                500,
+                null
+            );
+        }
     }
 
     private _filter(value: string): EnterpriseService[] {

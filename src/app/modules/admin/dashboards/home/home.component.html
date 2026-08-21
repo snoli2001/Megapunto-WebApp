@@ -327,6 +327,20 @@
                                         >Pagar servicios</span
                                     >
                                 </button>
+                                <button
+                                    (click)="nextStepInternationalRecharge()"
+                                    [ngClass]="{
+                                        'bg-[#41ac9a] text-white':
+                                            operationActive === 'internationalRecharge',
+                                        'bg-white text-[#41ac9a] hover:bg-[#41ac9a] hover:text-white':
+                                            operationActive !== 'internationalRecharge'
+                                    }"
+                                    class="block w-full mt-5 py-2 px-4 rounded-xl border-[#41ac9a] border-2"
+                                >
+                                    <span class="text-lg font-semibold"
+                                        >Recargas Internacionales</span
+                                    >
+                                </button>
                             </div>
                             <div
                                 *ngIf="operationActive === 'charges'"
