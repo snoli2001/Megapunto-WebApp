@@ -1,0 +1,155 @@
+<div class="w-full flex flex-col justify-between">
+    <!-- Step 1: Form -->
+    <div *ngIf="currentStep === 1">
+        <h1 class="text-2xl font-bold mb-4">Recargas Internacionales</h1>
+
+        <form [formGroup]="internationalRechargeForm">
+            <!-- Country Code + Phone Number -->
+            <div class="mb-4">
+                <label class="font-semibold mb-2 block"
+                    >¿Cual consideras estado actual?</label
+                >
+                <div class="flex gap-2">
+                    <mat-form-field class="w-1/3">
+                        <mat-select formControlName="vc_codigo_pais">
+                            <mat-option
+                                *ngFor="let country of countryCodes$ | async"
+                                [value]="country.prefijo"
+                            >
+                                {{ country.bandera }} {{ country.prefijo }}
+                                {{ country.nombre }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-2/3">
+                        <input
+                            NumberOnly
+                            matInput
+                            autocomplete="off"
+                            formControlName="vc_numero_servicio"
+                            placeholder="Número de teléfono"
+                            [maxLength]="15"
+                        />
+                        <mat-error *ngIf="phoneNumberInvalid">
+                            Ingrese un número válido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- Amount Selection -->
+            <div class="mb-4">
+                <label class="font-semibold mb-2 block"
+                    >Seleccione el monto</label
+                >
+                <div class="grid grid-cols-3 gap-2 sm:gap-3">
+                    <button
+                        *ngFor="let amount of presetAmounts"
+                        type="button"
+                        [ngClass]="{
+                            'bg-primary text-white':
+                                selectedAmount === amount.valor,
+                            'bg-white text-primary border-primary hover:bg-primary hover:text-white':
+                                selectedAmount !== amount.valor
+                        }"
+                        class="py-3 px-4 rounded-lg border-2 font-semibold transition-colors"
+                        (click)="selectAmount(amount.valor)"
+                    >
+                        {{ amount.etiqueta }}
+                    </button>
+                </div>
+                <span class="mx-0.5 text-red-500" *ngIf="amountInvalid">
+                    Seleccione un monto de recarga
+                </span>
+            </div>
+        </form>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center mt-6 gap-2">
+            <button
+                [disabled]="disable"
+                mat-raised-button
+                color="warn"
+                (click)="close()"
+            >
+                Cancelar
+            </button>
+            <button
+                mat-raised-button
+                color="primary"
+                [disabled]="
+                    disable ||
+                    !internationalRechargeForm.valid ||
+                    !selectedAmount
+                "
+                (click)="continuar()"
+            >
+                Continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Step 2: Detail -->
+    <div *ngIf="currentStep === 2">
+        <h1 class="text-2xl font-bold mb-4">Detalle de la recarga</h1>
+
+        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-semibold">Recarga Movistar - Celular</span>
+            </div>
+
+            <hr class="my-3" />
+
+            <div class="flex flex-col mb-3">
+                <span class="font-bold text-lg">Número</span>
+                <span class="text-lg">
+                    {{ rechargeDetail.vc_numero_completo }}
+                </span>
+            </div>
+
+            <div class="flex flex-col mb-3">
+                <span class="font-bold text-lg">Monto de recarga</span>
+                <span class="text-lg text-primary font-bold">
+                    {{ rechargeDetail.nu_monto_recarga }} Bs
+                </span>
+            </div>
+
+            <div class="flex flex-col mb-3">
+                <span class="font-bold text-lg">Comisión</span>
+                <span class="text-lg">
+                    S/ {{ rechargeDetail.nu_comision | number: "1.2-2" }}
+                </span>
+            </div>
+
+            <hr class="my-3" />
+
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-xl">Monto</span>
+                <span class="font-bold text-xl text-primary">
+                    S/ {{ rechargeDetail.nu_total | number: "1.2-2" }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center mt-6 gap-2">
+            <button
+                mat-raised-button
+                color="warn"
+                [disabled]="disable"
+                (click)="volver()"
+            >
+                Volver
+            </button>
+            <button
+                mat-raised-button
+                color="primary"
+                [disabled]="disable"
+                (click)="confirmarRecarga()"
+            >
+                Recargar
+            </button>
+        </div>
+    </div>
+</div>
